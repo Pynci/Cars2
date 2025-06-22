@@ -16,7 +16,7 @@ public class BlueCarAgent : Agent
     public override void OnEpisodeBegin()
     {
         rb.linearVelocity = Vector3.zero;
-        transform.position = new Vector3(2f, 0.5f, -10f); // partenza blu
+        transform.position = new Vector3(-3332.093f, 0f, 1116.142f); // partenza blu
         transform.rotation = Quaternion.identity;
     }
 

@@ -5,17 +5,23 @@ TagManager:
   serializedVersion: 3
   tags:
   - Track
+  - Asphalt
+  - cement
+  - bulkheads
+  - grass
+  - RedCar
+  - BlueCar
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Environment
+  - Agent
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
+  - Asphalt
+  - OffTrack
+  - Barrier
+  - Sensor
   - 
   - 
   - 

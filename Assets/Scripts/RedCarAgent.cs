@@ -34,7 +34,7 @@ public class RedCarAgent : Agent
         float steer = Mathf.Clamp(actions.ContinuousActions[1], -1f, 1f);
         float brake = Mathf.Clamp(actions.ContinuousActions[2], 0f, 1f);
 
-        rb.AddForce(transform.forward * accel * 10f, ForceMode.Force);
+        rb.AddForce(transform.forward * accel * 100f, ForceMode.Force);
         transform.Rotate(Vector3.up, steer * 2f);
         if (brake > 0.1f)
             rb.linearVelocity *= 0.9f;

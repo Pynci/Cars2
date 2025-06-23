@@ -15,6 +15,7 @@ public class BlueCarAgent : Agent
 
     public override void OnEpisodeBegin()
     {
+        Debug.Log("BlueCar: episodio iniziato");
         rb.linearVelocity = Vector3.zero;
         transform.position = new Vector3(-286.5f, 0f, -30f); // partenza blu
         transform.rotation = Quaternion.identity;
@@ -30,11 +31,12 @@ public class BlueCarAgent : Agent
 
     public override void OnActionReceived(ActionBuffers actions)
     {
+        Debug.Log("BlueCar: ricevo azioni");
         float accel = Mathf.Clamp(actions.ContinuousActions[0], -1f, 1f);
         float steer = Mathf.Clamp(actions.ContinuousActions[1], -1f, 1f);
         float brake = Mathf.Clamp(actions.ContinuousActions[2], 0f, 1f);
 
-        rb.AddForce(transform.forward * accel * 10f, ForceMode.Force);
+        rb.AddForce(transform.forward * accel * 100f, ForceMode.Force);
         transform.Rotate(Vector3.up, steer * 2f);
         if (brake > 0.1f)
             rb.linearVelocity *= 0.9f;

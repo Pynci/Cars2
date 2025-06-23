@@ -212,7 +212,6 @@ GameObject:
   - component: {fileID: 526707003}
   - component: {fileID: 526707000}
   m_Layer: 0
-  m_Name: RedCar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -253,7 +252,6 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &526706999
 Rigidbody:
@@ -721,8 +719,6 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1369619400}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.034667227, y: -0.9188852, z: 0.08292368, w: 0.38415095}
-  m_LocalPosition: {x: -3310.5938, y: 7.0540743, z: 1131.9683}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -870,11 +866,7 @@ GameObject:
   - component: {fileID: 1576479603}
   - component: {fileID: 1576479602}
   - component: {fileID: 1576479601}
-  - component: {fileID: 1576479606}
-  - component: {fileID: 1576479607}
-  - component: {fileID: 1576479604}
   m_Layer: 0
-  m_Name: BlueCar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -899,7 +891,6 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &1576479602
 Rigidbody:

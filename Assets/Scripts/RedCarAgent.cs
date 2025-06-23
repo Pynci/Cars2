@@ -16,7 +16,7 @@ public class RedCarAgent : Agent
     public override void OnEpisodeBegin()
     {
         rb.linearVelocity = Vector3.zero;
-        transform.position = new Vector3(-3331.88f, 0.5f, 1121.61f); // partenza rossa
+        transform.position = new Vector3(-293.5f, 0f, -30f); // partenza rossa
         transform.rotation = Quaternion.identity;
     }
 

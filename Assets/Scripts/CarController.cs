@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class CarController : MonoBehaviour
 {
@@ -30,8 +31,11 @@ public class CarController : MonoBehaviour
         frontRightCollider.steerAngle = steering;
 
         // Motor
+        frontLeftCollider.motorTorque = motor;
+        frontRightCollider.motorTorque = motor;
         rearLeftCollider.motorTorque = motor;
         rearRightCollider.motorTorque = motor;
+
 
         // Brake
         frontLeftCollider.brakeTorque = brake;
@@ -44,6 +48,11 @@ public class CarController : MonoBehaviour
         UpdateWheelPose(frontRightCollider, frontRightMesh);
         UpdateWheelPose(rearLeftCollider, rearLeftMesh);
         UpdateWheelPose(rearRightCollider, rearRightMesh);
+
+        Debug.Log($"Torque applied: {motor}");
+        Debug.Log("Grounded? FL: " + frontLeftCollider.isGrounded + " FR: " + frontRightCollider.isGrounded);
+
+
     }
 
     void UpdateWheelPose(WheelCollider collider, Transform wheelTransform)

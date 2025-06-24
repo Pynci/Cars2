@@ -39,6 +39,8 @@ public class RedCarAgent : Agent
         float brake = actions.ContinuousActions[2];
 
         car.Move(accel, steer, brake);
+        Debug.Log($"Accel: {accel}, Steer: {steer}, Brake: {brake}");
+
 
         AddReward(0.01f);
     }

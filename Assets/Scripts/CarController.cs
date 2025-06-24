@@ -16,9 +16,9 @@ public class CarController : MonoBehaviour
     public Transform rearRightMesh;
 
     [Header("Car Settings")]
-    public float maxMotorTorque = 1500f;
-    public float maxSteeringAngle = 30f;
-    public float brakeForce = 3000f;
+    public float maxMotorTorque;
+    public float maxSteeringAngle;
+    public float brakeForce;
 
     public void Move(float motorInput, float steeringInput, float brakeInput)
     {
@@ -38,10 +38,10 @@ public class CarController : MonoBehaviour
 
 
         // Brake
-        frontLeftCollider.brakeTorque = brake;
-        frontRightCollider.brakeTorque = brake;
-        rearLeftCollider.brakeTorque = brake;
-        rearRightCollider.brakeTorque = brake;
+        frontLeftCollider.brakeTorque = brake * 0.55f;
+        frontRightCollider.brakeTorque = brake * 0.55f;
+        rearLeftCollider.brakeTorque = brake * 0.45f;
+        rearRightCollider.brakeTorque = brake * 0.45f;
 
         // Sync mesh
         UpdateWheelPose(frontLeftCollider, frontLeftMesh);

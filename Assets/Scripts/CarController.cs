@@ -31,8 +31,8 @@ public class CarController : MonoBehaviour
         frontRightCollider.steerAngle = steering;
 
         // Motor
-        frontLeftCollider.motorTorque = motor;
-        frontRightCollider.motorTorque = motor;
+        //frontLeftCollider.motorTorque = motor;
+        //frontRightCollider.motorTorque = motor;
         rearLeftCollider.motorTorque = motor;
         rearRightCollider.motorTorque = motor;
 

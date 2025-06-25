@@ -39,7 +39,7 @@ public class BlueCarAgent : Agent
         float brake = actions.ContinuousActions[2];
 
         car.Move(accel, steer, brake);
-        Debug.Log($"Accel: {accel}, Steer: {steer}, Brake: {brake}");
+        //Debug.Log($"Accel: {accel}, Steer: {steer}, Brake: {brake}");
 
         AddReward(0.01f);
     }

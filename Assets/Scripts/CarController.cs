@@ -49,9 +49,6 @@ public class CarController : MonoBehaviour
         UpdateWheelPose(rearLeftCollider, rearLeftMesh);
         UpdateWheelPose(rearRightCollider, rearRightMesh);
 
-        Debug.Log($"Torque applied: {motor}");
-        Debug.Log("Grounded? FL: " + frontLeftCollider.isGrounded + " FR: " + frontRightCollider.isGrounded);
-
 
     }
 

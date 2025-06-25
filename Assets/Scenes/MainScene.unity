@@ -1954,6 +1954,206 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 212523630}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &230424442
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 230424444}
+  - component: {fileID: 230424443}
+  m_Layer: 0
+  m_Name: CheckpointManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &230424443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 230424442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b234b51095ade044ad156e4b4dd3dce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkpoints:
+  - {fileID: 1159147262}
+  - {fileID: 641618480}
+  - {fileID: 318954836}
+  - {fileID: 2008043886}
+  - {fileID: 1515073109}
+  - {fileID: 437171838}
+  - {fileID: 386476481}
+  - {fileID: 1705582409}
+  - {fileID: 1008698341}
+  - {fileID: 829919141}
+  - {fileID: 1213681849}
+  - {fileID: 839744583}
+  - {fileID: 1658713877}
+  - {fileID: 1441109893}
+  - {fileID: 1907450433}
+  - {fileID: 859596706}
+  - {fileID: 987868621}
+  - {fileID: 1617462021}
+  - {fileID: 1051692044}
+  - {fileID: 1301846406}
+  - {fileID: 752800184}
+  - {fileID: 1096022353}
+  - {fileID: 1237799013}
+  - {fileID: 1806783179}
+  - {fileID: 1327777927}
+  - {fileID: 951067561}
+  - {fileID: 884862742}
+  - {fileID: 525918153}
+  - {fileID: 1665547898}
+  - {fileID: 1545212783}
+  - {fileID: 744551877}
+  - {fileID: 1024995160}
+  - {fileID: 1401789919}
+  - {fileID: 1417974227}
+  - {fileID: 1290783883}
+  - {fileID: 1209311384}
+  - {fileID: 376232827}
+  - {fileID: 2015958312}
+  - {fileID: 2112827910}
+  - {fileID: 320452592}
+  - {fileID: 964360755}
+  - {fileID: 653875620}
+  - {fileID: 1780354127}
+  - {fileID: 122931188}
+  - {fileID: 212523631}
+  - {fileID: 1712407618}
+  - {fileID: 443951722}
+  - {fileID: 621141735}
+  - {fileID: 189543343}
+  - {fileID: 634466083}
+  - {fileID: 2074541510}
+  - {fileID: 191380364}
+  - {fileID: 1174387813}
+  - {fileID: 1772920170}
+  - {fileID: 1217304019}
+  - {fileID: 74012164}
+  - {fileID: 782257141}
+  - {fileID: 856838718}
+  - {fileID: 493500462}
+  - {fileID: 1656298322}
+  - {fileID: 1122760861}
+  - {fileID: 2133471110}
+  - {fileID: 122358450}
+  - {fileID: 416850978}
+  - {fileID: 1286911221}
+  - {fileID: 612621758}
+  - {fileID: 411099550}
+  - {fileID: 1740005852}
+  - {fileID: 193751677}
+  - {fileID: 1824129204}
+  - {fileID: 1830964597}
+  - {fileID: 1572219936}
+  - {fileID: 1348925164}
+  - {fileID: 542390720}
+  - {fileID: 328492569}
+  - {fileID: 955692393}
+  - {fileID: 357343691}
+  - {fileID: 926979689}
+  - {fileID: 1764031504}
+  - {fileID: 1118333174}
+  - {fileID: 279171615}
+  - {fileID: 58843928}
+  - {fileID: 1392458516}
+  - {fileID: 1017358561}
+  - {fileID: 941331646}
+  - {fileID: 2024199415}
+  - {fileID: 1044274634}
+  - {fileID: 944213879}
+  - {fileID: 841894515}
+  - {fileID: 1021268022}
+  - {fileID: 2054128139}
+  - {fileID: 765786349}
+  - {fileID: 1550467752}
+  - {fileID: 594326359}
+  - {fileID: 1589717949}
+  - {fileID: 441282146}
+  - {fileID: 429738467}
+  - {fileID: 83871214}
+  - {fileID: 1795444173}
+  - {fileID: 779055637}
+  - {fileID: 883243869}
+  - {fileID: 463372630}
+  - {fileID: 902700037}
+  - {fileID: 1323992903}
+  - {fileID: 1597904201}
+  - {fileID: 1041374611}
+  - {fileID: 1370840406}
+  - {fileID: 341882049}
+  - {fileID: 434049614}
+  - {fileID: 974566992}
+  - {fileID: 1325644379}
+  - {fileID: 1230603362}
+  - {fileID: 311637236}
+  - {fileID: 1970921280}
+  - {fileID: 1722635073}
+  - {fileID: 938254026}
+  - {fileID: 177053727}
+  - {fileID: 1774149399}
+  - {fileID: 9053009}
+  - {fileID: 17275763}
+  - {fileID: 395637955}
+  - {fileID: 15545215}
+  - {fileID: 2022000112}
+  - {fileID: 390253828}
+  - {fileID: 505493988}
+  - {fileID: 609982834}
+  - {fileID: 658051626}
+  - {fileID: 331564333}
+  - {fileID: 564358245}
+  - {fileID: 1012397781}
+  - {fileID: 1066494976}
+  - {fileID: 1709897495}
+  - {fileID: 1632601298}
+  - {fileID: 1063943421}
+  - {fileID: 1036954263}
+  - {fileID: 439896164}
+  - {fileID: 1791863622}
+  - {fileID: 2090850088}
+  - {fileID: 257233032}
+  - {fileID: 1071250308}
+  - {fileID: 1677633350}
+  - {fileID: 1426376617}
+  - {fileID: 1133435081}
+  - {fileID: 273851239}
+  - {fileID: 1754161568}
+  - {fileID: 132163532}
+  - {fileID: 1201425465}
+  - {fileID: 1345038235}
+  - {fileID: 1137145781}
+  - {fileID: 1384273877}
+  - {fileID: 1277911418}
+  - {fileID: 268464125}
+  - {fileID: 556142162}
+  - {fileID: 678873150}
+  - {fileID: 505957352}
+--- !u!4 &230424444
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 230424442}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -166.65283, y: -18.153046, z: -42.291058}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &257233028
 GameObject:
   m_ObjectHideFlags: 0
@@ -5093,7 +5293,7 @@ Transform:
   m_GameObject: {fileID: 526706996}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -213, y: 0, z: -30}
+  m_LocalPosition: {x: -213, y: 0, z: -25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5166,6 +5366,7 @@ MonoBehaviour:
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
   opponent: {fileID: 1576479603}
+  checkpointManager: {fileID: 230424443}
 --- !u!114 &526707001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5190,7 +5391,7 @@ MonoBehaviour:
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 0}
   m_InferenceDevice: 0
-  m_BehaviorType: 1
+  m_BehaviorType: 0
   m_BehaviorName: RedCar
   TeamId: 0
   m_UseChildSensors: 1
@@ -15430,7 +15631,7 @@ Transform:
   m_GameObject: {fileID: 1576479600}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -207, y: 0, z: -30}
+  m_LocalPosition: {x: -207, y: 0, z: -25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -15470,6 +15671,7 @@ MonoBehaviour:
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
   opponent: {fileID: 526706997}
+  checkpointManager: {fileID: 230424443}
 --- !u!114 &1576479606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15494,7 +15696,7 @@ MonoBehaviour:
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 0}
   m_InferenceDevice: 0
-  m_BehaviorType: 1
+  m_BehaviorType: 0
   m_BehaviorName: BlueCar
   TeamId: 0
   m_UseChildSensors: 1
@@ -19939,3 +20141,4 @@ SceneRoots:
   - {fileID: 678873150}
   - {fileID: 505957352}
   - {fileID: 310639201}
+  - {fileID: 230424444}

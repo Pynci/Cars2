@@ -9,6 +9,8 @@ public class BlueCarAgent : Agent
     Rigidbody rb;
     CarController car;
     public Transform opponent;
+    public CheckpointManager checkpointManager;
+    private int nextCheckpointIndex = 0;
 
     public override void Initialize()
     {
@@ -23,6 +25,8 @@ public class BlueCarAgent : Agent
 
         transform.position = new Vector3(-207f, 0f, -30f);
         transform.rotation = Quaternion.identity;
+
+        nextCheckpointIndex = 0;
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -39,9 +43,17 @@ public class BlueCarAgent : Agent
         float brake = actions.ContinuousActions[2];
 
         car.Move(accel, steer, brake);
-        //Debug.Log($"Accel: {accel}, Steer: {steer}, Brake: {brake}");
 
+        // Ricompensa per avanzamento continuo
         AddReward(0.01f);
+
+        // Ricompensa se raggiunge il checkpoint
+        Transform targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpointIndex);
+        if (Vector3.Distance(transform.position, targetCheckpoint.position) < 5f)
+        {
+            AddReward(1.0f);
+            nextCheckpointIndex++;
+        }
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)

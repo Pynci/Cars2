@@ -63,4 +63,16 @@ public class BlueCarAgent : Agent
         c[1] = Input.GetKey(KeyCode.LeftArrow) ? -1f : Input.GetKey(KeyCode.RightArrow) ? 1f : 0f;
         c[2] = Input.GetKey(KeyCode.Space) ? 1f : 0f;
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("BLU " + collision.gameObject.tag);
+        if (collision.gameObject.CompareTag("bulkheads") || collision.gameObject.CompareTag("RedCar"))
+        {
+            Debug.Log("blue dentro l'if");
+            AddReward(-3.0f);
+            EndEpisode();
+            
+        }
+    }
 }

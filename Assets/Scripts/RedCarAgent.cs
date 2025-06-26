@@ -12,8 +12,8 @@ public class RedCarAgent : Agent
     public CheckpointManager checkpointManager;
     private int nextCheckpointIndex = 0;
     public Raycast raycast;
-    private bool checkpointNear= false;
-    private bool checkpointReached = false;
+
+    private float lastDistanceToCheckpoint = float.MaxValue;
 
     public override void Initialize()
     {
@@ -27,83 +27,73 @@ public class RedCarAgent : Agent
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
-        transform.position = new Vector3(-213.1f, 0f, -25f);
-        transform.rotation = Quaternion.identity;
+        // Posizionamento iniziale sicuro e coerente
+        transform.position = new Vector3(-213.1f, 0.1f, -25f);
+        transform.rotation = Quaternion.Euler(0f, 0f, 0f);
 
         nextCheckpointIndex = 0;
+        lastDistanceToCheckpoint = float.MaxValue;
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
+        // 1. Osservazioni da Raycast
         foreach (float distance in raycast.rayDistances)
         {
             sensor.AddObservation(distance / raycast.rayLength);
         }
 
-        // 1. Velocità lungo l'asse locale Z (in avanti)
+        // 2. Velocitï¿½ lungo l'asse Z locale (avanti)
         float forwardSpeed = transform.InverseTransformDirection(rb.linearVelocity).z;
-        sensor.AddObservation(forwardSpeed / 20f); // Normalizza su una velocità massima attesa
+        sensor.AddObservation(forwardSpeed / 20f);
 
-        // 2: Distanza normalizzata dall'avversario (assumendo max 100 unità)
+        // 3. Distanza normalizzata dall'avversario (assumendo max 100 unitï¿½)
         float opponentDistance = Vector3.Distance(transform.position, opponent.position);
-        sensor.AddObservation(opponentDistance / 100f); // Normalizzata tra 0 e 1
+        sensor.AddObservation(opponentDistance / 100f);
 
-        // 3: Rotazione Y normalizzata
+        // 4. Rotazione Y normalizzata
         float rotationY = transform.eulerAngles.y / 360f;
         sensor.AddObservation(rotationY);
     }
 
     public override void OnActionReceived(ActionBuffers actions)
     {
-        float accel = actions.ContinuousActions[0];
-        float steer = actions.ContinuousActions[1];
-        float brake = actions.ContinuousActions[2];
+        float accel = Mathf.Clamp(actions.ContinuousActions[0], -1f, 1f);
+        float steer = Mathf.Clamp(actions.ContinuousActions[1], -1f, 1f);
+        float brake = Mathf.Clamp01(actions.ContinuousActions[2]);
 
         car.Move(accel, steer, brake);
 
-        // Ricompensa per avanzamento continuo
-        AddReward(0.1f);
-
-        // Ricompensa se raggiunge il checkpoint
+        // Checkpoint logic
         Transform targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpointIndex);
-
         float distance = Vector3.Distance(transform.position, targetCheckpoint.position);
-        Debug.Log(distance);
-        if (!checkpointNear && !checkpointReached && distance < 8f)
-        {
-            AddReward(0.5f);
-            Debug.Log("Checkpoint vicino: " + targetCheckpoint.name);
-            checkpointNear = true;
 
-            if(checkpointNear && !checkpointReached && distance < 5f)
-            {
-                AddReward(1f);
-                Debug.Log("Checkpoint raggiunto: " + targetCheckpoint.name);
-                checkpointReached = true;
-                nextCheckpointIndex++;
-            }
-        }
-        
-        // Se l'agente si allontana dal checkpoint, resetta lo stato per poter raggiungere il prossimo reward
-        if (checkpointReached && distance > 0f)
-        {
-            checkpointReached = false; 
-        }
-        if (checkpointNear && distance > 3f) 
-        {
-            checkpointNear = false;
-        }
-    }
+        float delta = lastDistanceToCheckpoint - distance;
+        AddReward(delta * 0.05f); // Reward per avvicinamento
+        lastDistanceToCheckpoint = distance;
 
-    public void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("bulkheads")){
-            AddReward(-1.0f);
+        if (distance < 5f)
+        {
+            AddReward(2.0f);
+            nextCheckpointIndex = (nextCheckpointIndex + 1) % checkpointManager.TotalCheckpoints;
+            lastDistanceToCheckpoint = float.MaxValue;
         }
 
-        if (collision.gameObject.CompareTag("BlueCar"))
+        // Penalita se troppo lento
+        float speed = transform.InverseTransformDirection(rb.linearVelocity).z;
+        if (speed < 0.1f)
+            AddReward(-0.02f);
+        else
+            AddReward(0.5f * speed); // Premio per muoversi
+
+        // Penalita tempo
+        AddReward(-0.001f);
+
+        // Penalita per ostacoli vicini tramite Raycast
+        foreach (float d in raycast.rayDistances)
         {
-            AddReward(-1.0f);
+            if (d < raycast.rayLength * 0.2f)
+                AddReward(-0.01f);
         }
     }
 
@@ -115,5 +105,14 @@ public class RedCarAgent : Agent
         c[2] = Input.GetKey(KeyCode.Space) ? 1f : 0f;
     }
 
-    //mlagents-learn race_competition.yaml --run-id competizione_race
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("ROSSA " + collision.gameObject.tag);
+        if (collision.gameObject.CompareTag("bulkheads") || collision.gameObject.CompareTag("BlueCar"))
+        {
+            Debug.Log("rossa dentro l'if");
+            AddReward(-3.0f);
+            EndEpisode();
+        }
+    }
 }

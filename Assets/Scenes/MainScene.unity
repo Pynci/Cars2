@@ -402,6 +402,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 62ac0afc2269f1d4890895c62b727a38, type: 3}
+      propertyPath: m_TagString
+      value: RedCar
+      objectReference: {fileID: 0}
     - target: {fileID: 2397621468118695034, guid: 62ac0afc2269f1d4890895c62b727a38, type: 3}
       propertyPath: m_Name
       value: red-wheel-back-left
@@ -6521,6 +6525,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 62ac0afc2269f1d4890895c62b727a38, type: 3}
       propertyPath: m_Layer
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 62ac0afc2269f1d4890895c62b727a38, type: 3}
+      propertyPath: m_TagString
+      value: BlueCar
       objectReference: {fileID: 0}
     - target: {fileID: 2397621468118695034, guid: 62ac0afc2269f1d4890895c62b727a38, type: 3}
       propertyPath: m_Name
@@ -14675,6 +14683,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -6785650603397974352, guid: cb2acde643d00d246bbc397eac744225, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: -6785650603397974352, guid: cb2acde643d00d246bbc397eac744225, type: 3}
+      propertyPath: m_TagString
+      value: bulkheads
+      objectReference: {fileID: 0}
+    - target: {fileID: -6785650603397974352, guid: cb2acde643d00d246bbc397eac744225, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
@@ -14778,6 +14794,14 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 83e2915be4169c54581a936e9bbf0904, type: 2}
+    - target: {fileID: 3982123660338390849, guid: cb2acde643d00d246bbc397eac744225, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3982123660338390849, guid: cb2acde643d00d246bbc397eac744225, type: 3}
+      propertyPath: m_TagString
+      value: bulkheads
+      objectReference: {fileID: 0}
     - target: {fileID: 3982123660338390849, guid: cb2acde643d00d246bbc397eac744225, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647

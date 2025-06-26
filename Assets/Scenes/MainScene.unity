@@ -5387,7 +5387,7 @@ Transform:
   m_GameObject: {fileID: 526706996}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -213, y: 0, z: -25}
+  m_LocalPosition: {x: -213.1, y: 0, z: -25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5542,9 +5542,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08ce4e566bfbea94b87e67fca9c0859c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rayLength: 15
+  rayLength: 20
   numberOfRays: 10
-  angleSpan: 90
+  angleSpan: 120
   rayDistances: []
   layerMask:
     serializedVersion: 2
@@ -15691,6 +15691,7 @@ GameObject:
   - component: {fileID: 1576479605}
   - component: {fileID: 1576479604}
   - component: {fileID: 1576479607}
+  - component: {fileID: 1576479608}
   m_Layer: 3
   m_Name: BlueCar
   m_TagString: BlueCar
@@ -15850,6 +15851,25 @@ MonoBehaviour:
   maxMotorTorque: 5000
   maxSteeringAngle: 30
   brakeForce: 10000
+--- !u!114 &1576479608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1576479600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08ce4e566bfbea94b87e67fca9c0859c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rayLength: 20
+  numberOfRays: 10
+  angleSpan: 120
+  rayDistances: []
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!1 &1589717945
 GameObject:
   m_ObjectHideFlags: 0

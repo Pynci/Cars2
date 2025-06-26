@@ -23,7 +23,7 @@ public class RedCarAgent : Agent
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
-        transform.position = new Vector3(-213f, 0f, -30f);
+        transform.position = new Vector3(-213.1f, 0f, -25f);
         transform.rotation = Quaternion.identity;
 
         nextCheckpointIndex = 0;

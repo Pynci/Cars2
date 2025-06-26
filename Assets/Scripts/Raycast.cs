@@ -27,13 +27,11 @@ public class Raycast : MonoBehaviour
             if (Physics.Raycast(ray, out hit, rayLength, ~layerMask))
             {
                 rayDistances[i] = hit.distance;
-                Debug.Log("Hit");
                 Debug.DrawRay(ray.origin, direction * hit.distance, Color.red);
             }
             else
             {
                 rayDistances[i] = rayLength;
-                Debug.Log("Not Hit");
                 Debug.DrawRay(ray.origin, direction * rayLength, Color.green);
             }
         }

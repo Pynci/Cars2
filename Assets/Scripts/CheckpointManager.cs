@@ -6,6 +6,6 @@ public class CheckpointManager : MonoBehaviour
 
     public Transform GetNextCheckpoint(int index)
     {
-        return checkpoints[index % checkpoints.Length];
+        return checkpoints[index];
     }
 }

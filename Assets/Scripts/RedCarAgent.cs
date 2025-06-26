@@ -12,6 +12,7 @@ public class RedCarAgent : Agent
     public CheckpointManager checkpointManager;
     private int nextCheckpointIndex = 0;
     public Raycast raycast;
+    private bool checkpointNear= false;
     private bool checkpointReached = false;
 
     public override void Initialize()
@@ -26,7 +27,7 @@ public class RedCarAgent : Agent
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
-        transform.position = new Vector3(-213.1f, 0f, -23f);
+        transform.position = new Vector3(-213.1f, 0f, -25f);
         transform.rotation = Quaternion.identity;
 
         nextCheckpointIndex = 0;
@@ -67,18 +68,30 @@ public class RedCarAgent : Agent
         Transform targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpointIndex);
 
         float distance = Vector3.Distance(transform.position, targetCheckpoint.position);
-        if (!checkpointReached && distance < 5f)
+        Debug.Log(distance);
+        if (!checkpointNear && !checkpointReached && distance < 8f)
         {
-            AddReward(1.0f);
-            Debug.Log("Checkpoint raggiunto: " + targetCheckpoint.name);
-            checkpointReached = true;
-            nextCheckpointIndex++;
-        }
+            AddReward(0.5f);
+            Debug.Log("Checkpoint vicino: " + targetCheckpoint.name);
+            checkpointNear = true;
 
+            if(checkpointNear && !checkpointReached && distance < 5f)
+            {
+                AddReward(1f);
+                Debug.Log("Checkpoint raggiunto: " + targetCheckpoint.name);
+                checkpointReached = true;
+                nextCheckpointIndex++;
+            }
+        }
+        
         // Se l'agente si allontana dal checkpoint, resetta lo stato per poter raggiungere il prossimo reward
-        if (checkpointReached && distance > 5f)
+        if (checkpointReached && distance > 0f)
         {
-            checkpointReached = false;
+            checkpointReached = false; 
+        }
+        if (checkpointNear && distance > 3f) 
+        {
+            checkpointNear = false;
         }
     }
 

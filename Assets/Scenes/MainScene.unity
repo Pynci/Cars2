@@ -5551,6 +5551,7 @@ MonoBehaviour:
   numberOfRays: 10
   angleSpan: 120
   rayDistances: []
+  rayAngles: []
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -15789,7 +15790,7 @@ Transform:
   m_GameObject: {fileID: 1576479600}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -207, y: 0, z: -25}
+  m_LocalPosition: {x: -206.9, y: 0, z: -25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -15830,6 +15831,7 @@ MonoBehaviour:
   MaxStep: 0
   opponent: {fileID: 526706997}
   checkpointManager: {fileID: 230424443}
+  raycast: {fileID: 0}
 --- !u!114 &1576479606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15900,6 +15902,7 @@ MonoBehaviour:
   numberOfRays: 10
   angleSpan: 120
   rayDistances: []
+  rayAngles: []
   layerMask:
     serializedVersion: 2
     m_Bits: 1024

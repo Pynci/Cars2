@@ -19,7 +19,7 @@ public class Raycast : MonoBehaviour
         rayAngles = new float[numberOfRays];
     }
 
-    void Update()
+    void FixedUpdate()
     {
         float startAngle = -angleSpan / 2f;
         float maxDistance = -1f;

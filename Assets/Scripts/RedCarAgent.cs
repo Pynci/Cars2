@@ -16,6 +16,11 @@ public class RedCarAgent : Agent
 
     private float lastDistanceToCheckpoint = float.MaxValue;
     private float steerToDirection = 0f; // Steering verso direzione libera
+    Transform targetCheckpoint;
+    float checkpointDistance;
+    private bool isStuckInCollision = false;
+    private float collisionTimer = 0f;
+    private float maxCollisionDuration = 5f; // in secondi
 
     public override void Initialize()
     {
@@ -29,7 +34,7 @@ public class RedCarAgent : Agent
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
-        transform.position = new Vector3(-213.1f, 0.1f, -25f);
+        transform.position = new Vector3(-213.1f, 0.1f, 53f);
         transform.rotation = Quaternion.identity;
 
         nextCheckpointIndex = 0;
@@ -58,6 +63,12 @@ public class RedCarAgent : Agent
 
         // 5. Calcolo direzione sicura
         steerToDirection = raycast.BestRayAngle / (raycast.angleSpan / 2f); // Normalizzato tra -1 e 1
+
+        // distanza al checkpoint
+        targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpointIndex);
+        checkpointDistance = Vector3.Distance(transform.position, targetCheckpoint.position);
+        sensor.AddObservation(Mathf.Clamp01(checkpointDistance / 100f)); // normalizzata
+
     }
 
     public override void OnActionReceived(ActionBuffers actions)
@@ -72,34 +83,54 @@ public class RedCarAgent : Agent
         car.Move(accel, steer, brake);
 
         // Ricompensa per avvicinamento al checkpoint
-        Transform targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpointIndex);
-        float distance = Vector3.Distance(transform.position, targetCheckpoint.position);
-        float delta = lastDistanceToCheckpoint - distance;
+       
+        float delta = lastDistanceToCheckpoint - checkpointDistance;
         AddReward(delta * 0.05f); // premio se si avvicina
-        lastDistanceToCheckpoint = distance;
+        lastDistanceToCheckpoint = checkpointDistance;
 
-        if (distance < 5f)
+        if (checkpointDistance < 5f)
         {
             AddReward(2.0f);
             nextCheckpointIndex = (nextCheckpointIndex + 1) % checkpointManager.TotalCheckpoints;
+            if (nextCheckpointIndex == 0)
+            {
+                AddReward(10f);
+                EndEpisode();
+            }
             lastDistanceToCheckpoint = float.MaxValue;
         }
+
+      
 
         // Penalità per lentezza
         float speed = transform.InverseTransformDirection(rb.linearVelocity).z;
         if (speed < 0.1f)
-            AddReward(-0.02f);
+            AddReward(-0.05f);
         else
             AddReward(1.5f * speed);
 
         // Penalità costante per evitare attesa
-        AddReward(-0.05f);
+        AddReward(-0.001f);
 
         // Penalità per vicinanza a ostacoli
         foreach (float d in raycast.rayDistances)
         {
             if (d < raycast.rayLength * 0.2f)
-                AddReward(-0.05f);
+                AddReward(-0.02f);
+        }
+    }
+
+    void Update()
+    {
+        if (isStuckInCollision)
+        {
+            collisionTimer += Time.deltaTime;
+            if (collisionTimer >= maxCollisionDuration)
+            {
+                AddReward(-2.0f); // penalità extra opzionale
+                isStuckInCollision = false; // resettiamo il flag
+                EndEpisode();
+            }
         }
     }
 
@@ -113,13 +144,34 @@ public class RedCarAgent : Agent
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("ROSSA " + collision.gameObject.tag);
         if (collision.gameObject.CompareTag("bulkheads") || collision.gameObject.CompareTag("BlueCar"))
         {
-            Debug.Log("rossa dentro l'if");
             AddReward(-3.0f);
+            //isStuckInCollision = true;
+            //collisionTimer = 0f;
             EndEpisode();
         }
     }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("bulkheads") || collision.gameObject.CompareTag("RedCar"))
+        {
+            AddReward(-1.0f);
+            //EndEpisode();
+
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("bulkheads") || collision.gameObject.CompareTag("RedCar"))
+        {
+            AddReward(2.0f);
+            //isStuckInCollision = false;
+            //collisionTimer = 0f;
+        }
+    }
+
 }
 

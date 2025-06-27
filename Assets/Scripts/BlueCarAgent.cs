@@ -33,7 +33,7 @@ public class BlueCarAgent : Agent
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
-        transform.position = new Vector3(-207.7f, 0f, 53f);
+        transform.position = new Vector3(-207f, 0f, 53f);
         transform.rotation = Quaternion.identity;
 
         nextCheckpointIndex = 0;
@@ -76,7 +76,7 @@ public class BlueCarAgent : Agent
         float steer = Mathf.Clamp(0.7f * steerToDirection + 0.3f * steerRL, -1f, 1f);
 
         //car.Move(accel, steer, brake);
-        car.Move(accel, Mathf.Lerp(steer, steerToDirection, 0.7f), brake);
+        car.Move(accel, steer, brake);
 
         // Ricompensa per avanzamento continuo
         AddReward(0.01f);
@@ -127,7 +127,7 @@ public class BlueCarAgent : Agent
             AddReward(-3.0f);
             //isStuckInCollision = true;
             //collisionTimer = 0f;
-            EndEpisode();
+            //EndEpisode();
 
         }
     }
@@ -138,7 +138,7 @@ public class BlueCarAgent : Agent
         {
             //isStuckInCollision = true;
             AddReward(-1.0f);
-            //EndEpisode();
+            EndEpisode();
 
         }
     }

@@ -149,7 +149,7 @@ public class RedCarAgent : Agent
             AddReward(-3.0f);
             //isStuckInCollision = true;
             //collisionTimer = 0f;
-            EndEpisode();
+            //EndEpisode();
         }
     }
 
@@ -158,7 +158,7 @@ public class RedCarAgent : Agent
         if (collision.gameObject.CompareTag("bulkheads") || collision.gameObject.CompareTag("RedCar"))
         {
             AddReward(-1.0f);
-            //EndEpisode();
+            EndEpisode();
 
         }
     }

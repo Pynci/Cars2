@@ -1,7 +1,5 @@
 using UnityEngine;
 
-using UnityEngine;
-
 public class Raycast : MonoBehaviour
 {
     public float rayLength;

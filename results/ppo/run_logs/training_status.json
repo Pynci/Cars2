@@ -1,0 +1,29 @@
+{
+    "BlueCar": {
+        "checkpoints": [
+            {
+                "steps": 41136,
+                "file_path": "results\\ppo\\BlueCar\\BlueCar-41136.onnx",
+                "reward": 728.9500639438629,
+                "creation_time": 1751010052.5553515,
+                "auxillary_file_paths": [
+                    "results\\ppo\\BlueCar\\BlueCar-41136.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 41136,
+            "file_path": "results\\ppo\\BlueCar.onnx",
+            "reward": 728.9500639438629,
+            "creation_time": 1751010052.5553515,
+            "auxillary_file_paths": [
+                "results\\ppo\\BlueCar\\BlueCar-41136.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "1.13.1+cu117"
+    }
+}

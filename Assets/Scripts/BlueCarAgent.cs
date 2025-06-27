@@ -59,8 +59,7 @@ public class BlueCarAgent : Agent
         float rotationY = transform.eulerAngles.y / 360f;
         sensor.AddObservation(rotationY);
 
-        // 5. Calcolo direzione sicura
-        steerToDirection = raycast.BestRayAngle / (raycast.angleSpan / 2f); // Normalizzato tra -1 e 1
+        // 5. Distanza dai checkpoint
         targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpointIndex);
         checkpointDistance = Vector3.Distance(transform.position, targetCheckpoint.position);
         sensor.AddObservation(Mathf.Clamp01(checkpointDistance / 100f)); // normalizzata
@@ -71,6 +70,7 @@ public class BlueCarAgent : Agent
         float accel = Mathf.Clamp(actions.ContinuousActions[0], -1f, 1f);
         float steerRL = Mathf.Clamp(actions.ContinuousActions[1], -1f, 1f);
         float brake = Mathf.Clamp01(actions.ContinuousActions[2]);
+        steerToDirection = raycast.BestRayAngle / (raycast.angleSpan / 2f); // Normalizzato tra -1 e 1
 
         // Steering combinato: direzione sicura + RL
         float steer = Mathf.Clamp(0.7f * steerToDirection + 0.3f * steerRL, -1f, 1f);
@@ -124,13 +124,14 @@ public class BlueCarAgent : Agent
     {
         if (collision.gameObject.CompareTag("bulkheads") || collision.gameObject.CompareTag("RedCar"))
         {
-            AddReward(-3.0f);
+            AddReward(-10.0f);
             //isStuckInCollision = true;
             //collisionTimer = 0f;
             //EndEpisode();
-
         }
     }
+
+
 
     private void OnCollisionStay(Collision collision)
     {
@@ -139,7 +140,6 @@ public class BlueCarAgent : Agent
             //isStuckInCollision = true;
             AddReward(-1.0f);
             EndEpisode();
-
         }
     }
 

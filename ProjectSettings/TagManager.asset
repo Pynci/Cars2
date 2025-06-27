@@ -12,6 +12,7 @@ TagManager:
   - RedCar
   - BlueCar
   - CheckPoint
+  - lines
   layers:
   - Default
   - TransparentFX

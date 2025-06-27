@@ -110,7 +110,7 @@ public class RedCarAgent : Agent
             AddReward(1.5f * speed);
 
         // Penalità costante per evitare attesa
-        AddReward(-0.05f);
+        AddReward(0.01f);
 
         // Penalità per vicinanza a ostacoli
         foreach (float d in raycast.rayDistances)
@@ -146,7 +146,7 @@ public class RedCarAgent : Agent
     {
         if (collision.gameObject.CompareTag("bulkheads") || collision.gameObject.CompareTag("BlueCar"))
         {
-            AddReward(-3.0f);
+            AddReward(-10.0f);
             //isStuckInCollision = true;
             //collisionTimer = 0f;
             //EndEpisode();

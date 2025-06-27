@@ -33,7 +33,7 @@ public class BlueCarAgent : Agent
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
-        transform.position = new Vector3(-207.5f, 0f, 53f);
+        transform.position = new Vector3(-207.7f, 0f, 53f);
         transform.rotation = Quaternion.identity;
 
         nextCheckpointIndex = 0;

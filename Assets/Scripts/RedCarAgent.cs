@@ -34,7 +34,7 @@ public class RedCarAgent : Agent
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
-        transform.position = new Vector3(-213.1f, 0.1f, 53f);
+        transform.position = new Vector3(-213.1f, 0f, 53f);
         transform.rotation = Quaternion.identity;
 
         nextCheckpointIndex = 0;
@@ -110,7 +110,7 @@ public class RedCarAgent : Agent
             AddReward(1.5f * speed);
 
         // Penalità costante per evitare attesa
-        AddReward(-0.001f);
+        AddReward(-0.05f);
 
         // Penalità per vicinanza a ostacoli
         foreach (float d in raycast.rayDistances)

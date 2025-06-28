@@ -1,9 +1,7 @@
-using System.Linq;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 [RequireComponent(typeof(CarController))]
 public class BlueCarAgent : Agent
@@ -12,20 +10,19 @@ public class BlueCarAgent : Agent
     CarController car;
     public Transform opponent;
     public CheckpointManager checkpointManager;
-    private int nextCheckpointIndex = 0;
     public Raycast raycast;
-    Transform targetCheckpoint;
-    float checkpointDistance;
-    private float steerToDirection = 0f; // Steering verso direzione libera
-    private bool isStuckInCollision = false;
-    private float collisionTimer = 0f;
-    private float maxCollisionDuration = 5f; // in secondi
+
+    private int nextCheckpointIndex;
+    private Transform targetCheckpoint;
+    private float lastDistanceToCheckpoint;
+    private float rayLength;
 
     public override void Initialize()
     {
         rb = GetComponent<Rigidbody>();
         car = GetComponent<CarController>();
         raycast = GetComponent<Raycast>();
+        rayLength = Mathf.Max(raycast.rayLength, 0.01f);
     }
 
     public override void OnEpisodeBegin()
@@ -33,84 +30,76 @@ public class BlueCarAgent : Agent
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
-        transform.position = new Vector3(-207f, 0f, 53f);
+        transform.position = new Vector3(-207.7f, 0f, 53f);
         transform.rotation = Quaternion.identity;
-
-        nextCheckpointIndex = 0;
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        // 1. Raycast
-        foreach (float distance in raycast.rayDistances)
+        for (int i = 0; i < raycast.rayDistances.Length; i++)
         {
-            sensor.AddObservation(distance / raycast.rayLength);
+            float dist = float.IsFinite(raycast.rayDistances[i]) ? Mathf.Clamp(raycast.rayDistances[i], 0f, rayLength) : rayLength;
+            sensor.AddObservation(dist / rayLength);
+            float angleNorm = raycast.rayAngles[i] / (raycast.angleSpan / 2f);
+            sensor.AddObservation(angleNorm);
         }
 
-        // 2. Velocità avanti normalizzata (max 20)
-        float forwardSpeed = transform.InverseTransformDirection(rb.linearVelocity).z;
-        sensor.AddObservation(forwardSpeed / 20f);
+        float fs = transform.InverseTransformDirection(rb.linearVelocity).z;
+        fs = float.IsFinite(fs) ? Mathf.Clamp(fs, -20f, 20f) : 0f;
+        sensor.AddObservation(fs / 20f);
 
-        // 3. Distanza dall'avversario (max 100)
-        float opponentDistance = Vector3.Distance(transform.position, opponent.position);
-        sensor.AddObservation(opponentDistance / 100f);
+        float od = Vector3.Distance(transform.position, opponent.position);
+        od = float.IsFinite(od) ? Mathf.Clamp(od, 0f, 100f) : 100f;
+        sensor.AddObservation(od / 100f);
 
-        // 4. Rotazione Y normalizzata
-        float rotationY = transform.eulerAngles.y / 360f;
-        sensor.AddObservation(rotationY);
+        float yaw = (transform.eulerAngles.y % 360f + 360f) % 360f;
+        sensor.AddObservation(yaw / 360f);
 
-        // 5. Distanza dai checkpoint
         targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpointIndex);
-        checkpointDistance = Vector3.Distance(transform.position, targetCheckpoint.position);
-        sensor.AddObservation(Mathf.Clamp01(checkpointDistance / 100f)); // normalizzata
+        float cd = Vector3.Distance(transform.position, targetCheckpoint.position);
+        cd = float.IsFinite(cd) ? Mathf.Clamp(cd, 0f, 100f) : 100f;
+        sensor.AddObservation(cd / 100f);
+
+        Vector3 toTarget = (targetCheckpoint.position - transform.position).normalized;
+        Vector3 localDir = transform.InverseTransformDirection(toTarget);
+        sensor.AddObservation(localDir.x);
+        sensor.AddObservation(localDir.z);
     }
 
     public override void OnActionReceived(ActionBuffers actions)
     {
-        float accel = Mathf.Clamp(actions.ContinuousActions[0], -1f, 1f);
-        float steerRL = Mathf.Clamp(actions.ContinuousActions[1], -1f, 1f);
-        float brake = Mathf.Clamp01(actions.ContinuousActions[2]);
-        steerToDirection = raycast.BestRayAngle / (raycast.angleSpan / 2f); // Normalizzato tra -1 e 1
+        float rawA = actions.ContinuousActions[0];
+        float rawS = actions.ContinuousActions[1];
+        float rawB = actions.ContinuousActions[2];
+        if (!float.IsFinite(rawA) || !float.IsFinite(rawS) || !float.IsFinite(rawB)) return;
 
-        // Steering combinato: direzione sicura + RL
-        float steer = Mathf.Clamp(0.7f * steerToDirection + 0.3f * steerRL, -1f, 1f);
-
-        //car.Move(accel, steer, brake);
+        float accel = Mathf.Clamp(rawA, -1f, 1f);
+        float steer = Mathf.Clamp(rawS, -1f, 1f);
+        float brake = Mathf.Clamp01(rawB);
         car.Move(accel, steer, brake);
 
-        // Ricompensa per avanzamento continuo
-        AddReward(0.01f);
+        float newDist = Vector3.Distance(transform.position, targetCheckpoint.position);
+        float delta = lastDistanceToCheckpoint - newDist;
+        AddReward(delta * 0.1f);
+        lastDistanceToCheckpoint = newDist;
 
-        // Ricompensa se raggiunge il checkpoint
-        targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpointIndex);
-        if (checkpointDistance < 5f)
+        if (newDist < 5f)
         {
-            AddReward(1.0f);
-            nextCheckpointIndex++;
+            AddReward(5f);
+            nextCheckpointIndex = (nextCheckpointIndex + 1) % checkpointManager.TotalCheckpoints;
+            targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpointIndex);
+            lastDistanceToCheckpoint = Vector3.Distance(transform.position, targetCheckpoint.position);
         }
 
-        if (nextCheckpointIndex >= checkpointManager.TotalCheckpoints)
-        {
-            AddReward(10f);
-            EndEpisode();
-        }
+        float desired = raycast.BestRayAngle / (raycast.angleSpan / 2f);
+        AddReward(0.2f * (1f - Mathf.Abs(steer - desired)));
 
-    }
-
-    void Update()
-    {
-        if (isStuckInCollision)
+        foreach (float d in raycast.rayDistances)
         {
-            collisionTimer += Time.deltaTime;
-            if (collisionTimer >= maxCollisionDuration)
-            {
-                AddReward(-2.0f); // penalità extra opzionale
-                isStuckInCollision = false; // resettiamo il flag
-                EndEpisode();
-            }
+            float pen = float.IsFinite(d) ? Mathf.Clamp01((rayLength - d) / rayLength) : 0f;
+            AddReward(-pen * 0.05f);
         }
     }
-
 
     public override void Heuristic(in ActionBuffers actionsOut)
     {
@@ -120,37 +109,9 @@ public class BlueCarAgent : Agent
         c[2] = Input.GetKey(KeyCode.Space) ? 1f : 0f;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision col)
     {
-        if (collision.gameObject.CompareTag("bulkheads") || collision.gameObject.CompareTag("RedCar"))
-        {
-            AddReward(-10.0f);
-            //isStuckInCollision = true;
-            //collisionTimer = 0f;
-            //EndEpisode();
-        }
+        if (col.gameObject.CompareTag("bulkheads")) { AddReward(-10f); EndEpisode(); }
+        else if (col.gameObject.CompareTag("BlueCar") || col.gameObject.CompareTag("RedCar")) AddReward(-5f);
     }
-
-
-
-    private void OnCollisionStay(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("bulkheads") || collision.gameObject.CompareTag("RedCar"))
-        {
-            //isStuckInCollision = true;
-            AddReward(-1.0f);
-            EndEpisode();
-        }
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("bulkheads") || collision.gameObject.CompareTag("RedCar"))
-        {
-            AddReward(2.0f);
-            //isStuckInCollision = false;
-            //collisionTimer = 0f;
-        }
-    }
-
 }

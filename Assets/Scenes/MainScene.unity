@@ -5401,7 +5401,6 @@ GameObject:
   - component: {fileID: 526707001}
   - component: {fileID: 526707002}
   - component: {fileID: 526707003}
-  - component: {fileID: 526707004}
   m_Layer: 3
   m_Name: RedCar
   m_TagString: RedCar
@@ -5493,7 +5492,7 @@ MonoBehaviour:
   MaxStep: 0
   opponent: {fileID: 1576479603}
   checkpointManager: {fileID: 230424443}
-  raycast: {fileID: 0}
+  raycast: {fileID: 930476557}
 --- !u!114 &526707001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5507,7 +5506,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 11
+    VectorObservationSize: 20
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 3
@@ -5563,27 +5562,7 @@ MonoBehaviour:
   maxMotorTorque: 8000
   maxSteeringAngle: 30
   brakeForce: 10000
---- !u!114 &526707004
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 526706996}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08ce4e566bfbea94b87e67fca9c0859c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rayLength: 25
-  numberOfRays: 7
-  angleSpan: 90
-  rayDistances: []
-  rayAngles: []
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 1024
-  rayOrigin: {fileID: 930476556}
+  engineBrakeForce: 150
 --- !u!1 &535956597
 GameObject:
   m_ObjectHideFlags: 0
@@ -9131,6 +9110,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 930476556}
+  - component: {fileID: 930476557}
   m_Layer: 3
   m_Name: rayOriginRed
   m_TagString: Untagged
@@ -9153,6 +9133,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 526706997}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &930476557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 930476555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08ce4e566bfbea94b87e67fca9c0859c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rayLength: 25
+  numberOfRays: 7
+  angleSpan: 90
+  rayDistances: []
+  rayAngles: []
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  rayOrigin: {fileID: 930476556}
 --- !u!1 &938254022
 GameObject:
   m_ObjectHideFlags: 0
@@ -15872,7 +15873,6 @@ GameObject:
   - component: {fileID: 1576479605}
   - component: {fileID: 1576479604}
   - component: {fileID: 1576479607}
-  - component: {fileID: 1576479608}
   m_Layer: 3
   m_Name: BlueCar
   m_TagString: BlueCar
@@ -15927,7 +15927,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 1
   m_Constraints: 80
-  m_CollisionDetection: 1
+  m_CollisionDetection: 2
 --- !u!4 &1576479603
 Transform:
   m_ObjectHideFlags: 0
@@ -15979,7 +15979,7 @@ MonoBehaviour:
   MaxStep: 0
   opponent: {fileID: 526706997}
   checkpointManager: {fileID: 230424443}
-  raycast: {fileID: 0}
+  raycast: {fileID: 1590135524}
 --- !u!114 &1576479606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15993,7 +15993,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 11
+    VectorObservationSize: 20
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 3
@@ -16034,27 +16034,7 @@ MonoBehaviour:
   maxMotorTorque: 8000
   maxSteeringAngle: 30
   brakeForce: 10000
---- !u!114 &1576479608
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1576479600}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08ce4e566bfbea94b87e67fca9c0859c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rayLength: 25
-  numberOfRays: 7
-  angleSpan: 90
-  rayDistances: []
-  rayAngles: []
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 1024
-  rayOrigin: {fileID: 1590135523}
+  engineBrakeForce: 150
 --- !u!1 &1589717945
 GameObject:
   m_ObjectHideFlags: 0
@@ -16172,6 +16152,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1590135523}
+  - component: {fileID: 1590135524}
   m_Layer: 3
   m_Name: rayOriginBlue
   m_TagString: Untagged
@@ -16194,6 +16175,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1576479603}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1590135524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590135522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08ce4e566bfbea94b87e67fca9c0859c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rayLength: 25
+  numberOfRays: 7
+  angleSpan: 90
+  rayDistances: []
+  rayAngles: []
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  rayOrigin: {fileID: 1590135523}
 --- !u!1 &1597904197
 GameObject:
   m_ObjectHideFlags: 0

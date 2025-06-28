@@ -1,63 +1,48 @@
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class CarController : MonoBehaviour
 {
     [Header("Wheel Colliders")]
-    public WheelCollider frontLeftCollider;
-    public WheelCollider frontRightCollider;
-    public WheelCollider rearLeftCollider;
-    public WheelCollider rearRightCollider;
-
+    public WheelCollider frontLeftCollider, frontRightCollider, rearLeftCollider, rearRightCollider;
     [Header("Wheel Meshes")]
-    public Transform frontLeftMesh;
-    public Transform frontRightMesh;
-    public Transform rearLeftMesh;
-    public Transform rearRightMesh;
-
+    public Transform frontLeftMesh, frontRightMesh, rearLeftMesh, rearRightMesh;
     [Header("Car Settings")]
-    public float maxMotorTorque;
-    public float maxSteeringAngle;
-    public float brakeForce;
+    public float maxMotorTorque = 1500f;
+    public float maxSteeringAngle = 30f;
+    public float brakeForce = 3000f;
+    public float engineBrakeForce = 150f;
 
     public void Move(float motorInput, float steeringInput, float brakeInput)
     {
         float motor = Mathf.Clamp(motorInput, 0f, 1f) * maxMotorTorque;
-        float steering = Mathf.Clamp(steeringInput, -1f, 1f) * maxSteeringAngle;
-        float brake = Mathf.Clamp(brakeInput, 0f, 1f) * brakeForce;
+        float steer = Mathf.Clamp(steeringInput, -1f, 1f) * maxSteeringAngle;
+        float brake = Mathf.Clamp01(brakeInput) * brakeForce;
+        float engineBrake = motorInput < 0.01f ? engineBrakeForce : 0f;
 
-        // Steering
-        frontLeftCollider.steerAngle = steering;
-        frontRightCollider.steerAngle = steering;
+        // Sterzo
+        frontLeftCollider.steerAngle = steer;
+        frontRightCollider.steerAngle = steer;
 
-        // Motor
-        //frontLeftCollider.motorTorque = motor;
-        //frontRightCollider.motorTorque = motor;
+        // Motore
         rearLeftCollider.motorTorque = motor;
         rearRightCollider.motorTorque = motor;
 
+        // Freno + engine brake
+        rearLeftCollider.brakeTorque = brake * 0.45f + engineBrake * 0.45f;
+        rearRightCollider.brakeTorque = brake * 0.45f + engineBrake * 0.45f;
+        frontLeftCollider.brakeTorque = brake * 0.55f + engineBrake * 0.55f;
+        frontRightCollider.brakeTorque = brake * 0.55f + engineBrake * 0.55f;
 
-        // Brake
-        frontLeftCollider.brakeTorque = brake * 0.55f;
-        frontRightCollider.brakeTorque = brake * 0.55f;
-        rearLeftCollider.brakeTorque = brake * 0.45f;
-        rearRightCollider.brakeTorque = brake * 0.45f;
-
-        // Sync mesh
         UpdateWheelPose(frontLeftCollider, frontLeftMesh);
         UpdateWheelPose(frontRightCollider, frontRightMesh);
         UpdateWheelPose(rearLeftCollider, rearLeftMesh);
         UpdateWheelPose(rearRightCollider, rearRightMesh);
-
-
     }
 
-    void UpdateWheelPose(WheelCollider collider, Transform wheelTransform)
+    void UpdateWheelPose(WheelCollider col, Transform mesh)
     {
-        Vector3 pos;
-        Quaternion rot;
-        collider.GetWorldPose(out pos, out rot);
-        wheelTransform.position = pos;
-        wheelTransform.rotation = rot;
+        col.GetWorldPose(out Vector3 pos, out Quaternion rot);
+        mesh.position = pos;
+        mesh.rotation = rot;
     }
 }

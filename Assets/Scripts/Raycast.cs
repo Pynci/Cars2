@@ -58,4 +58,3 @@ public class Raycast : MonoBehaviour
         BestRayAngle = rayAngles[bestIndex];
     }
 }
-

@@ -10,7 +10,8 @@ public class RedCarAgent : Agent
     CarController car;
     public Transform opponent;
     public CheckpointManager checkpointManager;
-    public Raycast raycast;
+    //public Raycast raycast;
+    //public RayPerceptionSensorComponent3D rayCast;
 
     private int nextCheckpointIndex;
     private Transform targetCheckpoint;
@@ -21,8 +22,8 @@ public class RedCarAgent : Agent
     {
         rb = GetComponent<Rigidbody>();
         car = GetComponent<CarController>();
-        raycast = GetComponent<Raycast>();
-        rayLength = Mathf.Max(raycast.rayLength, 0.01f);
+        //raycast = GetComponent<Raycast>();
+        //rayLength = Mathf.Max(raycast.rayLength, 0.01f);
     }
 
     public override void OnEpisodeBegin()
@@ -36,73 +37,66 @@ public class RedCarAgent : Agent
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        for (int i = 0; i < raycast.rayDistances.Length; i++)
+        /*for (int i = 0; i < raycast.rayDistances.Length; i++)
         {
             float dist = float.IsFinite(raycast.rayDistances[i]) ? Mathf.Clamp(raycast.rayDistances[i], 0f, rayLength) : rayLength;
             sensor.AddObservation(dist / rayLength);
             float angleNorm = raycast.rayAngles[i] / (raycast.angleSpan / 2f);
             sensor.AddObservation(angleNorm);
-        }
+        }*/
 
-        float fs = transform.InverseTransformDirection(rb.linearVelocity).z;
-        fs = float.IsFinite(fs) ? Mathf.Clamp(fs, -20f, 20f) : 0f;
-        sensor.AddObservation(fs / 20f);
+        float forwardSpeed = transform.InverseTransformDirection(rb.linearVelocity).z;
+        forwardSpeed = float.IsFinite(forwardSpeed) ? Mathf.Clamp(forwardSpeed, -20f, 20f) : 0f;
+        sensor.AddObservation(forwardSpeed / 20f);
 
-        float od = Vector3.Distance(transform.position, opponent.position);
-        od = float.IsFinite(od) ? Mathf.Clamp(od, 0f, 100f) : 100f;
-        sensor.AddObservation(od / 100f);
+        // Velocità laterale dell'agente
+        float lateralSpeed = transform.InverseTransformDirection(rb.linearVelocity).x;
+        lateralSpeed = float.IsFinite(lateralSpeed) ? Mathf.Clamp(lateralSpeed, -20f, 20f) : 0f;
+        sensor.AddObservation(lateralSpeed / 20f);
 
+        // Distanza dall'opponent (normalizzata)
+        float opponentDistance = Vector3.Distance(transform.position, opponent.position);
+        opponentDistance = float.IsFinite(opponentDistance) ? Mathf.Clamp(opponentDistance, 0f, 100f) : 100f;
+        sensor.AddObservation(opponentDistance / 100f);
+
+        // Rotazione Y normalizzata
         float yaw = (transform.eulerAngles.y % 360f + 360f) % 360f;
         sensor.AddObservation(yaw / 360f);
 
+        // Distanza dal checkpoint target (normalizzata)
         targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpointIndex);
-        float cd = Vector3.Distance(transform.position, targetCheckpoint.position);
-        cd = float.IsFinite(cd) ? Mathf.Clamp(cd, 0f, 100f) : 100f;
-        sensor.AddObservation(cd / 100f);
+        float checkpointDistance = Vector3.Distance(transform.position, targetCheckpoint.position);
+        checkpointDistance = float.IsFinite(checkpointDistance) ? Mathf.Clamp(checkpointDistance, 0f, 100f) : 100f;
+        sensor.AddObservation(checkpointDistance / 100f);
 
+        // Direzione verso il checkpoint target (in coordinate locali)
         Vector3 toTarget = (targetCheckpoint.position - transform.position).normalized;
-        Vector3 localDir = transform.InverseTransformDirection(toTarget);
-        sensor.AddObservation(localDir.x);
-        sensor.AddObservation(localDir.z);
+        Vector3 localDirection = transform.InverseTransformDirection(toTarget);
+        sensor.AddObservation(localDirection.x);
+        sensor.AddObservation(localDirection.z);
+
+        // Rotazione dell'agente (quaternion)
+        sensor.AddObservation(transform.localRotation);
     }
 
     public override void OnActionReceived(ActionBuffers actions)
     {
-        float rawA = actions.ContinuousActions[0];
-        float rawS = actions.ContinuousActions[1];
-        float rawB = actions.ContinuousActions[2];
-        if (!float.IsFinite(rawA) || !float.IsFinite(rawS) || !float.IsFinite(rawB)) return;
+        float accel = actions.ContinuousActions[0];
+        float steer = actions.ContinuousActions[1];
+        float brake = actions.ContinuousActions[2];
+        if (!float.IsFinite(accel) || !float.IsFinite(steer) || !float.IsFinite(brake)) return;
 
-        float accel = Mathf.Clamp(rawA, -1f, 1f);
-        float steer = Mathf.Clamp(rawS, -1f, 1f);
-        float brake = Mathf.Clamp01(rawB);
         car.Move(accel, steer, brake);
 
+        targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpointIndex);
         float newDist = Vector3.Distance(transform.position, targetCheckpoint.position);
         float delta = lastDistanceToCheckpoint - newDist;
         AddReward(delta * 0.1f);
         lastDistanceToCheckpoint = newDist;
 
-        if (newDist < 5f)
-        {
-            AddReward(5f);
-            nextCheckpointIndex = (nextCheckpointIndex + 1) % checkpointManager.TotalCheckpoints;
-            targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpointIndex);
-            lastDistanceToCheckpoint = Vector3.Distance(transform.position, targetCheckpoint.position);
-        }
-
-        float desired = raycast.BestRayAngle / (raycast.angleSpan / 2f);
-        AddReward(0.2f * (1f - Mathf.Abs(steer - desired)));
-
-        foreach (float d in raycast.rayDistances)
-        {
-            float pen = float.IsFinite(d) ? Mathf.Clamp01((rayLength - d) / rayLength) : 0f;
-            AddReward(-pen * 0.05f);
-        }
-
         if (lastDistanceToCheckpoint < 5f)
         {
-            AddReward(2.0f);
+            AddReward(5.0f);
             nextCheckpointIndex = (nextCheckpointIndex + 1) % checkpointManager.TotalCheckpoints;
             if (nextCheckpointIndex == 0)
             {
@@ -114,9 +108,9 @@ public class RedCarAgent : Agent
         // Penalità per lentezza
         float speed = transform.InverseTransformDirection(rb.linearVelocity).z;
         if (speed < 0.1f)
-            AddReward(-0.05f);
+            AddReward(-0.01f);
         else
-            AddReward(1.5f * speed);
+            AddReward(2.5f * speed);
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)

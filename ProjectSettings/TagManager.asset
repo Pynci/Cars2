@@ -18,7 +18,7 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Agent
+  - RedAgent
   - Water
   - UI
   - Asphalt
@@ -26,7 +26,7 @@ TagManager:
   - Barrier
   - Sensor
   - CheckPoint
-  - 
+  - BlueAgent
   - 
   - 
   - 

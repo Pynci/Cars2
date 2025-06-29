@@ -1,7 +1,8 @@
-using UnityEngine;
+using System.Drawing;
 using Unity.MLAgents;
-using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
+using Unity.MLAgents.Sensors;
+using UnityEngine;
 
 public class BlueCarAgent : Agent
 {
@@ -9,10 +10,6 @@ public class BlueCarAgent : Agent
     CarController car;
     public Transform opponent;
     public CheckpointManager checkpointManager;
-
-    // Rimuovi questi riferimenti al raycast personalizzato
-    // public Raycast raycast;
-    // public RayPerceptionSensorComponent3D rayCast; // Non serve un riferimento esplicito
 
     private int nextCheckpointIndex;
     private Transform targetCheckpoint;
@@ -22,7 +19,6 @@ public class BlueCarAgent : Agent
     {
         rb = GetComponent<Rigidbody>();
         car = GetComponent<CarController>();
-        // Rimuovi: rayLength = Mathf.Max(raycast.rayLength, 0.01f);
     }
 
     public override void OnEpisodeBegin()
@@ -32,17 +28,24 @@ public class BlueCarAgent : Agent
 
         // Spawn casuale come nel codice precedente o fisso come preferisci
         // Versione fissa:
-        transform.position = new Vector3(-207.7f, 0f, 53f);
-        transform.rotation = Quaternion.identity;
+        //transform.position = new Vector3(-207.7f, 0f, 53f);
+        //transform.rotation = Quaternion.identity;
+
+        int startIndex = 0;
+        Vector3 spawnPos;
 
         // Oppure versione casuale:
-        /*
-        int startIndex = Random.Range(0, checkpointManager.TotalCheckpoints);
-        Transform startCp = checkpointManager.GetNextCheckpoint(startIndex);
-        Vector3 spawnPos = startCp.position + new Vector3(Random.Range(-2f, 2f), 0f, Random.Range(-2f, 2f));
-        spawnPos.y = startCp.position.y;
+        do
+        {
+            startIndex = Random.Range(0, checkpointManager.TotalCheckpoints);
+            Transform startCp = checkpointManager.GetNextCheckpoint(startIndex);
+            spawnPos = startCp.position + new Vector3(Random.Range(-2f, 2f), 0f, Random.Range(-2f, 2f));
+            spawnPos.y = 0;
+            Debug.Log(Physics.CheckSphere(spawnPos, 6f));
+        } while (!Physics.CheckSphere(spawnPos, 10f));
+
         transform.position = spawnPos;
-        
+
         nextCheckpointIndex = (startIndex + 1) % checkpointManager.TotalCheckpoints;
         targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpointIndex);
         lastDistanceToCheckpoint = Vector3.Distance(transform.position, targetCheckpoint.position);
@@ -50,7 +53,7 @@ public class BlueCarAgent : Agent
         Vector3 dir = (targetCheckpoint.position - transform.position).normalized;
         float baseAng = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0f, baseAng + Random.Range(-20f, 20f), 0f);
-        */
+        
 
         // Inizializza il checkpoint system
         nextCheckpointIndex = 0;
@@ -60,11 +63,6 @@ public class BlueCarAgent : Agent
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        // RIMUOVI tutto il codice relativo ai raggi personalizzati
-        // ML-Agents gestisce automaticamente RayPerceptionSensorComponent3D
-
-        // Mantieni solo le osservazioni personalizzate:
-
         // Velocità forward dell'agente (normalizzata)
         float forwardSpeed = transform.InverseTransformDirection(rb.linearVelocity).z;
         forwardSpeed = float.IsFinite(forwardSpeed) ? Mathf.Clamp(forwardSpeed, -20f, 20f) : 0f;
@@ -145,10 +143,6 @@ public class BlueCarAgent : Agent
             AddReward(speed * 0.02f);
         else
             AddReward(-0.01f); // Piccola penalità per lentezza
-
-        // RIMUOVI: Le penalità per vicinanza ostacoli ora sono gestite automaticamente
-        // da RayPerceptionSensorComponent3D tramite il sistema di ricompense di ML-Agents
-        // o puoi gestirle tramite Curiosity/altri moduli reward
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
@@ -166,9 +160,10 @@ public class BlueCarAgent : Agent
             AddReward(-10f);
             EndEpisode();
         }
-        else if (collision.gameObject.CompareTag("BlueCar") || collision.gameObject.CompareTag("RedCar"))
+        else if (collision.gameObject.CompareTag("RedCar"))
         {
-            AddReward(-5f);
+            AddReward(-10f);
+            EndEpisode();
         }
     }
 }

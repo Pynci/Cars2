@@ -9,4 +9,15 @@ public class CheckpointManager : MonoBehaviour
     {
         return checkpoints[index];
     }
+
+    public Transform GetPreviousCheckpoint(int index)
+    {
+        if (index > 0)
+        {
+            return checkpoints[index - 1];
+        } else
+        {
+            return checkpoints[index];
+        }
+    }
 }

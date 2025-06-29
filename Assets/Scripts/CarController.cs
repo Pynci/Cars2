@@ -7,10 +7,10 @@ public class CarController : MonoBehaviour
     [Header("Wheel Meshes")]
     public Transform frontLeftMesh, frontRightMesh, rearLeftMesh, rearRightMesh;
     [Header("Car Settings")]
-    public float maxMotorTorque = 1500f;
-    public float maxSteeringAngle = 30f;
-    public float brakeForce = 3000f;
-    public float engineBrakeForce = 150f;
+    public float maxMotorTorque;
+    public float maxSteeringAngle;
+    public float brakeForce;
+    public float engineBrakeForce;
 
     public void Move(float motorInput, float steeringInput, float brakeInput)
     {

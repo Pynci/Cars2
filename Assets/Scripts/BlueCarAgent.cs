@@ -1,174 +1,238 @@
-using UnityEngine;
 using Unity.MLAgents;
-using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
+using Unity.MLAgents.Sensors;
+using UnityEngine;
 
+[RequireComponent(typeof(CarController))]
 public class BlueCarAgent : Agent
 {
-    Rigidbody rb;
-    CarController car;
+    [Header("Agent Configuration")]
     public Transform opponent;
     public CheckpointManager checkpointManager;
+    public Transform[] spawnPoints;
 
-    // Rimuovi questi riferimenti al raycast personalizzato
-    // public Raycast raycast;
-    // public RayPerceptionSensorComponent3D rayCast; // Non serve un riferimento esplicito
+    [Header("Simple Reward Settings")]
+    public float checkpointReward = 15f;
+    public float lapCompleteReward = 100f;
+    public float collisionPenalty = -20f;
 
+    private Rigidbody rb;
+    private CarController car;
     private int nextCheckpointIndex;
     private Transform targetCheckpoint;
     private float lastDistanceToCheckpoint;
+    private Vector3 lastPosition;
+    private float stuckTimer;
+    private float episodeTimer;
+    private int checkpointsHit;
 
     public override void Initialize()
     {
         rb = GetComponent<Rigidbody>();
         car = GetComponent<CarController>();
-        // Rimuovi: rayLength = Mathf.Max(raycast.rayLength, 0.01f);
+
+        // Configurazione rigidbody
+        rb.centerOfMass = new Vector3(0, -0.5f, 0);
+        rb.mass = 1200f;
     }
 
     public override void OnEpisodeBegin()
     {
+        // Reset physics
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
-        // Spawn casuale come nel codice precedente o fisso come preferisci
-        // Versione fissa:
-        transform.position = new Vector3(-207.7f, 0f, 53f);
-        transform.rotation = Quaternion.identity;
-
-        // Oppure versione casuale:
-        /*
-        int startIndex = Random.Range(0, checkpointManager.TotalCheckpoints);
-        Transform startCp = checkpointManager.GetNextCheckpoint(startIndex);
-        Vector3 spawnPos = startCp.position + new Vector3(Random.Range(-2f, 2f), 0f, Random.Range(-2f, 2f));
-        spawnPos.y = startCp.position.y;
-        transform.position = spawnPos;
-        
-        nextCheckpointIndex = (startIndex + 1) % checkpointManager.TotalCheckpoints;
-        targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpointIndex);
-        lastDistanceToCheckpoint = Vector3.Distance(transform.position, targetCheckpoint.position);
-        
-        Vector3 dir = (targetCheckpoint.position - transform.position).normalized;
-        float baseAng = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0f, baseAng + Random.Range(-20f, 20f), 0f);
-        */
-
-        // Inizializza il checkpoint system
+        // Reset variables
         nextCheckpointIndex = 0;
+        checkpointsHit = 0;
+        stuckTimer = 0f;
+        episodeTimer = 0f;
+
+        // Spawn position
+        if (spawnPoints != null && spawnPoints.Length > 0)
+        {
+            int spawnIndex = Random.Range(0, spawnPoints.Length);
+            transform.position = spawnPoints[spawnIndex].position;
+            transform.rotation = spawnPoints[spawnIndex].rotation;
+        }
+        else
+        {
+            transform.position = new Vector3(-207.7f, 0.5f, 53f);
+            transform.rotation = Quaternion.identity;
+        }
+
+        // Variazione casuale
+        transform.position += new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f));
+        transform.rotation *= Quaternion.Euler(0, Random.Range(-10f, 10f), 0);
+
+        // Setup checkpoint
         targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpointIndex);
         lastDistanceToCheckpoint = Vector3.Distance(transform.position, targetCheckpoint.position);
+        lastPosition = transform.position;
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        // RIMUOVI tutto il codice relativo ai raggi personalizzati
-        // ML-Agents gestisce automaticamente RayPerceptionSensorComponent3D
+        // === OSSERVAZIONI SEMPLICI ===
 
-        // Mantieni solo le osservazioni personalizzate:
+        // Velocità locale
+        Vector3 localVelocity = transform.InverseTransformDirection(rb.linearVelocity);
+        sensor.AddObservation(Mathf.Clamp(localVelocity.z, -25f, 25f) / 25f); // Forward speed
+        sensor.AddObservation(Mathf.Clamp(localVelocity.x, -10f, 10f) / 10f);  // Lateral speed
 
-        // Velocità forward dell'agente (normalizzata)
-        float forwardSpeed = transform.InverseTransformDirection(rb.linearVelocity).z;
-        forwardSpeed = float.IsFinite(forwardSpeed) ? Mathf.Clamp(forwardSpeed, -20f, 20f) : 0f;
-        sensor.AddObservation(forwardSpeed / 20f);
-
-        // Velocità laterale dell'agente
-        float lateralSpeed = transform.InverseTransformDirection(rb.linearVelocity).x;
-        lateralSpeed = float.IsFinite(lateralSpeed) ? Mathf.Clamp(lateralSpeed, -20f, 20f) : 0f;
-        sensor.AddObservation(lateralSpeed / 20f);
-
-        // Distanza dall'opponent (normalizzata)
-        float opponentDistance = Vector3.Distance(transform.position, opponent.position);
-        opponentDistance = float.IsFinite(opponentDistance) ? Mathf.Clamp(opponentDistance, 0f, 100f) : 100f;
-        sensor.AddObservation(opponentDistance / 100f);
-
-        // Rotazione Y normalizzata
-        float yaw = (transform.eulerAngles.y % 360f + 360f) % 360f;
-        sensor.AddObservation(yaw / 360f);
-
-        // Distanza dal checkpoint target (normalizzata)
+        // Direzione verso checkpoint
         targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpointIndex);
-        float checkpointDistance = Vector3.Distance(transform.position, targetCheckpoint.position);
-        checkpointDistance = float.IsFinite(checkpointDistance) ? Mathf.Clamp(checkpointDistance, 0f, 100f) : 100f;
-        sensor.AddObservation(checkpointDistance / 100f);
-
-        // Direzione verso il checkpoint target (in coordinate locali)
         Vector3 toTarget = (targetCheckpoint.position - transform.position).normalized;
         Vector3 localDirection = transform.InverseTransformDirection(toTarget);
         sensor.AddObservation(localDirection.x);
         sensor.AddObservation(localDirection.z);
 
-        // Rotazione dell'agente (quaternion)
+        // Distanza checkpoint
+        float distance = Vector3.Distance(transform.position, targetCheckpoint.position);
+        sensor.AddObservation(Mathf.Clamp(distance, 0f, 80f) / 80f);
+
+        // Angolo verso target
+        float angle = Vector3.SignedAngle(transform.forward, toTarget, Vector3.up) / 180f;
+        sensor.AddObservation(angle);
+
+        // Orientamento
         sensor.AddObservation(transform.localRotation);
+
+        // Progresso semplice
+        sensor.AddObservation((float)checkpointsHit / checkpointManager.TotalCheckpoints);
+
+        // Opponent (opzionale)
+        if (opponent != null)
+        {
+            Vector3 toOpponent = opponent.position - transform.position;
+            sensor.AddObservation(Mathf.Clamp(toOpponent.magnitude, 0f, 40f) / 40f);
+        }
+        else
+        {
+            sensor.AddObservation(1f);
+        }
     }
 
     public override void OnActionReceived(ActionBuffers actions)
     {
-        // Estrai le azioni
-        float accel = actions.ContinuousActions[0];
-        float steer = actions.ContinuousActions[1];
-        float brake = actions.ContinuousActions[2];
+        // Azioni
+        float motor = Mathf.Clamp(actions.ContinuousActions[0], -1f, 1f);
+        float steering = Mathf.Clamp(actions.ContinuousActions[1], -1f, 1f);
+        float brake = Mathf.Clamp01(actions.ContinuousActions[2]);
 
-        // Controllo validità
-        if (!float.IsFinite(accel) || !float.IsFinite(steer) || !float.IsFinite(brake)) return;
+        car.Move(motor, steering, brake);
+        episodeTimer += Time.fixedDeltaTime;
 
-        // Applica le azioni al controller
-        car.Move(accel, steer, brake);
+        // === SISTEMA DI REWARD SEMPLICE ===
 
-        // Sistema di ricompense
-
-        // Ricompensa base per rimanere attivo
-        AddReward(0.01f);
-
-        // Ricompensa per avvicinamento al checkpoint
+        // 1. Reward principale: progresso verso checkpoint
         targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpointIndex);
-        float newDistance = Vector3.Distance(transform.position, targetCheckpoint.position);
-        float delta = lastDistanceToCheckpoint - newDistance;
-        AddReward(delta * 0.1f);
-        lastDistanceToCheckpoint = newDistance;
+        float currentDistance = Vector3.Distance(transform.position, targetCheckpoint.position);
+        float progress = lastDistanceToCheckpoint - currentDistance;
+        AddReward(progress * 2f); // Reward più grande per semplicità
+        lastDistanceToCheckpoint = currentDistance;
 
-        // Ricompensa per raggiungimento checkpoint
-        if (newDistance < 5f)
+        // 2. Reward per velocità (semplice)
+        float speed = Vector3.Dot(rb.linearVelocity, transform.forward);
+        if (speed > 0.5f)
         {
-            AddReward(5f);
+            AddReward(0.1f * Time.fixedDeltaTime);
+        }
+
+        // 3. Check checkpoint
+        if (currentDistance < 10f) // Raggio più permissivo
+        {
+            AddReward(checkpointReward);
+            checkpointsHit++;
             nextCheckpointIndex = (nextCheckpointIndex + 1) % checkpointManager.TotalCheckpoints;
+
+            Debug.Log($"BlueCar: Checkpoint {checkpointsHit}/{checkpointManager.TotalCheckpoints}");
 
             if (nextCheckpointIndex == 0)
             {
-                // Completato un giro completo
-                AddReward(10f);
+                AddReward(lapCompleteReward);
+                Debug.Log("BlueCar: Giro completato!");
                 EndEpisode();
+                return;
             }
+
+            targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpointIndex);
+            lastDistanceToCheckpoint = Vector3.Distance(transform.position, targetCheckpoint.position);
         }
 
-        // Ricompensa per velocità (incoraggia movimento)
-        float speed = transform.InverseTransformDirection(rb.linearVelocity).z;
-        if (speed > 0.1f)
-            AddReward(speed * 0.02f);
+        // 4. Check stuck (semplice)
+        float movement = Vector3.Distance(transform.position, lastPosition);
+        if (movement < 0.1f && speed < 0.3f)
+        {
+            stuckTimer += Time.fixedDeltaTime;
+            if (stuckTimer > 4f)
+            {
+                AddReward(-3f);
+                Debug.Log("BlueCar: Stuck - Restart");
+                EndEpisode();
+                return;
+            }
+        }
         else
-            AddReward(-0.01f); // Piccola penalità per lentezza
+        {
+            stuckTimer = 0f;
+        }
 
-        // RIMUOVI: Le penalità per vicinanza ostacoli ora sono gestite automaticamente
-        // da RayPerceptionSensorComponent3D tramite il sistema di ricompense di ML-Agents
-        // o puoi gestirle tramite Curiosity/altri moduli reward
+        // 5. Timeout
+        if (episodeTimer > 150f) // Timeout più permissivo
+        {
+            AddReward(-5f);
+            Debug.Log("BlueCar: Timeout");
+            EndEpisode();
+            return;
+        }
+
+        // 6. Survival reward
+        AddReward(0.01f);
+
+        lastPosition = transform.position;
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
     {
-        var continuousActions = actionsOut.ContinuousActions;
-        continuousActions[0] = Input.GetKey(KeyCode.UpArrow) ? 1f : Input.GetKey(KeyCode.DownArrow) ? -1f : 0f;
-        continuousActions[1] = Input.GetKey(KeyCode.LeftArrow) ? -1f : Input.GetKey(KeyCode.RightArrow) ? 1f : 0f;
-        continuousActions[2] = Input.GetKey(KeyCode.Space) ? 1f : 0f;
+        var actions = actionsOut.ContinuousActions;
+        actions[0] = Input.GetAxis("Vertical");
+        actions[1] = Input.GetAxis("Horizontal");
+        actions[2] = Input.GetKey(KeyCode.LeftShift) ? 1f : 0f;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("bulkheads"))
         {
-            AddReward(-10f);
+            AddReward(collisionPenalty);
+            Debug.Log("BlueCar: Wall collision - Restart");
             EndEpisode();
         }
         else if (collision.gameObject.CompareTag("BlueCar") || collision.gameObject.CompareTag("RedCar"))
         {
             AddReward(-5f);
+            Debug.Log("BlueCar: Car collision");
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("CheckPoint"))
+        {
+            int checkpointIndex = System.Array.IndexOf(checkpointManager.checkpoints, other.transform);
+            if (checkpointIndex == nextCheckpointIndex)
+            {
+                AddReward(checkpointReward);
+                checkpointsHit++;
+                nextCheckpointIndex = (nextCheckpointIndex + 1) % checkpointManager.TotalCheckpoints;
+
+                if (nextCheckpointIndex == 0)
+                {
+                    AddReward(lapCompleteReward);
+                    EndEpisode();
+                }
+            }
         }
     }
 }

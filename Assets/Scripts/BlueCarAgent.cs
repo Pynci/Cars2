@@ -11,19 +11,20 @@ public class BlueCarAgent : Agent
     public Transform opponent;
 
     [Header("Rewards")]
-    public float checkpointReward = 2f;
-    public float lapReward = 10f;
-    public float collisionPenalty = -3f;
-    public float opponentCollisionPenalty = -3f;
-    public float progressRewardMultiplier = 1f;
-    public float speedRewardMultiplier = 0.1f;
-    public float idlePenalty = -0.05f;
+    [HideInInspector] public float checkpointReward = 10.0f;      // Maggior incentivo al progresso
+    [HideInInspector] public float lapReward = 50.0f;             // Reward consistente per completamento lap
+    [HideInInspector] public float timePenalty = -0.1f;           // Penalizza tempo in pista
+    [HideInInspector] public float opponentAheadPenalty = -5.0f;  // Penalità se dietro all'avversario
+    [HideInInspector] public float opponentAheadReward = 5.0f;    // Ricompensa se supera l'avversario
+    [HideInInspector] public float collisionPenalty = -20.0f;
+    [HideInInspector] public float opponentCollisionPenalty = -1.0f;
+    [HideInInspector] public float progressRewardMultiplier = 1.0f;
+    [HideInInspector] public float speedRewardMultiplier = 0.1f;
 
     [Header("Normalization")]
     public int maxStepsPerEpisode = 300;
     public int maxLaps = 1;
     public float maxExpectedSpeed = 40f;
-
 
     [Header("Idle Timeout")]
     public float maxIdleTime = 20f;
@@ -39,11 +40,10 @@ public class BlueCarAgent : Agent
     private int nextCheckpoint = 0;
     private Transform targetCheckpoint;
     private int completedCheckpoints;
-
     private float lastDist;
     private float smoothLastDist;
-
     private float idleTimer = 0f;
+    private float elapsedTime = 0f;
 
     public override void Initialize()
     {
@@ -55,7 +55,7 @@ public class BlueCarAgent : Agent
 
     public override void OnEpisodeBegin()
     {
-        Debug.Log("BlueCar Episode Start");
+        // Reset stato
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         transform.position = initialPosition;
@@ -64,6 +64,7 @@ public class BlueCarAgent : Agent
         nextCheckpoint = 0;
         completedCheckpoints = 0;
         idleTimer = 0f;
+        elapsedTime = 0f;
 
         targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpoint);
         lastDist = Vector3.Distance(transform.position, targetCheckpoint.position);
@@ -72,19 +73,23 @@ public class BlueCarAgent : Agent
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        // Direzione verso il checkpoint successivo
+        // Direzione al checkpoint
         Vector3 dir = (targetCheckpoint.position - transform.position).normalized;
         sensor.AddObservation(transform.InverseTransformDirection(dir));
 
-        // Velocita locale
+        // Velocità locale normalizzata
         Vector3 localVel = transform.InverseTransformDirection(rb.linearVelocity);
         sensor.AddObservation(localVel.z / maxExpectedSpeed);
         sensor.AddObservation(localVel.x / (maxExpectedSpeed * 0.5f));
 
-        // Progresso sul tracciato
+        // Progresso
         float progress = completedCheckpoints / (float)checkpointManager.TotalCheckpoints;
         sensor.AddObservation(progress);
 
+        // Posizione rispetto all'avversario
+        var oppAgent = opponent.GetComponent<BlueCarAgent>();
+        bool isAhead = completedCheckpoints > (oppAgent != null ? oppAgent.GetCompletedCheckpoints() : 0);
+        sensor.AddObservation(isAhead ? 1f : 0f);
     }
 
     public override void OnActionReceived(ActionBuffers actions)
@@ -94,39 +99,60 @@ public class BlueCarAgent : Agent
         float brake = Mathf.Clamp01(actions.ContinuousActions[2]);
         controller.Move(accel, steer, brake);
 
+        elapsedTime += Time.fixedDeltaTime;
+
+        // Penalità tempo
+        AddReward(timePenalty * Time.fixedDeltaTime);
+
+        // Reward di passo per step
         AddReward(-1f / maxStepsPerEpisode);
 
+        // Progress smoothing reward
         float currentDist = Vector3.Distance(transform.position, targetCheckpoint.position);
         smoothLastDist = smoothingAlpha * currentDist + (1f - smoothingAlpha) * smoothLastDist;
         AddReward((smoothLastDist - currentDist) * progressRewardMultiplier);
         lastDist = currentDist;
 
+        // Reward velocità se guardo verso il checkpoint
         Vector3 toCP = (targetCheckpoint.position - transform.position).normalized;
         if (Vector3.Dot(transform.forward, toCP) > 0.5f)
         {
             AddReward((rb.linearVelocity.magnitude / maxExpectedSpeed) * speedRewardMultiplier * Time.fixedDeltaTime);
         }
 
+        // Penalità di idle
         if (rb.linearVelocity.magnitude < 1f)
         {
             idleTimer += Time.fixedDeltaTime;
             if (idleTimer > maxIdleTime)
             {
-                AddReward(idlePenalty * 5f);
+                AddReward(collisionPenalty);
                 EndEpisode();
             }
         }
-        else idleTimer = 0f;
+        else
+        {
+            idleTimer = 0f;
+        }
 
+        // Controllo checkpoint
         if (currentDist < 5f)
         {
             AddReward(checkpointReward / checkpointManager.TotalCheckpoints);
             completedCheckpoints++;
             nextCheckpoint = (nextCheckpoint + 1) % checkpointManager.TotalCheckpoints;
 
+            // Reward se supero avversario
+            var oppAgent = opponent.GetComponent<BlueCarAgent>();
+            if (oppAgent != null && completedCheckpoints > oppAgent.GetCompletedCheckpoints())
+                AddReward(opponentAheadReward);
+            else if (oppAgent != null && completedCheckpoints < oppAgent.GetCompletedCheckpoints())
+                AddReward(opponentAheadPenalty);
+
             if (nextCheckpoint == 0)
             {
-                AddReward(lapReward / maxLaps);
+                // Lap completata
+                AddReward(lapReward);
                 EndEpisode();
             }
 
@@ -149,7 +175,6 @@ public class BlueCarAgent : Agent
         if (col.gameObject.CompareTag("bulkheads"))
         {
             AddReward(collisionPenalty);
-            EndEpisode();
         }
         else if (col.transform == opponent)
         {

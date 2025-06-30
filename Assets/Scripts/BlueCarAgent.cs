@@ -28,12 +28,14 @@ public class BlueCarAgent : Agent
 
         // Spawn casuale come nel codice precedente o fisso come preferisci
         // Versione fissa:
-        //transform.position = new Vector3(-207.7f, 0f, 53f);
-        //transform.rotation = Quaternion.identity;
+        transform.position = new Vector3(-207.7f, 0f, -28f);
+        //transform.position = new Vector3(1553.6f, 0f, 53f);
+        transform.rotation = Quaternion.identity;
 
+        /*
         int startIndex = 0;
         Vector3 spawnPos;
-
+        
         // Oppure versione casuale:
         do
         {
@@ -45,7 +47,7 @@ public class BlueCarAgent : Agent
         } while (!Physics.CheckSphere(spawnPos, 10f));
 
         transform.position = spawnPos;
-
+        
         nextCheckpointIndex = (startIndex + 1) % checkpointManager.TotalCheckpoints;
         targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpointIndex);
         lastDistanceToCheckpoint = Vector3.Distance(transform.position, targetCheckpoint.position);
@@ -53,7 +55,7 @@ public class BlueCarAgent : Agent
         Vector3 dir = (targetCheckpoint.position - transform.position).normalized;
         float baseAng = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0f, baseAng + Random.Range(-20f, 20f), 0f);
-        
+        */
 
         // Inizializza il checkpoint system
         nextCheckpointIndex = 0;
@@ -128,13 +130,14 @@ public class BlueCarAgent : Agent
         {
             AddReward(5f);
             nextCheckpointIndex = (nextCheckpointIndex + 1) % checkpointManager.TotalCheckpoints;
-
+            /*
             if (nextCheckpointIndex == 0)
             {
                 // Completato un giro completo
                 AddReward(10f);
                 EndEpisode();
             }
+            */
         }
 
         // Ricompensa per velocità (incoraggia movimento)

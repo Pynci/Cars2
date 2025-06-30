@@ -43,12 +43,15 @@ public class RedCarAgent : Agent
     {
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
-        //transform.position = rb.position;
-        //transform.rotation = Quaternion.identity;
 
+        transform.position = new Vector3(-213.1f, 0f, -28f);
+        //transform.position = new Vector3(1546.3f, 0f, 53f);
+        transform.rotation = Quaternion.identity;
+
+        /*
         int startIndex = 0;
         Vector3 spawnPos;
-
+        
         // Oppure versione casuale:
         do
         {
@@ -56,11 +59,10 @@ public class RedCarAgent : Agent
             Transform startCp = checkpointManager.GetNextCheckpoint(startIndex);
             spawnPos = startCp.position + new Vector3(Random.Range(-2f, 2f), 0f, Random.Range(-2f, 2f));
             spawnPos.y = 0;
-            Debug.Log(Physics.CheckSphere(spawnPos, 10f));
         } while (!Physics.CheckSphere(spawnPos, 10f));
-
+        
         transform.position = spawnPos;
-
+        
         nextCheckpointIndex = (startIndex + 1) % checkpointManager.TotalCheckpoints;
         targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpointIndex);
         lastDistanceToCheckpoint = Vector3.Distance(transform.position, targetCheckpoint.position);
@@ -68,9 +70,12 @@ public class RedCarAgent : Agent
         Vector3 dir = (targetCheckpoint.position - transform.position).normalized;
         float baseAng = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0f, baseAng + Random.Range(-20f, 20f), 0f);
+        */
 
         nextCheckpointIndex = 0;
+        targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpointIndex);
         lastDistanceToCheckpoint = Vector3.Distance(transform.position, checkpointManager.GetNextCheckpoint(0).position);
+        
         timeAtLastCheckpoint = Time.time;
         lapStartTime = Time.time;
         lapsCompleted = 0;
@@ -167,15 +172,6 @@ public class RedCarAgent : Agent
             }
         }*/
 
-        // Ricompensa per velocità (incoraggia movimento)
-        float speed = transform.InverseTransformDirection(rb.linearVelocity).z;
-        if (speed > 0.1f)
-            AddReward(speed * 0.1f);
-        else
-            AddReward(-0.01f); // Piccola penalità per lentezza
-
-
-
         // Reward per progresso verso il checkpoint
         targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpointIndex);
         float newDist = Vector3.Distance(transform.position, targetCheckpoint.position);
@@ -202,7 +198,7 @@ public class RedCarAgent : Agent
             AddReward(10f + timeReward);
             nextCheckpointIndex = (nextCheckpointIndex + 1) % checkpointManager.TotalCheckpoints;
             timeAtLastCheckpoint = Time.time;
-
+            /*
             // Reward per completamento giro
             if (nextCheckpointIndex == 0)
             {
@@ -218,6 +214,7 @@ public class RedCarAgent : Agent
                     EndEpisode();
                 }
             }
+            */
         }
 
         // Reward per velocità allineata alla direzione del checkpoint
@@ -225,7 +222,7 @@ public class RedCarAgent : Agent
         Vector3 toTarget = (targetCheckpoint.position - transform.position).normalized;
         float velocityAlignment = Vector3.Dot(rb.linearVelocity.normalized, toTarget);
         float speedReward = Mathf.Clamp(localVelocity.z / maxSpeed, -0.5f, 1f) * velocityAlignment;
-        AddReward(speedReward * 0.1f);
+        AddReward(speedReward * 0.5f);
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)

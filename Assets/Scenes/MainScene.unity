@@ -859,155 +859,56 @@ MonoBehaviour:
   - {fileID: 318954836}
   - {fileID: 2008043886}
   - {fileID: 1515073109}
-  - {fileID: 0}
   - {fileID: 386476481}
   - {fileID: 1705582409}
   - {fileID: 1008698341}
-  - {fileID: 0}
   - {fileID: 1213681849}
-  - {fileID: 0}
   - {fileID: 1658713877}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 859596706}
-  - {fileID: 0}
   - {fileID: 1617462021}
-  - {fileID: 0}
   - {fileID: 1301846406}
-  - {fileID: 0}
   - {fileID: 1096022353}
-  - {fileID: 0}
   - {fileID: 1806783179}
-  - {fileID: 0}
   - {fileID: 951067561}
-  - {fileID: 0}
   - {fileID: 525918153}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 1417974227}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 2015958312}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1036954263}
+  - {fileID: 1921571710}
   - {fileID: 653875620}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 212523631}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 189543343}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 1772920170}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 856838718}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 2133471110}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1653311360}
   - {fileID: 612621758}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 1824129204}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 542390720}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 357343691}
-  - {fileID: 0}
   - {fileID: 1764031504}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 941331646}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 944213879}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 2054128139}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 594326359}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 83871214}
   - {fileID: 1795444173}
-  - {fileID: 0}
   - {fileID: 883243869}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 1323992903}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 341882049}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 1970921280}
-  - {fileID: 0}
   - {fileID: 938254026}
-  - {fileID: 0}
   - {fileID: 1774149399}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 2022000112}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 658051626}
-  - {fileID: 0}
   - {fileID: 564358245}
-  - {fileID: 0}
   - {fileID: 1066494976}
-  - {fileID: 0}
   - {fileID: 1632601298}
-  - {fileID: 0}
-  - {fileID: 1036954263}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 2090850088}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 1426376617}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 1754161568}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 1137145781}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 268464125}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 505957352}
 --- !u!4 &230424444
 Transform:
@@ -2034,14 +1935,14 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
-  opponent: {fileID: 1576479603}
   checkpointManager: {fileID: 230424443}
   spawnPoints: []
+  opponent: {fileID: 1576479603}
   checkpointReward: 10
-  lapCompleteReward: 50
+  lapReward: 5
   collisionPenalty: -15
-  speedRewardMultiplier: 0.1
   progressRewardMultiplier: 1
+  speedRewardMultiplier: 0.1
 --- !u!114 &526707001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2055,7 +1956,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 16
+    VectorObservationSize: 7
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 3
@@ -6811,12 +6712,13 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
-  opponent: {fileID: 526706997}
   checkpointManager: {fileID: 230424443}
-  spawnPoints: []
+  opponent: {fileID: 526706997}
   checkpointReward: 15
-  lapCompleteReward: 100
+  lapReward: 5
   collisionPenalty: -20
+  progressRewardMultiplier: 1
+  speedRewardMultiplier: 0.1
 --- !u!114 &1576479606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6830,7 +6732,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 12
+    VectorObservationSize: 7
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 3

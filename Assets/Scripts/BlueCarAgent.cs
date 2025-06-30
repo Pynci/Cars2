@@ -10,16 +10,17 @@ public class BlueCarAgent : Agent
     public CheckpointManager checkpointManager;
     public Transform opponent;
 
-    [Header("Rewards")]
-    [HideInInspector] public float checkpointReward = 10.0f;      // Maggior incentivo al progresso
-    [HideInInspector] public float lapReward = 50.0f;             // Reward consistente per completamento lap
-    [HideInInspector] public float timePenalty = -0.1f;           // Penalizza tempo in pista
-    [HideInInspector] public float opponentAheadPenalty = -5.0f;  // Penalità se dietro all'avversario
-    [HideInInspector] public float opponentAheadReward = 5.0f;    // Ricompensa se supera l'avversario
-    [HideInInspector] public float collisionPenalty = -20.0f;
-    [HideInInspector] public float opponentCollisionPenalty = -1.0f;
-    [HideInInspector] public float progressRewardMultiplier = 1.0f;
-    [HideInInspector] public float speedRewardMultiplier = 0.1f;
+    [Header("Rewards (hardcoded)")]
+    // Valori hardcoded per evitare override dall'Inspector
+    private const float checkpointReward = 10.0f;      // Maggior incentivo al progresso
+    private const float lapReward = 50.0f;             // Reward consistente per completamento lap
+    private const float timePenalty = -0.1f;           // Penalizza tempo in pista
+    private const float opponentAheadPenalty = -5.0f;  // Penalità se dietro all'avversario
+    private const float opponentBehindReward = 5.0f;    // Ricompensa se supera l'avversario
+    private const float collisionPenalty = -20.0f;
+    private const float opponentCollisionPenalty = -1.0f;
+    private const float progressRewardMultiplier = 1.0f;
+    private const float speedRewardMultiplier = 0.1f;
 
     [Header("Normalization")]
     public int maxStepsPerEpisode = 300;
@@ -145,7 +146,7 @@ public class BlueCarAgent : Agent
             // Reward se supero avversario
             var oppAgent = opponent.GetComponent<BlueCarAgent>();
             if (oppAgent != null && completedCheckpoints > oppAgent.GetCompletedCheckpoints())
-                AddReward(opponentAheadReward);
+                AddReward(opponentBehindReward);
             else if (oppAgent != null && completedCheckpoints < oppAgent.GetCompletedCheckpoints())
                 AddReward(opponentAheadPenalty);
 
@@ -175,6 +176,7 @@ public class BlueCarAgent : Agent
         if (col.gameObject.CompareTag("bulkheads"))
         {
             AddReward(collisionPenalty);
+            EndEpisode(); // Fine episodio su collisione muro
         }
         else if (col.transform == opponent)
         {

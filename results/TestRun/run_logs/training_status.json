@@ -1,0 +1,51 @@
+{
+    "BlueCar": {
+        "checkpoints": [
+            {
+                "steps": 84370,
+                "file_path": "results\\TestRun\\BlueCar\\BlueCar-84370.onnx",
+                "reward": 1263.7221102033343,
+                "creation_time": 1751278821.0527499,
+                "auxillary_file_paths": [
+                    "results\\TestRun\\BlueCar\\BlueCar-84370.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 84370,
+            "file_path": "results\\TestRun\\BlueCar.onnx",
+            "reward": 1263.7221102033343,
+            "creation_time": 1751278821.0527499,
+            "auxillary_file_paths": [
+                "results\\TestRun\\BlueCar\\BlueCar-84370.pt"
+            ]
+        }
+    },
+    "RedCar": {
+        "checkpoints": [
+            {
+                "steps": 84109,
+                "file_path": "results\\TestRun\\RedCar\\RedCar-84109.onnx",
+                "reward": 1300.7516784667969,
+                "creation_time": 1751278821.151863,
+                "auxillary_file_paths": [
+                    "results\\TestRun\\RedCar\\RedCar-84109.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 84109,
+            "file_path": "results\\TestRun\\RedCar.onnx",
+            "reward": 1300.7516784667969,
+            "creation_time": 1751278821.151863,
+            "auxillary_file_paths": [
+                "results\\TestRun\\RedCar\\RedCar-84109.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "1.13.1+cu117"
+    }
+}

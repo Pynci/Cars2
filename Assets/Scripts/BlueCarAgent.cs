@@ -1,4 +1,4 @@
-using Unity.MLAgents;
+ï»¿using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 using UnityEngine;
@@ -8,66 +8,83 @@ public class BlueCarAgent : Agent
 {
     [Header("Setup")]
     public CheckpointManager checkpointManager;
-    public Transform[] spawnPoints;
     public Transform opponent;
 
     [Header("Rewards")]
     public float checkpointReward = 2f;
     public float lapReward = 10f;
     public float collisionPenalty = -3f;
+    public float opponentCollisionPenalty = -3f;
     public float progressRewardMultiplier = 1f;
     public float speedRewardMultiplier = 0.1f;
     public float idlePenalty = -0.05f;
 
+    [Header("Normalization")]
+    public int maxStepsPerEpisode = 300;
+    public int maxLaps = 1;
+    public float maxExpectedSpeed = 40f;
+
+
+    [Header("Idle Timeout")]
+    public float maxIdleTime = 20f;
+
+    [Header("Progress Smoothing")]
+    [Range(0f, 1f)] public float smoothingAlpha = 0.2f;
+
     private CarController controller;
     private Rigidbody rb;
+    private Vector3 initialPosition;
+    private Quaternion initialRotation;
+
     private int nextCheckpoint = 0;
     private Transform targetCheckpoint;
-    private float lastDist;
     private int completedCheckpoints;
-    private Vector3 spawnPoint = new Vector3(-207.7f, 0f, 53f);
+
+    private float lastDist;
+    private float smoothLastDist;
 
     private float idleTimer = 0f;
-    private const float idleThreshold = 3f;
 
     public override void Initialize()
     {
         controller = GetComponent<CarController>();
         rb = GetComponent<Rigidbody>();
+        initialPosition = transform.position;
+        initialRotation = transform.rotation;
     }
 
     public override void OnEpisodeBegin()
     {
+        Debug.Log("BlueCar Episode Start");
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
+        transform.position = initialPosition;
+        transform.rotation = initialRotation;
+
         nextCheckpoint = 0;
         completedCheckpoints = 0;
         idleTimer = 0f;
 
-        transform.position = spawnPoint;
-        transform.rotation = Quaternion.identity;
         targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpoint);
         lastDist = Vector3.Distance(transform.position, targetCheckpoint.position);
+        smoothLastDist = lastDist;
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
+        // Direzione verso il checkpoint successivo
         Vector3 dir = (targetCheckpoint.position - transform.position).normalized;
         sensor.AddObservation(transform.InverseTransformDirection(dir));
 
+        // Velocita locale
         Vector3 localVel = transform.InverseTransformDirection(rb.linearVelocity);
-        sensor.AddObservation(localVel.z / 20f);
-        sensor.AddObservation(localVel.x / 10f);
+        sensor.AddObservation(localVel.z / maxExpectedSpeed);
+        sensor.AddObservation(localVel.x / (maxExpectedSpeed * 0.5f));
 
+        // Progresso sul tracciato
         float progress = completedCheckpoints / (float)checkpointManager.TotalCheckpoints;
         sensor.AddObservation(progress);
 
-        if (opponent)
-        {
-            float od = Vector3.Distance(transform.position, opponent.position);
-            sensor.AddObservation(Mathf.Clamp(od, 0f, 50f) / 50f);
-        }
-        else sensor.AddObservation(1f);
     }
 
     public override void OnActionReceived(ActionBuffers actions)
@@ -77,45 +94,45 @@ public class BlueCarAgent : Agent
         float brake = Mathf.Clamp01(actions.ContinuousActions[2]);
         controller.Move(accel, steer, brake);
 
-        // Step penalty
-        AddReward(-0.0005f);
+        AddReward(-1f / maxStepsPerEpisode);
 
-        // Progress reward
-        float dist = Vector3.Distance(transform.position, targetCheckpoint.position);
-        AddReward((lastDist - dist) * progressRewardMultiplier);
-        lastDist = dist;
+        float currentDist = Vector3.Distance(transform.position, targetCheckpoint.position);
+        smoothLastDist = smoothingAlpha * currentDist + (1f - smoothingAlpha) * smoothLastDist;
+        AddReward((smoothLastDist - currentDist) * progressRewardMultiplier);
+        lastDist = currentDist;
 
-        // Speed reward (solo se nella direzione giusta)
-        Vector3 toCheckpoint = (targetCheckpoint.position - transform.position).normalized;
-        float dirDot = Vector3.Dot(transform.forward, toCheckpoint);
-        if (dirDot > 0.5f)
-            AddReward(rb.linearVelocity.magnitude * speedRewardMultiplier * Time.fixedDeltaTime);
+        Vector3 toCP = (targetCheckpoint.position - transform.position).normalized;
+        if (Vector3.Dot(transform.forward, toCP) > 0.5f)
+        {
+            AddReward((rb.linearVelocity.magnitude / maxExpectedSpeed) * speedRewardMultiplier * Time.fixedDeltaTime);
+        }
 
-        // Penalità per essere immobili troppo a lungo
         if (rb.linearVelocity.magnitude < 1f)
         {
             idleTimer += Time.fixedDeltaTime;
-            if (idleTimer > idleThreshold)
+            if (idleTimer > maxIdleTime)
             {
-                AddReward(idlePenalty);
-                idleTimer = 0f;
+                AddReward(idlePenalty * 5f);
+                EndEpisode();
             }
         }
         else idleTimer = 0f;
 
-        // Checkpoint
-        if (dist < 5f)
+        if (currentDist < 5f)
         {
-            AddReward(checkpointReward);
+            AddReward(checkpointReward / checkpointManager.TotalCheckpoints);
             completedCheckpoints++;
             nextCheckpoint = (nextCheckpoint + 1) % checkpointManager.TotalCheckpoints;
+
             if (nextCheckpoint == 0)
             {
-                AddReward(lapReward);
-                completedCheckpoints = 0;
+                AddReward(lapReward / maxLaps);
+                EndEpisode();
             }
+
             targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpoint);
             lastDist = Vector3.Distance(transform.position, targetCheckpoint.position);
+            smoothLastDist = lastDist;
         }
     }
 
@@ -132,10 +149,12 @@ public class BlueCarAgent : Agent
         if (col.gameObject.CompareTag("bulkheads"))
         {
             AddReward(collisionPenalty);
-            transform.position = spawnPoint;
-            transform.rotation = Quaternion.identity;
-            rb.linearVelocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
+            EndEpisode();
+        }
+        else if (col.transform == opponent)
+        {
+            AddReward(opponentCollisionPenalty);
+            Debug.Log("Blue collided with Red");
         }
     }
 

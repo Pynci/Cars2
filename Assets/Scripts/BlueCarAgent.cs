@@ -41,7 +41,7 @@ public class BlueCarAgent : Agent
             Transform startCp = checkpointManager.GetNextCheckpoint(startIndex);
             spawnPos = startCp.position + new Vector3(Random.Range(-2f, 2f), 0f, Random.Range(-2f, 2f));
             spawnPos.y = 0;
-            Debug.Log(Physics.CheckSphere(spawnPos, 6f));
+            Debug.Log(Physics.CheckSphere(spawnPos, 10f));
         } while (!Physics.CheckSphere(spawnPos, 10f));
 
         transform.position = spawnPos;

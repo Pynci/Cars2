@@ -25,8 +25,8 @@ public class RedCarAgent : Agent
     private float lastCollisionTime;
     private int consecutiveCollisions;
     private Vector3 lastCollisionPoint;
-    private const float MAX_RECOVERY_TIME = 10f;
-    private const int MAX_CONSECUTIVE_COLLISIONS = 10;
+    private const float MAX_RECOVERY_TIME = 3f;
+    private const int MAX_CONSECUTIVE_COLLISIONS = 3;
     private const float RECOVERY_BONUS_DISTANCE = 3f;
 
     public override void Initialize()
@@ -56,7 +56,7 @@ public class RedCarAgent : Agent
             Transform startCp = checkpointManager.GetNextCheckpoint(startIndex);
             spawnPos = startCp.position + new Vector3(Random.Range(-2f, 2f), 0f, Random.Range(-2f, 2f));
             spawnPos.y = 0;
-            Debug.Log(Physics.CheckSphere(spawnPos, 6f));
+            Debug.Log(Physics.CheckSphere(spawnPos, 10f));
         } while (!Physics.CheckSphere(spawnPos, 10f));
 
         transform.position = spawnPos;
@@ -113,11 +113,11 @@ public class RedCarAgent : Agent
         }
 
         // Orientamento dell'auto (quaternion)
-        sensor.AddObservation(transform.rotation);
+        sensor.AddObservation(transform.localRotation);
 
         // Stato di recupero
         //sensor.AddObservation(consecutiveCollisions > 0 ? 1f : 0f);
-        sensor.AddObservation(Mathf.Clamp((Time.time - lastCollisionTime) / MAX_RECOVERY_TIME, 0f, 1f));
+        //sensor.AddObservation(Mathf.Clamp((Time.time - lastCollisionTime) / MAX_RECOVERY_TIME, 0f, 1f));
     }
 
     public override void OnActionReceived(ActionBuffers actions)
@@ -125,7 +125,7 @@ public class RedCarAgent : Agent
         // Controllo tempo di recupero
         if (consecutiveCollisions > 0 && Time.time - lastCollisionTime > MAX_RECOVERY_TIME)
         {
-            AddReward(-20f);
+            AddReward(-5f);
             EndEpisode();
             return;
         }
@@ -143,7 +143,7 @@ public class RedCarAgent : Agent
         float brakeN = Mathf.Clamp(actions.ContinuousActions[2], 0f, 1f);
 
         // Logica di recupero dopo collisione
-        if (consecutiveCollisions > 0)
+        /*if (consecutiveCollisions > 0)
         {
             // Premia la retromarcia intelligente nei primi 2 secondi dopo collisione
             if (Time.time - lastCollisionTime < 2f)
@@ -152,20 +152,27 @@ public class RedCarAgent : Agent
                 {
                     AddReward(0.2f); // Bonus per retromarcia
                 }
-
+                
                 // Piccolo bonus per sterzata durante retromarcia
                 if (Mathf.Abs(steerN) > 0.3f && accelN < -0.3f)
                 {
                     AddReward(0.1f);
                 }
             }
-
+            
             // Premia il ritorno alla guida normale
             if (accelN > 0.5f && brakeN < 0.2f && Time.time - lastCollisionTime > 1f)
             {
                 AddReward(0.1f);
             }
-        }
+        }*/
+
+        // Ricompensa per velocità (incoraggia movimento)
+        float speed = transform.InverseTransformDirection(rb.linearVelocity).z;
+        if (speed > 0.1f)
+            AddReward(speed * 0.1f);
+        else
+            AddReward(-0.01f); // Piccola penalità per lentezza
 
 
 
@@ -192,7 +199,7 @@ public class RedCarAgent : Agent
             float timeToReach = Time.time - timeAtLastCheckpoint;
             float timeReward = Mathf.Clamp(2f / timeToReach, 0.5f, 5f);
 
-            AddReward(5f + timeReward);
+            AddReward(10f + timeReward);
             nextCheckpointIndex = (nextCheckpointIndex + 1) % checkpointManager.TotalCheckpoints;
             timeAtLastCheckpoint = Time.time;
 
@@ -233,7 +240,7 @@ public class RedCarAgent : Agent
     {
         if (col.gameObject.CompareTag("bulkheads"))
         {
-            float collisionPenalty = -10f * (1 + consecutiveCollisions * 0.5f);
+            float collisionPenalty = -2f * (1 + consecutiveCollisions * 0.5f);
             AddReward(collisionPenalty);
 
             lastCollisionTime = Time.time;
@@ -242,7 +249,7 @@ public class RedCarAgent : Agent
 
             if (consecutiveCollisions >= MAX_CONSECUTIVE_COLLISIONS)
             {
-                AddReward(-50f);
+                AddReward(-5f);
                 EndEpisode();
             }
         }
@@ -256,7 +263,7 @@ public class RedCarAgent : Agent
 
             if (consecutiveCollisions >= MAX_CONSECUTIVE_COLLISIONS)
             {
-                AddReward(-50f);
+                AddReward(-5f);
                 EndEpisode();
             }
         }

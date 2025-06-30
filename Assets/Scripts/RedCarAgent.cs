@@ -9,14 +9,14 @@ public class RedCarAgent : Agent
     [Header("Setup")]
     public CheckpointManager checkpointManager;
     public Transform opponent;
+    public RaceManager raceManager;
 
     [Header("Rewards (hardcoded)")]
-    // Valori hardcoded per evitare override dall'Inspector
-    private const float checkpointReward = 10.0f;      // Maggior incentivo al progresso
-    private const float lapReward = 50.0f;             // Reward consistente per completamento lap
-    private const float timePenalty = -0.1f;           // Penalizza tempo in pista
-    private const float opponentAheadPenalty = -5.0f;  // Penalità se dietro all'avversario
-    private const float opponentBehindReward = 5.0f;    // Ricompensa se supera l'avversario
+    private const float checkpointReward = 10.0f;
+    private const float lapReward = 50.0f;
+    private const float timePenalty = -0.1f;
+    private const float opponentAheadPenalty = -5.0f;
+    private const float opponentBehindReward = 5.0f;
     private const float collisionPenalty = -20.0f;
     private const float opponentCollisionPenalty = -1.0f;
     private const float progressRewardMultiplier = 1.0f;
@@ -45,6 +45,7 @@ public class RedCarAgent : Agent
     private float smoothLastDist;
     private float idleTimer = 0f;
     private float elapsedTime = 0f;
+    private bool completedLap = false;
 
     public override void Initialize()
     {
@@ -56,7 +57,6 @@ public class RedCarAgent : Agent
 
     public override void OnEpisodeBegin()
     {
-        // Reset stato
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         transform.position = initialPosition;
@@ -66,6 +66,7 @@ public class RedCarAgent : Agent
         completedCheckpoints = 0;
         idleTimer = 0f;
         elapsedTime = 0f;
+        completedLap = false;
 
         targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpoint);
         lastDist = Vector3.Distance(transform.position, targetCheckpoint.position);
@@ -74,20 +75,16 @@ public class RedCarAgent : Agent
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        // Direzione al checkpoint
         Vector3 dir = (targetCheckpoint.position - transform.position).normalized;
         sensor.AddObservation(transform.InverseTransformDirection(dir));
 
-        // Velocità locale normalizzata
         Vector3 localVel = transform.InverseTransformDirection(rb.linearVelocity);
         sensor.AddObservation(localVel.z / maxExpectedSpeed);
         sensor.AddObservation(localVel.x / (maxExpectedSpeed * 0.5f));
 
-        // Progresso
         float progress = completedCheckpoints / (float)checkpointManager.TotalCheckpoints;
         sensor.AddObservation(progress);
 
-        // Posizione rispetto all'avversario
         var oppAgent = opponent.GetComponent<BlueCarAgent>();
         bool isAhead = completedCheckpoints > (oppAgent != null ? oppAgent.GetCompletedCheckpoints() : 0);
         sensor.AddObservation(isAhead ? 1f : 0f);
@@ -101,27 +98,20 @@ public class RedCarAgent : Agent
         controller.Move(accel, steer, brake);
 
         elapsedTime += Time.fixedDeltaTime;
-
-        // Penalità tempo
         AddReward(timePenalty * Time.fixedDeltaTime);
-
-        // Reward di passo per step
         AddReward(-1f / maxStepsPerEpisode);
 
-        // Progress smoothing reward
         float currentDist = Vector3.Distance(transform.position, targetCheckpoint.position);
         smoothLastDist = smoothingAlpha * currentDist + (1f - smoothingAlpha) * smoothLastDist;
         AddReward((smoothLastDist - currentDist) * progressRewardMultiplier);
         lastDist = currentDist;
 
-        // Reward velocità se guardo verso il checkpoint
         Vector3 toCP = (targetCheckpoint.position - transform.position).normalized;
         if (Vector3.Dot(transform.forward, toCP) > 0.5f)
         {
             AddReward((rb.linearVelocity.magnitude / maxExpectedSpeed) * speedRewardMultiplier * Time.fixedDeltaTime);
         }
 
-        // Penalità di idle
         if (rb.linearVelocity.magnitude < 1f)
         {
             idleTimer += Time.fixedDeltaTime;
@@ -136,14 +126,12 @@ public class RedCarAgent : Agent
             idleTimer = 0f;
         }
 
-        // Controllo checkpoint
         if (currentDist < 5f)
         {
             AddReward(checkpointReward / checkpointManager.TotalCheckpoints);
             completedCheckpoints++;
             nextCheckpoint = (nextCheckpoint + 1) % checkpointManager.TotalCheckpoints;
 
-            // Reward se supero avversario
             var oppAgent = opponent.GetComponent<BlueCarAgent>();
             if (oppAgent != null && completedCheckpoints > oppAgent.GetCompletedCheckpoints())
                 AddReward(opponentBehindReward);
@@ -152,9 +140,9 @@ public class RedCarAgent : Agent
 
             if (nextCheckpoint == 0)
             {
-                // Lap completata
                 AddReward(lapReward);
-                EndEpisode();
+                completedLap = true;
+                raceManager.NotifyLapCompleted(this);
             }
 
             targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpoint);
@@ -176,7 +164,7 @@ public class RedCarAgent : Agent
         if (col.gameObject.CompareTag("bulkheads"))
         {
             AddReward(collisionPenalty);
-            EndEpisode(); // Fine episodio su collisione muro
+            EndEpisode(); // solo questa macchina
         }
         else if (col.transform == opponent)
         {
@@ -186,4 +174,8 @@ public class RedCarAgent : Agent
     }
 
     public int GetCompletedCheckpoints() => completedCheckpoints;
+
+    public float GetProgress() => completedCheckpoints / (float)checkpointManager.TotalCheckpoints;
+
+    public bool HasCompletedLap() => completedLap;
 }

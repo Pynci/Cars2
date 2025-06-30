@@ -3145,6 +3145,7 @@ MonoBehaviour:
   MaxStep: 0
   checkpointManager: {fileID: 7673561198009232896}
   opponent: {fileID: 4914069844828356067}
+  raceManager: {fileID: 5807657056279439026}
   maxStepsPerEpisode: 1000
   maxLaps: 3
   maxExpectedSpeed: 30
@@ -5046,6 +5047,7 @@ Transform:
   - {fileID: 291194122802448465}
   - {fileID: 942273104897169484}
   - {fileID: 7099300945110221963}
+  - {fileID: 6842704091888924821}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &362973406349763154
@@ -5062,6 +5064,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   red: {fileID: 546005330060203110}
   blue: {fileID: 2186922153984715461}
+  manager: {fileID: 5807657056279439026}
 --- !u!1 &6277846291988226717
 GameObject:
   m_ObjectHideFlags: 0
@@ -5739,6 +5742,7 @@ MonoBehaviour:
   MaxStep: 0
   checkpointManager: {fileID: 7673561198009232896}
   opponent: {fileID: 4086404286696847262}
+  raceManager: {fileID: 5807657056279439026}
   maxStepsPerEpisode: 1000
   maxLaps: 3
   maxExpectedSpeed: 30
@@ -6952,6 +6956,52 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &8707273414405297466
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6842704091888924821}
+  - component: {fileID: 5807657056279439026}
+  m_Layer: 0
+  m_Name: RaceManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6842704091888924821
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8707273414405297466}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -183.86803, y: -11.632808, z: 19.84694}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3849474696816438863}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5807657056279439026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8707273414405297466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5bbbba15f8f56740bbc3892d1b23286, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  redAgent: {fileID: 546005330060203110}
+  blueAgent: {fileID: 2186922153984715461}
 --- !u!1 &8844967654469299143
 GameObject:
   m_ObjectHideFlags: 0

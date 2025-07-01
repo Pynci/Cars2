@@ -125,7 +125,7 @@ public class Fase2RedCarAgent : Agent
             AddReward(checkpointReward / checkpointManager.TotalCheckpoints);
             completedCheckpoints++;
             nextCheckpoint = (nextCheckpoint + 1) % checkpointManager.TotalCheckpoints;
-
+            /*
             var oppAgent = opponent.GetComponent<Fase2BlueCarAgent>();
             if (oppAgent != null && completedCheckpoints > oppAgent.GetCompletedCheckpoints())
                 AddReward(opponentBehindReward);
@@ -138,7 +138,7 @@ public class Fase2RedCarAgent : Agent
                 completedLap = true;
                 raceManager.NotifyLapCompleted(this);
             }
-
+            */
             targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpoint);
             smoothLastDist = Vector3.Distance(transform.position, targetCheckpoint.position);
         }

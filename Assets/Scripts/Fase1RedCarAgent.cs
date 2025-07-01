@@ -12,10 +12,7 @@ public class Fase1RedCarAgent : Agent
 
     [Header("Rewards (hardcoded)")]
     private const float checkpointReward = 10.0f;
-    private const float lapReward = 50.0f;
     private const float timePenalty = -0.1f;
-    private const float opponentAheadPenalty = -5.0f;
-    private const float opponentBehindReward = 5.0f;
     private const float collisionPenalty = -20.0f;
     private const float opponentCollisionPenalty = -1.0f;
     private const float progressRewardMultiplier = 1.0f;
@@ -41,7 +38,6 @@ public class Fase1RedCarAgent : Agent
     private float lastDist;
     private float smoothLastDist;
     private float idleTimer = 0f;
-    private float elapsedTime = 0f;
 
     public override void Initialize()
     {
@@ -107,7 +103,6 @@ public class Fase1RedCarAgent : Agent
         float brake = Mathf.Clamp01(actions.ContinuousActions[2]);
         controller.Move(accel, steer, brake);
 
-        elapsedTime += Time.fixedDeltaTime;
         AddReward(timePenalty * Time.fixedDeltaTime);
         AddReward(-1f / maxStepsPerEpisode);
 

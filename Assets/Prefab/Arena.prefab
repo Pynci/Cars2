@@ -647,9 +647,9 @@ GameObject:
   - component: {fileID: 8315280492300470770}
   - component: {fileID: 6989367537786117102}
   - component: {fileID: 5992026146793420295}
+  - component: {fileID: 6751007167574540181}
+  - component: {fileID: 3969197656366132052}
   - component: {fileID: 1538707140878930064}
-  - component: {fileID: 7861353118910888424}
-  - component: {fileID: 7720080300726044485}
   - component: {fileID: 6800851311650590945}
   m_Layer: 12
   m_Name: RedCar (1)
@@ -724,6 +724,45 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3, y: 1.6, z: 6}
   m_Center: {x: 0, y: 0.8, z: 0}
+--- !u!114 &6751007167574540181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 497985238196854210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5126793172b434343988e2cc9b2ce147, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 0
+  checkpointManager: {fileID: 7673561198009232896}
+  opponent: {fileID: 1079829674986987351}
+  raceManager: {fileID: 5807657056279439026}
+  maxStepsPerEpisode: 300
+  maxLaps: 1
+  maxExpectedSpeed: 40
+  maxIdleTime: 20
+  smoothingAlpha: 0.2
+--- !u!114 &3969197656366132052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 497985238196854210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DecisionPeriod: 5
+  DecisionStep: 0
+  TakeActionsBetweenDecisions: 1
 --- !u!114 &1538707140878930064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -755,44 +794,6 @@ MonoBehaviour:
   m_UseChildActuators: 1
   m_DeterministicInference: 0
   m_ObservableAttributeHandling: 0
---- !u!114 &7861353118910888424
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 497985238196854210}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6beb057ee95d3b4f8a2e3d3b835b4da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentParameters:
-    maxStep: 0
-  hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
-  checkpointManager: {fileID: 7673561198009232896}
-  opponent: {fileID: 4086404286696847262}
-  maxStepsPerEpisode: 1000
-  maxLaps: 3
-  maxExpectedSpeed: 30
-  maxIdleTime: 15
-  smoothingAlpha: 0.2
---- !u!114 &7720080300726044485
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 497985238196854210}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DecisionPeriod: 5
-  DecisionStep: 0
-  TakeActionsBetweenDecisions: 1
 --- !u!114 &6800851311650590945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1710,9 +1711,9 @@ GameObject:
   - component: {fileID: 7127831345429495090}
   - component: {fileID: 1297974262432410260}
   - component: {fileID: 5482038893266565193}
+  - component: {fileID: 6161420244034129073}
+  - component: {fileID: 9037041443353636527}
   - component: {fileID: 443951851675129600}
-  - component: {fileID: 930935493805976578}
-  - component: {fileID: 8512857836337395658}
   - component: {fileID: 590033733398036021}
   m_Layer: 14
   m_Name: RedCar (3)
@@ -1787,6 +1788,45 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3, y: 1.6, z: 6}
   m_Center: {x: 0, y: 0.8, z: 0}
+--- !u!114 &6161420244034129073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131462475221350538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5126793172b434343988e2cc9b2ce147, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 0
+  checkpointManager: {fileID: 7673561198009232896}
+  opponent: {fileID: 4377344284557526311}
+  raceManager: {fileID: 5807657056279439026}
+  maxStepsPerEpisode: 300
+  maxLaps: 1
+  maxExpectedSpeed: 40
+  maxIdleTime: 20
+  smoothingAlpha: 0.2
+--- !u!114 &9037041443353636527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131462475221350538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DecisionPeriod: 5
+  DecisionStep: 0
+  TakeActionsBetweenDecisions: 1
 --- !u!114 &443951851675129600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1818,44 +1858,6 @@ MonoBehaviour:
   m_UseChildActuators: 1
   m_DeterministicInference: 0
   m_ObservableAttributeHandling: 0
---- !u!114 &930935493805976578
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1131462475221350538}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6beb057ee95d3b4f8a2e3d3b835b4da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentParameters:
-    maxStep: 0
-  hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
-  checkpointManager: {fileID: 7673561198009232896}
-  opponent: {fileID: 4086404286696847262}
-  maxStepsPerEpisode: 1000
-  maxLaps: 3
-  maxExpectedSpeed: 30
-  maxIdleTime: 15
-  smoothingAlpha: 0.2
---- !u!114 &8512857836337395658
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1131462475221350538}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DecisionPeriod: 5
-  DecisionStep: 0
-  TakeActionsBetweenDecisions: 1
 --- !u!114 &590033733398036021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3508,9 +3510,9 @@ GameObject:
   - component: {fileID: 1448406905061046538}
   - component: {fileID: 1165485638405182063}
   - component: {fileID: 73479848504466955}
+  - component: {fileID: 4150090017475153678}
+  - component: {fileID: 3082310343089597435}
   - component: {fileID: 1802456057064215518}
-  - component: {fileID: 4994609124363638382}
-  - component: {fileID: 4357574735003491792}
   - component: {fileID: 1502989756231542827}
   m_Layer: 13
   m_Name: RedCar (2)
@@ -3585,6 +3587,45 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3, y: 1.6, z: 6}
   m_Center: {x: 0, y: 0.8, z: 0}
+--- !u!114 &4150090017475153678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2641855569746370952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5126793172b434343988e2cc9b2ce147, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 0
+  checkpointManager: {fileID: 7673561198009232896}
+  opponent: {fileID: 3082255780372334693}
+  raceManager: {fileID: 5807657056279439026}
+  maxStepsPerEpisode: 300
+  maxLaps: 1
+  maxExpectedSpeed: 40
+  maxIdleTime: 20
+  smoothingAlpha: 0.2
+--- !u!114 &3082310343089597435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2641855569746370952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DecisionPeriod: 5
+  DecisionStep: 0
+  TakeActionsBetweenDecisions: 1
 --- !u!114 &1802456057064215518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3616,44 +3657,6 @@ MonoBehaviour:
   m_UseChildActuators: 1
   m_DeterministicInference: 0
   m_ObservableAttributeHandling: 0
---- !u!114 &4994609124363638382
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2641855569746370952}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6beb057ee95d3b4f8a2e3d3b835b4da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentParameters:
-    maxStep: 0
-  hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
-  checkpointManager: {fileID: 7673561198009232896}
-  opponent: {fileID: 4086404286696847262}
-  maxStepsPerEpisode: 1000
-  maxLaps: 3
-  maxExpectedSpeed: 30
-  maxIdleTime: 15
-  smoothingAlpha: 0.2
---- !u!114 &4357574735003491792
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2641855569746370952}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DecisionPeriod: 5
-  DecisionStep: 0
-  TakeActionsBetweenDecisions: 1
 --- !u!114 &1502989756231542827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4905,9 +4908,9 @@ GameObject:
   - component: {fileID: 4227540524390500207}
   - component: {fileID: 2922927331488935382}
   - component: {fileID: 1335423680785263554}
+  - component: {fileID: 3608985431004379085}
+  - component: {fileID: 5506521119047601299}
   - component: {fileID: 1113693781907697085}
-  - component: {fileID: 4788620954988952916}
-  - component: {fileID: 23005001397795295}
   - component: {fileID: 3352452970108200879}
   m_Layer: 16
   m_Name: RedCar (5)
@@ -4982,6 +4985,45 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3, y: 1.6, z: 6}
   m_Center: {x: 0, y: 0.8, z: 0}
+--- !u!114 &3608985431004379085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3623407693329700401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5126793172b434343988e2cc9b2ce147, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 0
+  checkpointManager: {fileID: 7673561198009232896}
+  opponent: {fileID: 8007356410430334631}
+  raceManager: {fileID: 5807657056279439026}
+  maxStepsPerEpisode: 300
+  maxLaps: 1
+  maxExpectedSpeed: 40
+  maxIdleTime: 20
+  smoothingAlpha: 0.2
+--- !u!114 &5506521119047601299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3623407693329700401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DecisionPeriod: 5
+  DecisionStep: 0
+  TakeActionsBetweenDecisions: 1
 --- !u!114 &1113693781907697085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5013,44 +5055,6 @@ MonoBehaviour:
   m_UseChildActuators: 1
   m_DeterministicInference: 0
   m_ObservableAttributeHandling: 0
---- !u!114 &4788620954988952916
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3623407693329700401}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6beb057ee95d3b4f8a2e3d3b835b4da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentParameters:
-    maxStep: 0
-  hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
-  checkpointManager: {fileID: 7673561198009232896}
-  opponent: {fileID: 4086404286696847262}
-  maxStepsPerEpisode: 1000
-  maxLaps: 3
-  maxExpectedSpeed: 30
-  maxIdleTime: 15
-  smoothingAlpha: 0.2
---- !u!114 &23005001397795295
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3623407693329700401}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DecisionPeriod: 5
-  DecisionStep: 0
-  TakeActionsBetweenDecisions: 1
 --- !u!114 &3352452970108200879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5086,9 +5090,9 @@ GameObject:
   - component: {fileID: 4086404286696847262}
   - component: {fileID: 624517509761637076}
   - component: {fileID: 6008114989002755893}
+  - component: {fileID: 4001505746619170346}
+  - component: {fileID: 1778816818621134148}
   - component: {fileID: 6095812439017062752}
-  - component: {fileID: 2186922153984715461}
-  - component: {fileID: 3049298598063919808}
   - component: {fileID: 1524874505744500714}
   m_Layer: 17
   m_Name: BlueCar
@@ -5163,6 +5167,45 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3, y: 1.5, z: 6}
   m_Center: {x: 0, y: 0.8, z: 0}
+--- !u!114 &4001505746619170346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3665631570239489297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22133de297886ed4b8a48854138abb6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 0
+  checkpointManager: {fileID: 7673561198009232896}
+  opponent: {fileID: 4914069844828356067}
+  raceManager: {fileID: 5807657056279439026}
+  maxStepsPerEpisode: 300
+  maxLaps: 1
+  maxExpectedSpeed: 40
+  maxIdleTime: 20
+  smoothingAlpha: 0.2
+--- !u!114 &1778816818621134148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3665631570239489297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DecisionPeriod: 5
+  DecisionStep: 0
+  TakeActionsBetweenDecisions: 1
 --- !u!114 &6095812439017062752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5194,44 +5237,6 @@ MonoBehaviour:
   m_UseChildActuators: 1
   m_DeterministicInference: 0
   m_ObservableAttributeHandling: 0
---- !u!114 &2186922153984715461
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3665631570239489297}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79c96e1aa781e5646a009aa0a1ceff22, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentParameters:
-    maxStep: 0
-  hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
-  checkpointManager: {fileID: 7673561198009232896}
-  opponent: {fileID: 4914069844828356067}
-  maxStepsPerEpisode: 1000
-  maxLaps: 3
-  maxExpectedSpeed: 30
-  maxIdleTime: 8
-  smoothingAlpha: 0.2
---- !u!114 &3049298598063919808
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3665631570239489297}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DecisionPeriod: 5
-  DecisionStep: 0
-  TakeActionsBetweenDecisions: 1
 --- !u!114 &1524874505744500714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5267,9 +5272,9 @@ GameObject:
   - component: {fileID: 5061130803467638578}
   - component: {fileID: 1059315100364251440}
   - component: {fileID: 398986196171222032}
+  - component: {fileID: 7783185047709920859}
+  - component: {fileID: 5701904408096895450}
   - component: {fileID: 5205174337012868333}
-  - component: {fileID: 8734782152179919949}
-  - component: {fileID: 71865126793448141}
   - component: {fileID: 158693672613373506}
   m_Layer: 21
   m_Name: BlueCar (4)
@@ -5344,6 +5349,45 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3, y: 1.5, z: 6}
   m_Center: {x: 0, y: 0.8, z: 0}
+--- !u!114 &7783185047709920859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3685491387366230319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22133de297886ed4b8a48854138abb6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 0
+  checkpointManager: {fileID: 7673561198009232896}
+  opponent: {fileID: 6329363423572055877}
+  raceManager: {fileID: 5807657056279439026}
+  maxStepsPerEpisode: 300
+  maxLaps: 1
+  maxExpectedSpeed: 40
+  maxIdleTime: 20
+  smoothingAlpha: 0.2
+--- !u!114 &5701904408096895450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3685491387366230319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DecisionPeriod: 5
+  DecisionStep: 0
+  TakeActionsBetweenDecisions: 1
 --- !u!114 &5205174337012868333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5375,44 +5419,6 @@ MonoBehaviour:
   m_UseChildActuators: 1
   m_DeterministicInference: 0
   m_ObservableAttributeHandling: 0
---- !u!114 &8734782152179919949
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3685491387366230319}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79c96e1aa781e5646a009aa0a1ceff22, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentParameters:
-    maxStep: 0
-  hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
-  checkpointManager: {fileID: 7673561198009232896}
-  opponent: {fileID: 4914069844828356067}
-  maxStepsPerEpisode: 1000
-  maxLaps: 3
-  maxExpectedSpeed: 30
-  maxIdleTime: 8
-  smoothingAlpha: 0.2
---- !u!114 &71865126793448141
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3685491387366230319}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DecisionPeriod: 5
-  DecisionStep: 0
-  TakeActionsBetweenDecisions: 1
 --- !u!114 &158693672613373506
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7735,9 +7741,9 @@ GameObject:
   - component: {fileID: 4377344284557526311}
   - component: {fileID: 3253731098076700815}
   - component: {fileID: 1181021840562659405}
+  - component: {fileID: 3172619622313764171}
+  - component: {fileID: 4641903167382379617}
   - component: {fileID: 6888410322165336917}
-  - component: {fileID: 74675234708107678}
-  - component: {fileID: 7903068452021141025}
   - component: {fileID: 5581964130679226812}
   m_Layer: 20
   m_Name: BlueCar (3)
@@ -7812,6 +7818,45 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3, y: 1.5, z: 6}
   m_Center: {x: 0, y: 0.8, z: 0}
+--- !u!114 &3172619622313764171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5238877350313112481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22133de297886ed4b8a48854138abb6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 0
+  checkpointManager: {fileID: 7673561198009232896}
+  opponent: {fileID: 7127831345429495090}
+  raceManager: {fileID: 5807657056279439026}
+  maxStepsPerEpisode: 300
+  maxLaps: 1
+  maxExpectedSpeed: 40
+  maxIdleTime: 20
+  smoothingAlpha: 0.2
+--- !u!114 &4641903167382379617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5238877350313112481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DecisionPeriod: 5
+  DecisionStep: 0
+  TakeActionsBetweenDecisions: 1
 --- !u!114 &6888410322165336917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7843,44 +7888,6 @@ MonoBehaviour:
   m_UseChildActuators: 1
   m_DeterministicInference: 0
   m_ObservableAttributeHandling: 0
---- !u!114 &74675234708107678
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5238877350313112481}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79c96e1aa781e5646a009aa0a1ceff22, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentParameters:
-    maxStep: 0
-  hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
-  checkpointManager: {fileID: 7673561198009232896}
-  opponent: {fileID: 4914069844828356067}
-  maxStepsPerEpisode: 1000
-  maxLaps: 3
-  maxExpectedSpeed: 30
-  maxIdleTime: 8
-  smoothingAlpha: 0.2
---- !u!114 &7903068452021141025
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5238877350313112481}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DecisionPeriod: 5
-  DecisionStep: 0
-  TakeActionsBetweenDecisions: 1
 --- !u!114 &5581964130679226812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8132,9 +8139,9 @@ GameObject:
   - component: {fileID: 3082255780372334693}
   - component: {fileID: 8603469677291274243}
   - component: {fileID: 463475628369823720}
+  - component: {fileID: 5807128918322546702}
+  - component: {fileID: 8191121117348236537}
   - component: {fileID: 389547096923418930}
-  - component: {fileID: 4449147304599895102}
-  - component: {fileID: 2185666811029733563}
   - component: {fileID: 2729629423030877745}
   m_Layer: 19
   m_Name: BlueCar (2)
@@ -8209,6 +8216,45 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3, y: 1.5, z: 6}
   m_Center: {x: 0, y: 0.8, z: 0}
+--- !u!114 &5807128918322546702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5435972536193170075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22133de297886ed4b8a48854138abb6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 0
+  checkpointManager: {fileID: 7673561198009232896}
+  opponent: {fileID: 1448406905061046538}
+  raceManager: {fileID: 5807657056279439026}
+  maxStepsPerEpisode: 300
+  maxLaps: 1
+  maxExpectedSpeed: 40
+  maxIdleTime: 20
+  smoothingAlpha: 0.2
+--- !u!114 &8191121117348236537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5435972536193170075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DecisionPeriod: 5
+  DecisionStep: 0
+  TakeActionsBetweenDecisions: 1
 --- !u!114 &389547096923418930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8240,44 +8286,6 @@ MonoBehaviour:
   m_UseChildActuators: 1
   m_DeterministicInference: 0
   m_ObservableAttributeHandling: 0
---- !u!114 &4449147304599895102
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5435972536193170075}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79c96e1aa781e5646a009aa0a1ceff22, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentParameters:
-    maxStep: 0
-  hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
-  checkpointManager: {fileID: 7673561198009232896}
-  opponent: {fileID: 4914069844828356067}
-  maxStepsPerEpisode: 1000
-  maxLaps: 3
-  maxExpectedSpeed: 30
-  maxIdleTime: 8
-  smoothingAlpha: 0.2
---- !u!114 &2185666811029733563
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5435972536193170075}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DecisionPeriod: 5
-  DecisionStep: 0
-  TakeActionsBetweenDecisions: 1
 --- !u!114 &2729629423030877745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9306,9 +9314,9 @@ GameObject:
   - component: {fileID: 1079829674986987351}
   - component: {fileID: 8151493685314156752}
   - component: {fileID: 1258670964774419212}
+  - component: {fileID: 888986217953849230}
+  - component: {fileID: 3971100713670160058}
   - component: {fileID: 7928937022635696351}
-  - component: {fileID: 6083006829220650401}
-  - component: {fileID: 4802991861660255541}
   - component: {fileID: 1175430789127023214}
   m_Layer: 18
   m_Name: BlueCar (1)
@@ -9383,6 +9391,45 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3, y: 1.5, z: 6}
   m_Center: {x: 0, y: 0.8, z: 0}
+--- !u!114 &888986217953849230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6281572493917213766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22133de297886ed4b8a48854138abb6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 0
+  checkpointManager: {fileID: 7673561198009232896}
+  opponent: {fileID: 8315280492300470770}
+  raceManager: {fileID: 5807657056279439026}
+  maxStepsPerEpisode: 300
+  maxLaps: 1
+  maxExpectedSpeed: 40
+  maxIdleTime: 20
+  smoothingAlpha: 0.2
+--- !u!114 &3971100713670160058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6281572493917213766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DecisionPeriod: 5
+  DecisionStep: 0
+  TakeActionsBetweenDecisions: 1
 --- !u!114 &7928937022635696351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9414,44 +9461,6 @@ MonoBehaviour:
   m_UseChildActuators: 1
   m_DeterministicInference: 0
   m_ObservableAttributeHandling: 0
---- !u!114 &6083006829220650401
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6281572493917213766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79c96e1aa781e5646a009aa0a1ceff22, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentParameters:
-    maxStep: 0
-  hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
-  checkpointManager: {fileID: 7673561198009232896}
-  opponent: {fileID: 4914069844828356067}
-  maxStepsPerEpisode: 1000
-  maxLaps: 3
-  maxExpectedSpeed: 30
-  maxIdleTime: 8
-  smoothingAlpha: 0.2
---- !u!114 &4802991861660255541
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6281572493917213766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DecisionPeriod: 5
-  DecisionStep: 0
-  TakeActionsBetweenDecisions: 1
 --- !u!114 &1175430789127023214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10169,9 +10178,9 @@ GameObject:
   - component: {fileID: 6329363423572055877}
   - component: {fileID: 6998611763118085255}
   - component: {fileID: 1866474703883011676}
+  - component: {fileID: 116245017229062798}
+  - component: {fileID: 829802493989647727}
   - component: {fileID: 5399862079146376710}
-  - component: {fileID: 2792077781868843166}
-  - component: {fileID: 6807644304256333482}
   - component: {fileID: 9049202521002037235}
   m_Layer: 15
   m_Name: RedCar (4)
@@ -10246,6 +10255,45 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3, y: 1.6, z: 6}
   m_Center: {x: 0, y: 0.8, z: 0}
+--- !u!114 &116245017229062798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6894250765954101824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5126793172b434343988e2cc9b2ce147, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 0
+  checkpointManager: {fileID: 7673561198009232896}
+  opponent: {fileID: 5061130803467638578}
+  raceManager: {fileID: 5807657056279439026}
+  maxStepsPerEpisode: 300
+  maxLaps: 1
+  maxExpectedSpeed: 40
+  maxIdleTime: 20
+  smoothingAlpha: 0.2
+--- !u!114 &829802493989647727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6894250765954101824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DecisionPeriod: 5
+  DecisionStep: 0
+  TakeActionsBetweenDecisions: 1
 --- !u!114 &5399862079146376710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10277,44 +10325,6 @@ MonoBehaviour:
   m_UseChildActuators: 1
   m_DeterministicInference: 0
   m_ObservableAttributeHandling: 0
---- !u!114 &2792077781868843166
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6894250765954101824}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6beb057ee95d3b4f8a2e3d3b835b4da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentParameters:
-    maxStep: 0
-  hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
-  checkpointManager: {fileID: 7673561198009232896}
-  opponent: {fileID: 4086404286696847262}
-  maxStepsPerEpisode: 1000
-  maxLaps: 3
-  maxExpectedSpeed: 30
-  maxIdleTime: 15
-  smoothingAlpha: 0.2
---- !u!114 &6807644304256333482
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6894250765954101824}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DecisionPeriod: 5
-  DecisionStep: 0
-  TakeActionsBetweenDecisions: 1
 --- !u!114 &9049202521002037235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10458,9 +10468,9 @@ GameObject:
   - component: {fileID: 4914069844828356067}
   - component: {fileID: 7767314974933743142}
   - component: {fileID: 5032963476431424544}
+  - component: {fileID: 4408640552827340433}
+  - component: {fileID: 6784994129461060723}
   - component: {fileID: 7998859442345950532}
-  - component: {fileID: 546005330060203110}
-  - component: {fileID: 7828007624165676259}
   - component: {fileID: 5426954570720463710}
   m_Layer: 11
   m_Name: RedCar
@@ -10535,6 +10545,45 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3, y: 1.6, z: 6}
   m_Center: {x: 0, y: 0.8, z: 0}
+--- !u!114 &4408640552827340433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6993111836642847794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5126793172b434343988e2cc9b2ce147, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 0
+  checkpointManager: {fileID: 7673561198009232896}
+  opponent: {fileID: 4086404286696847262}
+  raceManager: {fileID: 5807657056279439026}
+  maxStepsPerEpisode: 300
+  maxLaps: 1
+  maxExpectedSpeed: 40
+  maxIdleTime: 20
+  smoothingAlpha: 0.2
+--- !u!114 &6784994129461060723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6993111836642847794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DecisionPeriod: 5
+  DecisionStep: 0
+  TakeActionsBetweenDecisions: 1
 --- !u!114 &7998859442345950532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10566,44 +10615,6 @@ MonoBehaviour:
   m_UseChildActuators: 1
   m_DeterministicInference: 0
   m_ObservableAttributeHandling: 0
---- !u!114 &546005330060203110
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6993111836642847794}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6beb057ee95d3b4f8a2e3d3b835b4da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentParameters:
-    maxStep: 0
-  hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
-  checkpointManager: {fileID: 7673561198009232896}
-  opponent: {fileID: 4086404286696847262}
-  maxStepsPerEpisode: 1000
-  maxLaps: 3
-  maxExpectedSpeed: 30
-  maxIdleTime: 15
-  smoothingAlpha: 0.2
---- !u!114 &7828007624165676259
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6993111836642847794}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DecisionPeriod: 5
-  DecisionStep: 0
-  TakeActionsBetweenDecisions: 1
 --- !u!114 &5426954570720463710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12761,9 +12772,9 @@ GameObject:
   - component: {fileID: 8007356410430334631}
   - component: {fileID: 5618013006517088259}
   - component: {fileID: 5599774958391292456}
+  - component: {fileID: 830660973481558191}
+  - component: {fileID: 3587104947542430988}
   - component: {fileID: 1549696392428614579}
-  - component: {fileID: 8830615231817651087}
-  - component: {fileID: 5780791044077677452}
   - component: {fileID: 17837572028239310}
   m_Layer: 22
   m_Name: BlueCar (5)
@@ -12838,6 +12849,45 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3, y: 1.5, z: 6}
   m_Center: {x: 0, y: 0.8, z: 0}
+--- !u!114 &830660973481558191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8851500755205900090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22133de297886ed4b8a48854138abb6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 0
+  checkpointManager: {fileID: 7673561198009232896}
+  opponent: {fileID: 4227540524390500207}
+  raceManager: {fileID: 5807657056279439026}
+  maxStepsPerEpisode: 300
+  maxLaps: 1
+  maxExpectedSpeed: 40
+  maxIdleTime: 20
+  smoothingAlpha: 0.2
+--- !u!114 &3587104947542430988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8851500755205900090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DecisionPeriod: 5
+  DecisionStep: 0
+  TakeActionsBetweenDecisions: 1
 --- !u!114 &1549696392428614579
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12869,44 +12919,6 @@ MonoBehaviour:
   m_UseChildActuators: 1
   m_DeterministicInference: 0
   m_ObservableAttributeHandling: 0
---- !u!114 &8830615231817651087
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8851500755205900090}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79c96e1aa781e5646a009aa0a1ceff22, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentParameters:
-    maxStep: 0
-  hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
-  checkpointManager: {fileID: 7673561198009232896}
-  opponent: {fileID: 4914069844828356067}
-  maxStepsPerEpisode: 1000
-  maxLaps: 3
-  maxExpectedSpeed: 30
-  maxIdleTime: 8
-  smoothingAlpha: 0.2
---- !u!114 &5780791044077677452
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8851500755205900090}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DecisionPeriod: 5
-  DecisionStep: 0
-  TakeActionsBetweenDecisions: 1
 --- !u!114 &17837572028239310
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -3,8 +3,8 @@ using Unity.MLAgents;
 
 public class RaceManager : MonoBehaviour
 {
-    public RedCarAgent redAgent;
-    public BlueCarAgent blueAgent;
+    public Fase2RedCarAgent redAgent;
+    public Fase2BlueCarAgent blueAgent;
 
     private bool raceOver = false;
 

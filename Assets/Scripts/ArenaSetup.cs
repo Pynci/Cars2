@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class ArenaPairSetup : MonoBehaviour
 {
-    public RedCarAgent red;
-    public BlueCarAgent blue;
+    public Fase2RedCarAgent red;
+    public Fase2BlueCarAgent blue;
     public RaceManager manager;
 
     void Awake()

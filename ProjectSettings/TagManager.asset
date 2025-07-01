@@ -26,18 +26,18 @@ TagManager:
   - Barrier
   - Sensor
   - CheckPoint
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - RedAgent0
+  - RedAgent1
+  - RedAgent2
+  - RedAgent3
+  - RedAgent4
+  - RedAgent5
+  - BluAgent0
+  - BluAgent1
+  - BluAgent2
+  - BluAgent3
+  - BluAgent4
+  - BluAgent5
   - 
   - 
   - 

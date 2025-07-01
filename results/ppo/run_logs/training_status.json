@@ -1,0 +1,51 @@
+{
+    "BlueCar": {
+        "checkpoints": [
+            {
+                "steps": 460193,
+                "file_path": "results\\ppo\\BlueCar\\BlueCar-460193.onnx",
+                "reward": null,
+                "creation_time": 1751375318.7068768,
+                "auxillary_file_paths": [
+                    "results\\ppo\\BlueCar\\BlueCar-460193.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 460193,
+            "file_path": "results\\ppo\\BlueCar.onnx",
+            "reward": null,
+            "creation_time": 1751375318.7068768,
+            "auxillary_file_paths": [
+                "results\\ppo\\BlueCar\\BlueCar-460193.pt"
+            ]
+        }
+    },
+    "RedCar": {
+        "checkpoints": [
+            {
+                "steps": 460136,
+                "file_path": "results\\ppo\\RedCar\\RedCar-460136.onnx",
+                "reward": null,
+                "creation_time": 1751375318.8897202,
+                "auxillary_file_paths": [
+                    "results\\ppo\\RedCar\\RedCar-460136.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 460136,
+            "file_path": "results\\ppo\\RedCar.onnx",
+            "reward": null,
+            "creation_time": 1751375318.8897202,
+            "auxillary_file_paths": [
+                "results\\ppo\\RedCar\\RedCar-460136.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

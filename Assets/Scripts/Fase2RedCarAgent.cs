@@ -93,7 +93,7 @@ public class Fase2RedCarAgent : Agent
         float steer = Mathf.Clamp(actions.ContinuousActions[1], -1f, 1f);
         float brake = Mathf.Clamp01(actions.ContinuousActions[2]);
         controller.Move(accel, steer, brake);
-        Debug.Log(" dentro on action inferenza" );
+
         AddReward(timePenalty * Time.fixedDeltaTime);
         AddReward(-1f / maxStepsPerEpisode);
 

@@ -119,7 +119,7 @@ public class Fase1BlueCarAgent : Agent
         float newDistance = Vector3.Distance(transform.position, targetCheckpoint.position);
         float progressDelta = lastDist - newDistance;
         if (progressDelta > 0)
-            AddReward(progressDelta * 0.2f);  // Aumentato rispetto al tuo (0.1f → 0.2f)
+            AddReward(progressDelta * 0.2f); 
         lastDist = newDistance;
 
         // Ricompensa per raggiungimento checkpoint

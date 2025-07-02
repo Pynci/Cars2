@@ -19,12 +19,11 @@ public class Fase1RedCarAgent : Agent
     private const float speedRewardMultiplier = 0.1f;
 
     [Header("Normalization")]
-    public int maxStepsPerEpisode = 300;
-    public int maxLaps = 1;
-    public float maxExpectedSpeed = 40f;
+    private int maxStepsPerEpisode = 300;
+    private float maxExpectedSpeed = 40f;
 
     [Header("Idle Timeout")]
-    public float maxIdleTime = 20f;
+    private float maxIdleTime = 5f;
 
     [Header("Progress Smoothing")]
     [Range(0f, 1f)] public float smoothingAlpha = 0.2f;

@@ -119,39 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &85372589 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5238877350313112481, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-  m_PrefabInstance: {fileID: 2001084007}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &85372590 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4377344284557526311, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-  m_PrefabInstance: {fileID: 2001084007}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &85372603
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 85372589}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79c96e1aa781e5646a009aa0a1ceff22, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentParameters:
-    maxStep: 0
-  hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
-  checkpointManager: {fileID: 1865197777}
-  opponent: {fileID: 981469140}
-  maxStepsPerEpisode: 300
-  maxLaps: 1
-  maxExpectedSpeed: 40
-  maxIdleTime: 20
-  smoothingAlpha: 0.2
 --- !u!1 &92133494
 GameObject:
   m_ObjectHideFlags: 0
@@ -368,87 +335,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 161485911}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &166569751 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3623407693329700401, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-  m_PrefabInstance: {fileID: 2001084007}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &166569752 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4227540524390500207, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-  m_PrefabInstance: {fileID: 2001084007}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &166569765
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 166569751}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6beb057ee95d3b4f8a2e3d3b835b4da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentParameters:
-    maxStep: 0
-  hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
-  checkpointManager: {fileID: 1865197777}
-  opponent: {fileID: 1712756023}
-  maxStepsPerEpisode: 300
-  maxLaps: 1
-  maxExpectedSpeed: 40
-  maxIdleTime: 20
-  smoothingAlpha: 0.2
---- !u!1 &171370601 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5435972536193170075, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-  m_PrefabInstance: {fileID: 2001084007}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &171370602 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3082255780372334693, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-  m_PrefabInstance: {fileID: 2001084007}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &171370603
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 171370601}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DecisionPeriod: 5
-  DecisionStep: 0
-  TakeActionsBetweenDecisions: 1
---- !u!114 &171370614
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 171370601}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79c96e1aa781e5646a009aa0a1ceff22, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentParameters:
-    maxStep: 0
-  hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
-  checkpointManager: {fileID: 1865197777}
-  opponent: {fileID: 1798789436}
-  maxStepsPerEpisode: 300
-  maxLaps: 1
-  maxExpectedSpeed: 40
-  maxIdleTime: 20
-  smoothingAlpha: 0.2
 --- !u!1 &191464321
 GameObject:
   m_ObjectHideFlags: 0
@@ -773,39 +659,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 235153409}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &252201436 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3685491387366230319, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-  m_PrefabInstance: {fileID: 2001084007}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &252201437 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5061130803467638578, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-  m_PrefabInstance: {fileID: 2001084007}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &252201450
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 252201436}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79c96e1aa781e5646a009aa0a1ceff22, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentParameters:
-    maxStep: 0
-  hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
-  checkpointManager: {fileID: 1865197777}
-  opponent: {fileID: 332750325}
-  maxStepsPerEpisode: 300
-  maxLaps: 1
-  maxExpectedSpeed: 40
-  maxIdleTime: 20
-  smoothingAlpha: 0.2
 --- !u!1 &285771916
 GameObject:
   m_ObjectHideFlags: 0
@@ -1130,39 +983,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 310143407}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &332750324 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6894250765954101824, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-  m_PrefabInstance: {fileID: 2001084007}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &332750325 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6329363423572055877, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-  m_PrefabInstance: {fileID: 2001084007}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &332750338
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 332750324}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6beb057ee95d3b4f8a2e3d3b835b4da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentParameters:
-    maxStep: 0
-  hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
-  checkpointManager: {fileID: 1865197777}
-  opponent: {fileID: 252201437}
-  maxStepsPerEpisode: 300
-  maxLaps: 1
-  maxExpectedSpeed: 40
-  maxIdleTime: 20
-  smoothingAlpha: 0.2
 --- !u!1 &343967180
 GameObject:
   m_ObjectHideFlags: 0
@@ -2740,39 +2560,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 657015835}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &682431348 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 497985238196854210, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-  m_PrefabInstance: {fileID: 2001084007}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &682431349 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8315280492300470770, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-  m_PrefabInstance: {fileID: 2001084007}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &682431362
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 682431348}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6beb057ee95d3b4f8a2e3d3b835b4da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentParameters:
-    maxStep: 0
-  hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
-  checkpointManager: {fileID: 1865197777}
-  opponent: {fileID: 1863862870}
-  maxStepsPerEpisode: 300
-  maxLaps: 1
-  maxExpectedSpeed: 40
-  maxIdleTime: 20
-  smoothingAlpha: 0.2
 --- !u!1 &694274706
 GameObject:
   m_ObjectHideFlags: 0
@@ -3443,39 +3230,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 969473673}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &981469139 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1131462475221350538, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-  m_PrefabInstance: {fileID: 2001084007}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &981469140 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7127831345429495090, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-  m_PrefabInstance: {fileID: 2001084007}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &981469153
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 981469139}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6beb057ee95d3b4f8a2e3d3b835b4da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentParameters:
-    maxStep: 0
-  hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
-  checkpointManager: {fileID: 1865197777}
-  opponent: {fileID: 85372590}
-  maxStepsPerEpisode: 300
-  maxLaps: 1
-  maxExpectedSpeed: 40
-  maxIdleTime: 20
-  smoothingAlpha: 0.2
 --- !u!1 &999474734
 GameObject:
   m_ObjectHideFlags: 0
@@ -4864,54 +4618,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 3, y: 0, z: 0}
---- !u!1 &1410446294 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3665631570239489297, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-  m_PrefabInstance: {fileID: 2001084007}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1410446295 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4086404286696847262, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-  m_PrefabInstance: {fileID: 2001084007}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1410446296
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1410446294}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DecisionPeriod: 5
-  DecisionStep: 0
-  TakeActionsBetweenDecisions: 1
---- !u!114 &1410446307
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1410446294}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79c96e1aa781e5646a009aa0a1ceff22, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentParameters:
-    maxStep: 0
-  hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
-  checkpointManager: {fileID: 1865197777}
-  opponent: {fileID: 1820547524}
-  maxStepsPerEpisode: 300
-  maxLaps: 1
-  maxExpectedSpeed: 40
-  maxIdleTime: 20
-  smoothingAlpha: 0.2
 --- !u!1 &1449363455
 GameObject:
   m_ObjectHideFlags: 0
@@ -5981,39 +5687,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1652714945}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1712756022 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8851500755205900090, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-  m_PrefabInstance: {fileID: 2001084007}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1712756023 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8007356410430334631, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-  m_PrefabInstance: {fileID: 2001084007}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1712756036
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1712756022}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79c96e1aa781e5646a009aa0a1ceff22, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentParameters:
-    maxStep: 0
-  hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
-  checkpointManager: {fileID: 1865197777}
-  opponent: {fileID: 166569752}
-  maxStepsPerEpisode: 300
-  maxLaps: 1
-  maxExpectedSpeed: 40
-  maxIdleTime: 20
-  smoothingAlpha: 0.2
 --- !u!1 &1718902320
 GameObject:
   m_ObjectHideFlags: 0
@@ -6446,131 +6119,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1748184198}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1798789435 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2641855569746370952, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-  m_PrefabInstance: {fileID: 2001084007}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1798789436 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1448406905061046538, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-  m_PrefabInstance: {fileID: 2001084007}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1798789449
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1798789435}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6beb057ee95d3b4f8a2e3d3b835b4da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentParameters:
-    maxStep: 0
-  hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
-  checkpointManager: {fileID: 1865197777}
-  opponent: {fileID: 171370602}
-  maxStepsPerEpisode: 300
-  maxLaps: 1
-  maxExpectedSpeed: 40
-  maxIdleTime: 20
-  smoothingAlpha: 0.2
---- !u!1 &1820547523 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6993111836642847794, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-  m_PrefabInstance: {fileID: 2001084007}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1820547524 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4914069844828356067, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-  m_PrefabInstance: {fileID: 2001084007}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1820547537
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1820547523}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6beb057ee95d3b4f8a2e3d3b835b4da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentParameters:
-    maxStep: 0
-  hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
-  checkpointManager: {fileID: 1865197777}
-  opponent: {fileID: 1410446295}
-  maxStepsPerEpisode: 300
-  maxLaps: 1
-  maxExpectedSpeed: 40
-  maxIdleTime: 20
-  smoothingAlpha: 0.2
---- !u!1 &1863862869 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6281572493917213766, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-  m_PrefabInstance: {fileID: 2001084007}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1863862870 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1079829674986987351, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-  m_PrefabInstance: {fileID: 2001084007}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1863862871
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1863862869}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DecisionPeriod: 5
-  DecisionStep: 0
-  TakeActionsBetweenDecisions: 1
---- !u!114 &1863862882
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1863862869}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79c96e1aa781e5646a009aa0a1ceff22, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentParameters:
-    maxStep: 0
-  hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
-  checkpointManager: {fileID: 1865197777}
-  opponent: {fileID: 682431349}
-  maxStepsPerEpisode: 300
-  maxLaps: 1
-  maxExpectedSpeed: 40
-  maxIdleTime: 20
-  smoothingAlpha: 0.2
---- !u!114 &1865197777 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7673561198009232896, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-  m_PrefabInstance: {fileID: 2001084007}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b234b51095ade044ad156e4b4dd3dce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1884105322
 GameObject:
   m_ObjectHideFlags: 0
@@ -6925,7 +6473,7 @@ PrefabInstance:
       objectReference: {fileID: 5022602860645237092, guid: 40562d89b61637241967d70fbc3a3a9d, type: 3}
     - target: {fileID: 6095812439017062752, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
       propertyPath: m_BehaviorType
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6253982167826634718, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
       propertyPath: m_Name
@@ -6961,7 +6509,7 @@ PrefabInstance:
       objectReference: {fileID: 5022602860645237092, guid: 8ec3f83a702c42e4287680f1a54d910e, type: 3}
     - target: {fileID: 7998859442345950532, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
       propertyPath: m_BehaviorType
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8488760383377310741, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
       propertyPath: m_RayLayerMask.m_Bits
@@ -6980,22 +6528,7 @@ PrefabInstance:
       value: 17403
       objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 1778816818621134148, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-    - {fileID: 4001505746619170346, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-    - {fileID: 3971100713670160058, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-    - {fileID: 888986217953849230, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-    - {fileID: 8191121117348236537, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-    - {fileID: 5807128918322546702, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-    - {fileID: 3172619622313764171, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-    - {fileID: 7783185047709920859, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-    - {fileID: 830660973481558191, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-    - {fileID: 4408640552827340433, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-    - {fileID: 6751007167574540181, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-    - {fileID: 4150090017475153678, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-    - {fileID: 6161420244034129073, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-    - {fileID: 116245017229062798, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-    - {fileID: 3608985431004379085, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-    - {fileID: 362973406349763154, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
+    - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 3849474696816438863, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
@@ -7160,52 +6693,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3849474696816438863, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
       insertIndex: 126
       addedObject: {fileID: 1605704265}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6993111836642847794, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-      insertIndex: 3
-      addedObject: {fileID: 1820547537}
-    - targetCorrespondingSourceObject: {fileID: 497985238196854210, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-      insertIndex: 3
-      addedObject: {fileID: 682431362}
-    - targetCorrespondingSourceObject: {fileID: 2641855569746370952, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-      insertIndex: 3
-      addedObject: {fileID: 1798789449}
-    - targetCorrespondingSourceObject: {fileID: 1131462475221350538, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-      insertIndex: 3
-      addedObject: {fileID: 981469153}
-    - targetCorrespondingSourceObject: {fileID: 6894250765954101824, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-      insertIndex: 3
-      addedObject: {fileID: 332750338}
-    - targetCorrespondingSourceObject: {fileID: 3623407693329700401, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-      insertIndex: 3
-      addedObject: {fileID: 166569765}
-    - targetCorrespondingSourceObject: {fileID: 3665631570239489297, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-      insertIndex: 3
-      addedObject: {fileID: 1410446307}
-    - targetCorrespondingSourceObject: {fileID: 3665631570239489297, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-      insertIndex: 4
-      addedObject: {fileID: 1410446296}
-    - targetCorrespondingSourceObject: {fileID: 6281572493917213766, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-      insertIndex: 3
-      addedObject: {fileID: 1863862882}
-    - targetCorrespondingSourceObject: {fileID: 6281572493917213766, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-      insertIndex: 4
-      addedObject: {fileID: 1863862871}
-    - targetCorrespondingSourceObject: {fileID: 5435972536193170075, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-      insertIndex: 3
-      addedObject: {fileID: 171370614}
-    - targetCorrespondingSourceObject: {fileID: 5435972536193170075, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-      insertIndex: 4
-      addedObject: {fileID: 171370603}
-    - targetCorrespondingSourceObject: {fileID: 5238877350313112481, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-      insertIndex: 3
-      addedObject: {fileID: 85372603}
-    - targetCorrespondingSourceObject: {fileID: 3685491387366230319, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-      insertIndex: 3
-      addedObject: {fileID: 252201450}
-    - targetCorrespondingSourceObject: {fileID: 8851500755205900090, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-      insertIndex: 3
-      addedObject: {fileID: 1712756036}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
 --- !u!4 &2001084008 stripped
 Transform:

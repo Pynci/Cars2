@@ -23,12 +23,11 @@ public class Fase2RedCarAgent : Agent
     private const float speedRewardMultiplier = 0.1f;
 
     [Header("Normalization")]
-    public int maxStepsPerEpisode = 300;
-    public int maxLaps = 1;
-    public float maxExpectedSpeed = 40f;
+    private int maxStepsPerEpisode = 300;
+    private float maxExpectedSpeed = 40f;
 
     [Header("Idle Timeout")]
-    public float maxIdleTime = 20f;
+    private float maxIdleTime = 5f;
 
     [Header("Progress Smoothing")]
     [Range(0f, 1f)] public float smoothingAlpha = 0.2f;
@@ -44,6 +43,7 @@ public class Fase2RedCarAgent : Agent
     private float smoothLastDist;
     private float idleTimer = 0f;
     private bool completedLap = false;
+    private bool isFinishLine = false;
 
     public override void Initialize()
     {
@@ -64,8 +64,9 @@ public class Fase2RedCarAgent : Agent
         completedCheckpoints = 0;
         idleTimer = 0f;
         completedLap = false;
+        isFinishLine = false;
 
-        targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpoint);
+    targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpoint);
         smoothLastDist = Vector3.Distance(transform.position, targetCheckpoint.position);
         Debug.Log(" checkpoint 78787 "+targetCheckpoint);
     }
@@ -134,13 +135,17 @@ public class Fase2RedCarAgent : Agent
             else if (oppAgent != null && completedCheckpoints < oppAgent.GetCompletedCheckpoints())
                 AddReward(opponentAheadPenalty);
 
-            if (nextCheckpoint == 0)
+            if (nextCheckpoint == 1 && isFinishLine)
             {
                 AddReward(lapReward);
                 completedLap = true;
                 raceManager.NotifyLapCompleted(this);
             }
-            
+            else
+            {
+                isFinishLine = true;
+            }
+
             targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpoint);
             smoothLastDist = Vector3.Distance(transform.position, targetCheckpoint.position);
         }

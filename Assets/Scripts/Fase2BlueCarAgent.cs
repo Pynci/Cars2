@@ -26,12 +26,11 @@ public class Fase2BlueCarAgent : Agent
 
 
     [Header("Normalization")]
-    public int maxStepsPerEpisode = 300;
-    public int maxLaps = 1;
-    public float maxExpectedSpeed = 40f;
+    private int maxStepsPerEpisode = 300;
+    private float maxExpectedSpeed = 40f;
 
     [Header("Idle Timeout")]
-    public float maxIdleTime = 20f;
+    private float maxIdleTime = 5f;
 
     [Header("Progress Smoothing")]
     [Range(0f, 1f)] public float smoothingAlpha = 0.2f;
@@ -46,6 +45,7 @@ public class Fase2BlueCarAgent : Agent
     private int completedCheckpoints;
     private float lastDist;
     private bool completedLap = false;
+    private bool isFinishLine = false;
 
     public override void Initialize()
     {
@@ -65,6 +65,7 @@ public class Fase2BlueCarAgent : Agent
         nextCheckpoint = 0;
         completedCheckpoints = 0;
         completedLap = false;
+        isFinishLine = false;
 
         targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpoint);
         lastDist = Vector3.Distance(transform.position, targetCheckpoint.position);
@@ -122,11 +123,15 @@ public class Fase2BlueCarAgent : Agent
             else if (oppAgent != null && completedCheckpoints < oppAgent.GetCompletedCheckpoints())
                 AddReward(opponentAheadPenalty);
 
-            if (nextCheckpoint == 0)
+            if (nextCheckpoint == 1 && isFinishLine)
             {
                 AddReward(lapReward);
                 completedLap = true;
                 raceManager.NotifyLapCompleted(this);
+            }
+            else 
+            {
+                isFinishLine = true;
             }
             
         }

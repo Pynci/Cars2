@@ -16,13 +16,13 @@ public class Fase2BlueCarAgent : Agent
     private const float lapReward = 50.0f;
     private const float opponentAheadPenalty = -5.0f;
     private const float opponentBehindReward = 5.0f;
-    private const float continuousReward = 0.01f;
-    private const float checkpointReward = 5f;
-    private const float progressRewardMultiplier = 0.1f;
+    private const float continuousReward = 0.005f;
+    private const float checkpointReward = 10f;
+    private const float progressRewardMultiplier = 0.2f;
     private const float collisionPenalty = -10.0f;
     private const float opponentCollisionPenalty = -10.0f;
-    private const float speedRewardMultiplier = 0.02f;
-    private const float slownessPenaltyMultiplier = -0.01f;
+    private const float speedRewardMultiplier = 0.05f;
+    private const float slownessPenaltyMultiplier = -0.02f;
 
 
     [Header("Normalization")]

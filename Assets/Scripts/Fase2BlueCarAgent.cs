@@ -115,7 +115,7 @@ public class Fase2BlueCarAgent : Agent
         {
             AddReward(checkpointReward);
             nextCheckpoint = (nextCheckpoint + 1) % checkpointManager.TotalCheckpoints;
-            /*
+           
             var oppAgent = opponent.GetComponent<Fase2RedCarAgent>();
             if (oppAgent != null && completedCheckpoints > oppAgent.GetCompletedCheckpoints())
                 AddReward(opponentBehindReward);
@@ -128,7 +128,7 @@ public class Fase2BlueCarAgent : Agent
                 completedLap = true;
                 raceManager.NotifyLapCompleted(this);
             }
-            */
+            
         }
 
         // Ricompensa per velocità (incoraggia movimento)

@@ -67,8 +67,9 @@ public class Fase2RedCarAgent : Agent
 
         targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpoint);
         smoothLastDist = Vector3.Distance(transform.position, targetCheckpoint.position);
+        Debug.Log(" checkpoint 78787 "+targetCheckpoint);
     }
-
+     
     public override void CollectObservations(VectorSensor sensor)
     {
         Vector3 dir = (targetCheckpoint.position - transform.position).normalized;
@@ -92,7 +93,7 @@ public class Fase2RedCarAgent : Agent
         float steer = Mathf.Clamp(actions.ContinuousActions[1], -1f, 1f);
         float brake = Mathf.Clamp01(actions.ContinuousActions[2]);
         controller.Move(accel, steer, brake);
-
+        Debug.Log(" dentro on action inferenza" );
         AddReward(timePenalty * Time.fixedDeltaTime);
         AddReward(-1f / maxStepsPerEpisode);
 
@@ -124,8 +125,9 @@ public class Fase2RedCarAgent : Agent
         {
             AddReward(checkpointReward / checkpointManager.TotalCheckpoints);
             completedCheckpoints++;
+            Debug.Log("attraversato checkpoint");
             nextCheckpoint = (nextCheckpoint + 1) % checkpointManager.TotalCheckpoints;
-            /*
+            
             var oppAgent = opponent.GetComponent<Fase2BlueCarAgent>();
             if (oppAgent != null && completedCheckpoints > oppAgent.GetCompletedCheckpoints())
                 AddReward(opponentBehindReward);
@@ -138,7 +140,7 @@ public class Fase2RedCarAgent : Agent
                 completedLap = true;
                 raceManager.NotifyLapCompleted(this);
             }
-            */
+            
             targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpoint);
             smoothLastDist = Vector3.Distance(transform.position, targetCheckpoint.position);
         }

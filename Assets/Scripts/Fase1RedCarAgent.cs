@@ -69,10 +69,12 @@ public class Fase1RedCarAgent : Agent
         targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpoint);
         lastDist = Vector3.Distance(transform.position, targetCheckpoint.position);
         smoothLastDist = lastDist;
+        completedCheckpoints = 0;
+        idleTimer = 0f;
 
         Vector3 dir = (targetCheckpoint.position - transform.position).normalized;
         float baseAng = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0f, baseAng + Random.Range(-20f, 20f), 0f);
+        transform.rotation = Quaternion.Euler(0f, baseAng + Random.Range(-10f, 10f), 0f);
     }
 
     public override void CollectObservations(VectorSensor sensor)

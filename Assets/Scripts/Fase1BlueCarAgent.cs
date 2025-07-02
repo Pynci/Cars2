@@ -112,28 +112,30 @@ public class Fase1BlueCarAgent : Agent
         // Sistema di ricompense
 
         // Ricompensa base per rimanere attivo
-        AddReward(0.01f);
+        AddReward(0.005f);
 
         // Ricompensa per avvicinamento al checkpoint
         targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpoint);
         float newDistance = Vector3.Distance(transform.position, targetCheckpoint.position);
-        float delta = lastDist - newDistance;
-        AddReward(delta * 0.1f);
+        float progressDelta = lastDist - newDistance;
+        if (progressDelta > 0)
+            AddReward(progressDelta * 0.2f);  // Aumentato rispetto al tuo (0.1f → 0.2f)
         lastDist = newDistance;
 
         // Ricompensa per raggiungimento checkpoint
         if (newDistance < 5f)
         {
-            AddReward(5f);
+            AddReward(10f);
             nextCheckpoint = (nextCheckpoint + 1) % checkpointManager.TotalCheckpoints;
         }
 
-        // Ricompensa per velocità (incoraggia movimento)
-        float speed = transform.InverseTransformDirection(rb.linearVelocity).z;
-        if (speed > 0.1f)
-            AddReward(speed * 0.02f);
+        // Ricompensa per velocità solo se si muove verso checkpoint
+        Vector3 dirToCheckpoint = (targetCheckpoint.position - transform.position).normalized;
+        float forwardSpeed = Vector3.Dot(rb.linearVelocity.normalized, dirToCheckpoint);
+        if (forwardSpeed > 0.5f)
+            AddReward(forwardSpeed*0.05f);  // Solo se va "realmente avanti"
         else
-            AddReward(-0.01f); // Piccola penalità per lentezza
+            AddReward(-0.02f);  // Penalità soft se si muove male o va indietro
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)

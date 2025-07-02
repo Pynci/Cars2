@@ -129,7 +129,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4377344284557526311, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
   m_PrefabInstance: {fileID: 2001084007}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &85372597
+--- !u!114 &85372603
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -138,7 +138,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 85372589}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22133de297886ed4b8a48854138abb6a, type: 3}
+  m_Script: {fileID: 11500000, guid: 79c96e1aa781e5646a009aa0a1ceff22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agentParameters:
@@ -147,7 +147,6 @@ MonoBehaviour:
   MaxStep: 0
   checkpointManager: {fileID: 1865197777}
   opponent: {fileID: 981469140}
-  raceManager: {fileID: 567294424}
   maxStepsPerEpisode: 300
   maxLaps: 1
   maxExpectedSpeed: 40
@@ -379,7 +378,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4227540524390500207, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
   m_PrefabInstance: {fileID: 2001084007}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &166569759
+--- !u!114 &166569765
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -388,7 +387,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 166569751}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5126793172b434343988e2cc9b2ce147, type: 3}
+  m_Script: {fileID: 11500000, guid: f6beb057ee95d3b4f8a2e3d3b835b4da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agentParameters:
@@ -397,7 +396,6 @@ MonoBehaviour:
   MaxStep: 0
   checkpointManager: {fileID: 1865197777}
   opponent: {fileID: 1712756023}
-  raceManager: {fileID: 567294424}
   maxStepsPerEpisode: 300
   maxLaps: 1
   maxExpectedSpeed: 40
@@ -428,7 +426,7 @@ MonoBehaviour:
   DecisionPeriod: 5
   DecisionStep: 0
   TakeActionsBetweenDecisions: 1
---- !u!114 &171370609
+--- !u!114 &171370614
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -437,7 +435,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 171370601}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22133de297886ed4b8a48854138abb6a, type: 3}
+  m_Script: {fileID: 11500000, guid: 79c96e1aa781e5646a009aa0a1ceff22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agentParameters:
@@ -446,7 +444,6 @@ MonoBehaviour:
   MaxStep: 0
   checkpointManager: {fileID: 1865197777}
   opponent: {fileID: 1798789436}
-  raceManager: {fileID: 567294424}
   maxStepsPerEpisode: 300
   maxLaps: 1
   maxExpectedSpeed: 40
@@ -786,7 +783,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5061130803467638578, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
   m_PrefabInstance: {fileID: 2001084007}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &252201444
+--- !u!114 &252201450
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -795,7 +792,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 252201436}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22133de297886ed4b8a48854138abb6a, type: 3}
+  m_Script: {fileID: 11500000, guid: 79c96e1aa781e5646a009aa0a1ceff22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agentParameters:
@@ -804,7 +801,6 @@ MonoBehaviour:
   MaxStep: 0
   checkpointManager: {fileID: 1865197777}
   opponent: {fileID: 332750325}
-  raceManager: {fileID: 567294424}
   maxStepsPerEpisode: 300
   maxLaps: 1
   maxExpectedSpeed: 40
@@ -1144,7 +1140,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6329363423572055877, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
   m_PrefabInstance: {fileID: 2001084007}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &332750332
+--- !u!114 &332750338
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1153,7 +1149,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 332750324}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5126793172b434343988e2cc9b2ce147, type: 3}
+  m_Script: {fileID: 11500000, guid: f6beb057ee95d3b4f8a2e3d3b835b4da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agentParameters:
@@ -1162,7 +1158,6 @@ MonoBehaviour:
   MaxStep: 0
   checkpointManager: {fileID: 1865197777}
   opponent: {fileID: 252201437}
-  raceManager: {fileID: 567294424}
   maxStepsPerEpisode: 300
   maxLaps: 1
   maxExpectedSpeed: 40
@@ -2205,17 +2200,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -2346428509227581198, guid: 43ede033f6dc4114f855a8697434f693, type: 3}
---- !u!114 &567294424 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5807657056279439026, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
-  m_PrefabInstance: {fileID: 2001084007}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5bbbba15f8f56740bbc3892d1b23286, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &569546066
 GameObject:
   m_ObjectHideFlags: 0
@@ -2766,7 +2750,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8315280492300470770, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
   m_PrefabInstance: {fileID: 2001084007}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &682431356
+--- !u!114 &682431362
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2775,7 +2759,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 682431348}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5126793172b434343988e2cc9b2ce147, type: 3}
+  m_Script: {fileID: 11500000, guid: f6beb057ee95d3b4f8a2e3d3b835b4da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agentParameters:
@@ -2784,7 +2768,6 @@ MonoBehaviour:
   MaxStep: 0
   checkpointManager: {fileID: 1865197777}
   opponent: {fileID: 1863862870}
-  raceManager: {fileID: 567294424}
   maxStepsPerEpisode: 300
   maxLaps: 1
   maxExpectedSpeed: 40
@@ -3470,7 +3453,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7127831345429495090, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
   m_PrefabInstance: {fileID: 2001084007}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &981469147
+--- !u!114 &981469153
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3479,7 +3462,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 981469139}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5126793172b434343988e2cc9b2ce147, type: 3}
+  m_Script: {fileID: 11500000, guid: f6beb057ee95d3b4f8a2e3d3b835b4da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agentParameters:
@@ -3488,7 +3471,6 @@ MonoBehaviour:
   MaxStep: 0
   checkpointManager: {fileID: 1865197777}
   opponent: {fileID: 85372590}
-  raceManager: {fileID: 567294424}
   maxStepsPerEpisode: 300
   maxLaps: 1
   maxExpectedSpeed: 40
@@ -4907,7 +4889,7 @@ MonoBehaviour:
   DecisionPeriod: 5
   DecisionStep: 0
   TakeActionsBetweenDecisions: 1
---- !u!114 &1410446302
+--- !u!114 &1410446307
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4916,16 +4898,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1410446294}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22133de297886ed4b8a48854138abb6a, type: 3}
+  m_Script: {fileID: 11500000, guid: 79c96e1aa781e5646a009aa0a1ceff22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
-  checkpointManager: {fileID: 1571874872}
+  checkpointManager: {fileID: 1865197777}
   opponent: {fileID: 1820547524}
-  raceManager: {fileID: 567294424}
   maxStepsPerEpisode: 300
   maxLaps: 1
   maxExpectedSpeed: 40
@@ -6010,7 +5991,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8007356410430334631, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
   m_PrefabInstance: {fileID: 2001084007}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1712756030
+--- !u!114 &1712756036
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6019,7 +6000,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1712756022}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22133de297886ed4b8a48854138abb6a, type: 3}
+  m_Script: {fileID: 11500000, guid: 79c96e1aa781e5646a009aa0a1ceff22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agentParameters:
@@ -6028,7 +6009,6 @@ MonoBehaviour:
   MaxStep: 0
   checkpointManager: {fileID: 1865197777}
   opponent: {fileID: 166569752}
-  raceManager: {fileID: 567294424}
   maxStepsPerEpisode: 300
   maxLaps: 1
   maxExpectedSpeed: 40
@@ -6476,7 +6456,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1448406905061046538, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
   m_PrefabInstance: {fileID: 2001084007}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1798789443
+--- !u!114 &1798789449
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6485,7 +6465,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1798789435}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5126793172b434343988e2cc9b2ce147, type: 3}
+  m_Script: {fileID: 11500000, guid: f6beb057ee95d3b4f8a2e3d3b835b4da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agentParameters:
@@ -6494,7 +6474,6 @@ MonoBehaviour:
   MaxStep: 0
   checkpointManager: {fileID: 1865197777}
   opponent: {fileID: 171370602}
-  raceManager: {fileID: 567294424}
   maxStepsPerEpisode: 300
   maxLaps: 1
   maxExpectedSpeed: 40
@@ -6510,7 +6489,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4914069844828356067, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
   m_PrefabInstance: {fileID: 2001084007}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1820547531
+--- !u!114 &1820547537
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6519,16 +6498,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1820547523}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5126793172b434343988e2cc9b2ce147, type: 3}
+  m_Script: {fileID: 11500000, guid: f6beb057ee95d3b4f8a2e3d3b835b4da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
-  checkpointManager: {fileID: 1571874872}
+  checkpointManager: {fileID: 1865197777}
   opponent: {fileID: 1410446295}
-  raceManager: {fileID: 567294424}
   maxStepsPerEpisode: 300
   maxLaps: 1
   maxExpectedSpeed: 40
@@ -6559,7 +6537,7 @@ MonoBehaviour:
   DecisionPeriod: 5
   DecisionStep: 0
   TakeActionsBetweenDecisions: 1
---- !u!114 &1863862877
+--- !u!114 &1863862882
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6568,7 +6546,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1863862869}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22133de297886ed4b8a48854138abb6a, type: 3}
+  m_Script: {fileID: 11500000, guid: 79c96e1aa781e5646a009aa0a1ceff22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agentParameters:
@@ -6577,7 +6555,6 @@ MonoBehaviour:
   MaxStep: 0
   checkpointManager: {fileID: 1865197777}
   opponent: {fileID: 682431349}
-  raceManager: {fileID: 567294424}
   maxStepsPerEpisode: 300
   maxLaps: 1
   maxExpectedSpeed: 40
@@ -6880,11 +6857,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4086404286696847262, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -190
+      value: -207.77
       objectReference: {fileID: 0}
     - target: {fileID: 4086404286696847262, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -475.2
+      value: -30.04
       objectReference: {fileID: 0}
     - target: {fileID: 4086404286696847262, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
       propertyPath: m_LocalRotation.w
@@ -6912,11 +6889,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4914069844828356067, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -197.4
+      value: -213.17
       objectReference: {fileID: 0}
     - target: {fileID: 4914069844828356067, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -475.2
+      value: -30.04
       objectReference: {fileID: 0}
     - target: {fileID: 4914069844828356067, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
       propertyPath: m_LocalRotation.w
@@ -7018,6 +6995,7 @@ PrefabInstance:
     - {fileID: 6161420244034129073, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
     - {fileID: 116245017229062798, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
     - {fileID: 3608985431004379085, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
+    - {fileID: 362973406349763154, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 3849474696816438863, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
@@ -7185,49 +7163,49 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6993111836642847794, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
       insertIndex: 3
-      addedObject: {fileID: 1820547531}
+      addedObject: {fileID: 1820547537}
     - targetCorrespondingSourceObject: {fileID: 497985238196854210, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
       insertIndex: 3
-      addedObject: {fileID: 682431356}
+      addedObject: {fileID: 682431362}
     - targetCorrespondingSourceObject: {fileID: 2641855569746370952, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
       insertIndex: 3
-      addedObject: {fileID: 1798789443}
+      addedObject: {fileID: 1798789449}
     - targetCorrespondingSourceObject: {fileID: 1131462475221350538, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
       insertIndex: 3
-      addedObject: {fileID: 981469147}
+      addedObject: {fileID: 981469153}
     - targetCorrespondingSourceObject: {fileID: 6894250765954101824, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
       insertIndex: 3
-      addedObject: {fileID: 332750332}
+      addedObject: {fileID: 332750338}
     - targetCorrespondingSourceObject: {fileID: 3623407693329700401, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
       insertIndex: 3
-      addedObject: {fileID: 166569759}
+      addedObject: {fileID: 166569765}
     - targetCorrespondingSourceObject: {fileID: 3665631570239489297, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
       insertIndex: 3
-      addedObject: {fileID: 1410446302}
+      addedObject: {fileID: 1410446307}
     - targetCorrespondingSourceObject: {fileID: 3665631570239489297, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
       insertIndex: 4
       addedObject: {fileID: 1410446296}
     - targetCorrespondingSourceObject: {fileID: 6281572493917213766, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
       insertIndex: 3
-      addedObject: {fileID: 1863862877}
+      addedObject: {fileID: 1863862882}
     - targetCorrespondingSourceObject: {fileID: 6281572493917213766, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
       insertIndex: 4
       addedObject: {fileID: 1863862871}
     - targetCorrespondingSourceObject: {fileID: 5435972536193170075, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
       insertIndex: 3
-      addedObject: {fileID: 171370609}
+      addedObject: {fileID: 171370614}
     - targetCorrespondingSourceObject: {fileID: 5435972536193170075, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
       insertIndex: 4
       addedObject: {fileID: 171370603}
     - targetCorrespondingSourceObject: {fileID: 5238877350313112481, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
       insertIndex: 3
-      addedObject: {fileID: 85372597}
+      addedObject: {fileID: 85372603}
     - targetCorrespondingSourceObject: {fileID: 3685491387366230319, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
       insertIndex: 3
-      addedObject: {fileID: 252201444}
+      addedObject: {fileID: 252201450}
     - targetCorrespondingSourceObject: {fileID: 8851500755205900090, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
       insertIndex: 3
-      addedObject: {fileID: 1712756030}
+      addedObject: {fileID: 1712756036}
   m_SourcePrefab: {fileID: 100100000, guid: f6f9c7bd16801b349ba7baa2a55cdc07, type: 3}
 --- !u!4 &2001084008 stripped
 Transform:

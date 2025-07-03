@@ -4,7 +4,7 @@ using Unity.MLAgents.Sensors;
 using UnityEngine;
 
 [RequireComponent(typeof(CarController))]
-public class Fase2BlueCarAgent : Agent
+public class Fase2YellowCarAgent : Agent, IAgent
 {
     [Header("Setup")]
     public CheckpointManager checkpointManager;
@@ -174,3 +174,4 @@ public class Fase2BlueCarAgent : Agent
 
     public bool HasCompletedLap() => completedLap;
 }
+

@@ -4,19 +4,15 @@ using Unity.MLAgents.Sensors;
 using UnityEngine;
 
 [RequireComponent(typeof(CarController))]
-public class Fase2BlueCarAgent : Agent
+public class Fase1GreenCarAgent : Agent, IAgent
 {
     [Header("Setup")]
     public CheckpointManager checkpointManager;
     public Transform opponent;
-    public RaceManager raceManager;
 
     [Header("Rewards (hardcoded)")]
     private const float checkpointReward = 10.0f;
-    private const float lapReward = 50.0f;
     private const float timePenalty = -0.1f;
-    private const float opponentAheadPenalty = -5.0f;
-    private const float opponentBehindReward = 5.0f;
     private const float collisionPenalty = -20.0f;
     private const float opponentCollisionPenalty = -1.0f;
     private const float progressRewardMultiplier = 1.0f;
@@ -35,54 +31,69 @@ public class Fase2BlueCarAgent : Agent
 
     private CarController controller;
     private Rigidbody rb;
-    private Vector3 initialPosition;
-    private Quaternion initialRotation;
 
     private int nextCheckpoint = 0;
     private Transform targetCheckpoint;
     private int completedCheckpoints;
+    private float lastDist;
     private float smoothLastDist;
     private float idleTimer = 0f;
-    private bool completedLap = false;
 
     public override void Initialize()
     {
         controller = GetComponent<CarController>();
         rb = GetComponent<Rigidbody>();
-        initialPosition = transform.position;
-        initialRotation = transform.rotation;
     }
 
     public override void OnEpisodeBegin()
     {
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
-        transform.position = initialPosition;
-        transform.rotation = initialRotation;
 
-        nextCheckpoint = 0;
+        //Spawn casuale:
+        int startIndex;
+        Vector3 spawnPos;
+
+        do
+        {
+            startIndex = Random.Range(0, checkpointManager.TotalCheckpoints);
+            Transform startCp = checkpointManager.GetNextCheckpoint(startIndex);
+            spawnPos = startCp.position + new Vector3(Random.Range(-2f, 2f), 0f, Random.Range(-2f, 2f));
+            spawnPos.y = 0;
+            Debug.Log(Physics.CheckSphere(spawnPos, 10f));
+        } while (!Physics.CheckSphere(spawnPos, 10f));
+
+        transform.position = spawnPos;
+
+        nextCheckpoint = (startIndex + 1) % checkpointManager.TotalCheckpoints;
+        targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpoint);
+        lastDist = Vector3.Distance(transform.position, targetCheckpoint.position);
+        smoothLastDist = lastDist;
         completedCheckpoints = 0;
         idleTimer = 0f;
-        completedLap = false;
 
-        targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpoint);
-        smoothLastDist = Vector3.Distance(transform.position, targetCheckpoint.position);
-        Debug.Log(" checkpoint 78787 " + targetCheckpoint);
+        Vector3 dir = (targetCheckpoint.position - transform.position).normalized;
+        float baseAng = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0f, baseAng + Random.Range(-10f, 10f), 0f);
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
+        // Direzione verso il checkpoint
         Vector3 dir = (targetCheckpoint.position - transform.position).normalized;
         sensor.AddObservation(transform.InverseTransformDirection(dir));
 
+        // Velocità localizzata
         Vector3 localVel = transform.InverseTransformDirection(rb.linearVelocity);
         sensor.AddObservation(localVel.z / maxExpectedSpeed);
         sensor.AddObservation(localVel.x / (maxExpectedSpeed * 0.5f));
 
+        // Progresso sui checkpoint
         float progress = completedCheckpoints / (float)checkpointManager.TotalCheckpoints;
         sensor.AddObservation(progress);
 
-        var oppAgent = opponent.GetComponent<Fase2BlueCarAgent>();
+        // Informazione relativa all'avversario
+        var oppAgent = opponent.GetComponent<Fase1BlueCarAgent>();
         bool isAhead = completedCheckpoints > (oppAgent != null ? oppAgent.GetCompletedCheckpoints() : 0);
         sensor.AddObservation(isAhead ? 1f : 0f);
     }
@@ -100,6 +111,7 @@ public class Fase2BlueCarAgent : Agent
         float currentDist = Vector3.Distance(transform.position, targetCheckpoint.position);
         smoothLastDist = smoothingAlpha * currentDist + (1f - smoothingAlpha) * smoothLastDist;
         AddReward((smoothLastDist - currentDist) * progressRewardMultiplier);
+        lastDist = currentDist;
 
         Vector3 toCP = (targetCheckpoint.position - transform.position).normalized;
         if (Vector3.Dot(transform.forward, toCP) > 0.5f)
@@ -125,24 +137,11 @@ public class Fase2BlueCarAgent : Agent
         {
             AddReward(checkpointReward / checkpointManager.TotalCheckpoints);
             completedCheckpoints++;
-            Debug.Log("attraversato checkpoint");
             nextCheckpoint = (nextCheckpoint + 1) % checkpointManager.TotalCheckpoints;
 
-            var oppAgent = opponent.GetComponent<Fase2BlueCarAgent>();
-            if (oppAgent != null && completedCheckpoints > oppAgent.GetCompletedCheckpoints())
-                AddReward(opponentBehindReward);
-            else if (oppAgent != null && completedCheckpoints < oppAgent.GetCompletedCheckpoints())
-                AddReward(opponentAheadPenalty);
-
-            if (nextCheckpoint == 0)
-            {
-                AddReward(lapReward);
-                completedLap = true;
-                raceManager.NotifyLapCompleted(this);
-            }
-
             targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpoint);
-            smoothLastDist = Vector3.Distance(transform.position, targetCheckpoint.position);
+            lastDist = Vector3.Distance(transform.position, targetCheckpoint.position);
+            smoothLastDist = lastDist;
         }
     }
 
@@ -169,8 +168,4 @@ public class Fase2BlueCarAgent : Agent
     }
 
     public int GetCompletedCheckpoints() => completedCheckpoints;
-
-    public float GetProgress() => completedCheckpoints / (float)checkpointManager.TotalCheckpoints;
-
-    public bool HasCompletedLap() => completedLap;
 }

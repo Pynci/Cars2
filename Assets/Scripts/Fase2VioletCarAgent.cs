@@ -4,7 +4,7 @@ using Unity.MLAgents.Sensors;
 using UnityEngine;
 
 [RequireComponent(typeof(CarController))]
-public class Fase2BlueCarAgent : Agent
+public class Fase2VioletCarAgent : Agent, IAgent
 {
     [Header("Setup")]
     public CheckpointManager checkpointManager;

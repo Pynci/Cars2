@@ -4,11 +4,11 @@ using Unity.MLAgents.Sensors;
 using UnityEngine;
 
 [RequireComponent(typeof(CarController))]
-public class Fase2RedCarAgent : Agent
+public class Fase2RedCarAgent : Agent, IAgent
 {
     [Header("Setup")]
     public CheckpointManager checkpointManager;
-    public Transform opponent;
+    public Transform opponent;   
     public RaceManager raceManager;
 
     [Header("Rewards (hardcoded)")]

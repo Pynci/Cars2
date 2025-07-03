@@ -1,12 +1,10 @@
-﻿
-using System.Drawing;
-using Unity.MLAgents;
+﻿using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 using UnityEngine;
 
 [RequireComponent(typeof(CarController))]
-public class Fase1BlueCarAgent : Agent
+public class Fase1BlueCarAgent : Agent, IAgent
 {
     [Header("Setup")]
     public CheckpointManager checkpointManager;
@@ -14,10 +12,7 @@ public class Fase1BlueCarAgent : Agent
 
     [Header("Rewards (hardcoded)")]
     private const float checkpointReward = 10.0f;
-    private const float lapReward = 50.0f;
     private const float timePenalty = -0.1f;
-    private const float opponentAheadPenalty = -5.0f;
-    private const float opponentBehindReward = 5.0f;
     private const float collisionPenalty = -20.0f;
     private const float opponentCollisionPenalty = -1.0f;
     private const float progressRewardMultiplier = 1.0f;
@@ -41,6 +36,8 @@ public class Fase1BlueCarAgent : Agent
     private Transform targetCheckpoint;
     private int completedCheckpoints;
     private float lastDist;
+    private float smoothLastDist;
+    private float idleTimer = 0f;
 
     public override void Initialize()
     {
@@ -71,10 +68,13 @@ public class Fase1BlueCarAgent : Agent
         nextCheckpoint = (startIndex + 1) % checkpointManager.TotalCheckpoints;
         targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpoint);
         lastDist = Vector3.Distance(transform.position, targetCheckpoint.position);
+        smoothLastDist = lastDist;
+        completedCheckpoints = 0;
+        idleTimer = 0f;
 
         Vector3 dir = (targetCheckpoint.position - transform.position).normalized;
         float baseAng = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0f, baseAng + Random.Range(-20f, 20f), 0f);
+        transform.rotation = Quaternion.Euler(0f, baseAng + Random.Range(-10f, 10f), 0f);
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -93,7 +93,7 @@ public class Fase1BlueCarAgent : Agent
         sensor.AddObservation(progress);
 
         // Informazione relativa all'avversario
-        var oppAgent = opponent.GetComponent<Fase1RedCarAgent>();
+        var oppAgent = opponent.GetComponent<Fase1BlueCarAgent>();
         bool isAhead = completedCheckpoints > (oppAgent != null ? oppAgent.GetCompletedCheckpoints() : 0);
         sensor.AddObservation(isAhead ? 1f : 0f);
     }
@@ -103,46 +103,53 @@ public class Fase1BlueCarAgent : Agent
         float accel = Mathf.Clamp(actions.ContinuousActions[0], -1f, 1f);
         float steer = Mathf.Clamp(actions.ContinuousActions[1], -1f, 1f);
         float brake = Mathf.Clamp01(actions.ContinuousActions[2]);
-
-        // Controllo validità
-        if (!float.IsFinite(accel) || !float.IsFinite(steer) || !float.IsFinite(brake)) return;
-
         controller.Move(accel, steer, brake);
-
-        // Sistema di ricompense
 
         AddReward(timePenalty * Time.fixedDeltaTime);
         AddReward(-1f / maxStepsPerEpisode);
 
-        // Ricompensa per avvicinamento al checkpoint
-        targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpoint);
-        float newDistance = Vector3.Distance(transform.position, targetCheckpoint.position);
-        float progressDelta = lastDist - newDistance;
-        if (progressDelta > 0)
-            AddReward(progressDelta * 0.2f); 
-        lastDist = newDistance;
+        float currentDist = Vector3.Distance(transform.position, targetCheckpoint.position);
+        smoothLastDist = smoothingAlpha * currentDist + (1f - smoothingAlpha) * smoothLastDist;
+        AddReward((smoothLastDist - currentDist) * progressRewardMultiplier);
+        lastDist = currentDist;
 
-        // Ricompensa per raggiungimento checkpoint
-        if (newDistance < 5f)
+        Vector3 toCP = (targetCheckpoint.position - transform.position).normalized;
+        if (Vector3.Dot(transform.forward, toCP) > 0.5f)
         {
-            AddReward(10f);
-            nextCheckpoint = (nextCheckpoint + 1) % checkpointManager.TotalCheckpoints;
+            AddReward((rb.linearVelocity.magnitude / maxExpectedSpeed) * speedRewardMultiplier * Time.fixedDeltaTime);
         }
 
-        // Ricompensa per velocità solo se si muove verso checkpoint
-        Vector3 dirToCheckpoint = (targetCheckpoint.position - transform.position).normalized;
-        float forwardSpeed = Vector3.Dot(rb.linearVelocity.normalized, dirToCheckpoint);
-        if (forwardSpeed > 0.5f)
-            AddReward(forwardSpeed*0.1f);  // Solo se va "realmente avanti"
+        if (rb.linearVelocity.magnitude < 1f)
+        {
+            idleTimer += Time.fixedDeltaTime;
+            if (idleTimer > maxIdleTime)
+            {
+                AddReward(collisionPenalty);
+                EndEpisode();
+            }
+        }
         else
-            AddReward(-0.02f);  // Penalità soft se si muove male o va indietro
+        {
+            idleTimer = 0f;
+        }
+
+        if (currentDist < 5f)
+        {
+            AddReward(checkpointReward / checkpointManager.TotalCheckpoints);
+            completedCheckpoints++;
+            nextCheckpoint = (nextCheckpoint + 1) % checkpointManager.TotalCheckpoints;
+
+            targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpoint);
+            lastDist = Vector3.Distance(transform.position, targetCheckpoint.position);
+            smoothLastDist = lastDist;
+        }
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
     {
         var continuousActions = actionsOut.ContinuousActions;
-        continuousActions[0] = Input.GetKey(KeyCode.UpArrow) ? 1f : Input.GetKey(KeyCode.DownArrow) ? -1f : 0f;
-        continuousActions[1] = Input.GetKey(KeyCode.LeftArrow) ? -1f : Input.GetKey(KeyCode.RightArrow) ? 1f : 0f;
+        continuousActions[0] = Input.GetKey(KeyCode.W) ? 1f : Input.GetKey(KeyCode.S) ? -1f : 0f;
+        continuousActions[1] = Input.GetKey(KeyCode.A) ? -1f : Input.GetKey(KeyCode.D) ? 1f : 0f;
         continuousActions[2] = Input.GetKey(KeyCode.Space) ? 1f : 0f;
     }
 
@@ -150,16 +157,15 @@ public class Fase1BlueCarAgent : Agent
     {
         if (col.gameObject.CompareTag("bulkheads"))
         {
-            AddReward(-10f);
+            AddReward(collisionPenalty);
             EndEpisode(); // solo questa macchina
         }
         else if (col.transform == opponent)
         {
-            AddReward(-10f);
-            EndEpisode();
+            AddReward(opponentCollisionPenalty);
+            Debug.Log("Red collided with Blue");
         }
     }
 
     public int GetCompletedCheckpoints() => completedCheckpoints;
-
 }

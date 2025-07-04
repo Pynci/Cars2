@@ -10,10 +10,8 @@ public class SpawnManager : MonoBehaviour
 
     [Tooltip("Scegli '0' per Random, '1' per Grid")]
     public int spawnMode = 1;
-
     [Tooltip("Numero di agenti da instanziare")]
     public int agentCount = 2;
-
     [Tooltip("Lista di materiali predefiniti per differenziare le auto")]
     public Material[] availableMaterials;
 
@@ -21,54 +19,41 @@ public class SpawnManager : MonoBehaviour
 
     public void SetupEpisode()
     {
-        // Pulisci episodio precedente
+        // Distrugge gli agenti precedenti
         foreach (var agent in spawnedAgents)
             Destroy(agent);
         spawnedAgents.Clear();
 
-        if (spawnMode == 0)
-        {
-            // Random: scegli agentCount posizioni uniche in modo casuale
-            var sampled = randomPositions
-                .OrderBy(_ => Random.value)
-                .Take(agentCount)
-                .ToArray();
-            foreach (var t in sampled)
-            {
-                InstantiateAgentAt(t);
-            }
-        }
-        else
-        {
-            // Grid: prendi i primi agentCount punti in ordine
-            for (int i = 0; i < agentCount; i++)
-            {
-                var t = gridPositions[i % gridPositions.Length];
-                InstantiateAgentAt(t);
-            }
-        }
+        // Seleziona posizioni
+        var positions = (spawnMode == 0)
+            ? randomPositions.OrderBy(_ => Random.value).Take(agentCount)
+            : gridPositions.Take(agentCount);
+
+        // Instanzia agenti
+        foreach (var spawnPoint in positions)
+            InstantiateAgentAt(spawnPoint);
     }
 
     private void InstantiateAgentAt(Transform spawnPoint)
     {
-        var agent = Instantiate(carPrefab, spawnPoint.position, spawnPoint.rotation);
+        var agentObj = Instantiate(carPrefab, spawnPoint.position, spawnPoint.rotation);
+        spawnedAgents.Add(agentObj);
 
-        // Assegna colormap diversa al GameObject "body"
-        Transform bodyTransform = agent.transform.Find("raceCar/body");
-        if (bodyTransform != null)
+        // Applica materiale
+        if (spawnedAgents.Count <= availableMaterials.Length)
         {
-            Renderer rend = bodyTransform.GetComponent<Renderer>();
-            if (rend != null && spawnedAgents.Count < availableMaterials.Length)
-            {
-                rend.material = new Material(availableMaterials[spawnedAgents.Count]);
-            }
-            else
-            {
-                Debug.LogWarning("Colormap non assegnata: indice fuori dai limiti o renderer mancante.");
-            }
+            var body = agentObj.transform.Find("raceCar/body");
+            if (body != null && body.TryGetComponent<Renderer>(out var rend))
+                rend.material = new Material(availableMaterials[spawnedAgents.Count - 1]);
         }
-
-        spawnedAgents.Add(agent);
     }
 
+    // Espone la lista di CarAgent istanziati
+    public List<CarAgent> GetSpawnedAgents()
+    {
+        return spawnedAgents
+            .Select(go => go.GetComponent<CarAgent>())
+            .Where(agent => agent != null)
+            .ToList();
+    }
 }

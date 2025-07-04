@@ -11,7 +11,6 @@ public class RaceManager : MonoBehaviour
 
     public void SetupRace()
     {
-        // Instanzia e ottiene agenti senza FindObjects di scena
         spawnManager.SetupEpisode();
         agents = spawnManager.GetSpawnedAgents().ToArray();
         foreach (var agent in agents)

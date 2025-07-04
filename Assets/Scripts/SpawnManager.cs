@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -22,15 +23,32 @@ public class SpawnManager : MonoBehaviour
             Destroy(agent);
         spawnedAgents.Clear();
 
-        // Scegli array di posizioni
-        Transform[] positions = (spawnMode == 0) ? randomPositions : gridPositions;
-
-        for (int i = 0; i < agentCount; i++)
+        if (spawnMode == 0)
         {
-            Vector3 pos = positions[i % positions.Length].position;
-            Quaternion rot = positions[i % positions.Length].rotation;
-            var agent = Instantiate(carPrefab, pos, rot);
-            spawnedAgents.Add(agent);
+            // Random: scegli agentCount posizioni uniche in modo casuale
+            var sampled = randomPositions
+                .OrderBy(_ => Random.value)
+                .Take(agentCount)
+                .ToArray();
+            foreach (var t in sampled)
+            {
+                InstantiateAgentAt(t);
+            }
         }
+        else
+        {
+            // Grid: prendi i primi agentCount punti in ordine
+            for (int i = 0; i < agentCount; i++)
+            {
+                var t = gridPositions[i % gridPositions.Length];
+                InstantiateAgentAt(t);
+            }
+        }
+    }
+
+    private void InstantiateAgentAt(Transform spawnPoint)
+    {
+        var agent = Instantiate(carPrefab, spawnPoint.position, spawnPoint.rotation);
+        spawnedAgents.Add(agent);
     }
 }

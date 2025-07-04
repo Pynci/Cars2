@@ -14,6 +14,9 @@ public class SpawnManager : MonoBehaviour
     [Tooltip("Numero di agenti da instanziare")]
     public int agentCount = 2;
 
+    [Tooltip("Lista di materiali predefiniti per differenziare le auto")]
+    public Material[] availableMaterials;
+
     private List<GameObject> spawnedAgents = new List<GameObject>();
 
     public void SetupEpisode()
@@ -49,6 +52,23 @@ public class SpawnManager : MonoBehaviour
     private void InstantiateAgentAt(Transform spawnPoint)
     {
         var agent = Instantiate(carPrefab, spawnPoint.position, spawnPoint.rotation);
+
+        // Assegna colormap diversa al GameObject "body"
+        Transform bodyTransform = agent.transform.Find("raceRed/body");
+        if (bodyTransform != null)
+        {
+            Renderer rend = bodyTransform.GetComponent<Renderer>();
+            if (rend != null && spawnedAgents.Count < availableMaterials.Length)
+            {
+                rend.material = new Material(availableMaterials[spawnedAgents.Count]);
+            }
+            else
+            {
+                Debug.LogWarning("Colormap non assegnata: indice fuori dai limiti o renderer mancante.");
+            }
+        }
+
         spawnedAgents.Add(agent);
     }
+
 }

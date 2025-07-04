@@ -54,7 +54,7 @@ public class SpawnManager : MonoBehaviour
         var agent = Instantiate(carPrefab, spawnPoint.position, spawnPoint.rotation);
 
         // Assegna colormap diversa al GameObject "body"
-        Transform bodyTransform = agent.transform.Find("raceRed/body");
+        Transform bodyTransform = agent.transform.Find("raceCar/body");
         if (bodyTransform != null)
         {
             Renderer rend = bodyTransform.GetComponent<Renderer>();

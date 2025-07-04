@@ -244,7 +244,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5270922228748830875}
   m_Layer: 11
-  m_Name: raceRed
+  m_Name: raceCar
   m_TagString: RedCar
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -910,10 +910,10 @@ GameObject:
   - component: {fileID: 167720077460777540}
   - component: {fileID: 7550505557829856567}
   - component: {fileID: 7900703973544392093}
-  - component: {fileID: 6089250070764139807}
   - component: {fileID: 1334984953065788397}
   - component: {fileID: 4413561767943345777}
   - component: {fileID: 1742087550404226742}
+  - component: {fileID: 8488549125625687450}
   m_Layer: 11
   m_Name: CarPrefab
   m_TagString: RedCar
@@ -987,30 +987,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3, y: 1.6, z: 6}
   m_Center: {x: 0, y: 0.8, z: 0}
---- !u!114 &6089250070764139807
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9205417933208847940}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5126793172b434343988e2cc9b2ce147, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentParameters:
-    maxStep: 0
-  hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
-  checkpointManager: {fileID: 0}
-  opponent: {fileID: 0}
-  raceManager: {fileID: 0}
-  maxStepsPerEpisode: 300
-  maxLaps: 1
-  maxExpectedSpeed: 40
-  maxIdleTime: 5
-  smoothingAlpha: 0.2
 --- !u!114 &1334984953065788397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1081,3 +1057,19 @@ MonoBehaviour:
   maxSteeringAngle: 30
   brakeForce: 10000
   engineBrakeForce: 150
+--- !u!114 &8488549125625687450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9205417933208847940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88b6042bc9a5d4aa58d931eae49442e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 0

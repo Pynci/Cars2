@@ -57,7 +57,7 @@ public class SpawnManager : MonoBehaviour
             .ToList();
     }
 
-    public int SpawnMode()
+    public int getSpawnMode()
     {
         return spawnMode;
     }

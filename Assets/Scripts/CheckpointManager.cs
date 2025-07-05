@@ -7,6 +7,9 @@ public class CheckpointManager : MonoBehaviour
     public float progressReward = 1f;
     private Dictionary<CarAgent, int> nextIndex = new Dictionary<CarAgent, int>();
 
+    public const float overtakeReward = 0.5f;
+    public const float undercutPenalty = 0.5f;
+
     public int GetCheckpointIndex(CarAgent agent)
     {
         return nextIndex[agent];
@@ -35,5 +38,19 @@ public class CheckpointManager : MonoBehaviour
             agent.AddReward(progressReward);
             nextIndex[agent] = (idx + 1) % checkpoints.Length;
         }
+    }
+
+    public void WrongCheckpointReached(CarAgent agent, int lastCheckpointCount)
+    {
+        int currentCount = nextIndex[agent];
+        if (currentCount > lastCheckpointCount)
+        {
+            agent.AddReward(overtakeReward);
+        }
+        else if (currentCount < lastCheckpointCount)
+        {
+            agent.AddReward(-undercutPenalty);
+        }
+        lastCheckpointCount = currentCount;
     }
 }

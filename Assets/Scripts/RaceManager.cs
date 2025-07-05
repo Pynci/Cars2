@@ -32,7 +32,7 @@ public class RaceManager : MonoBehaviour
 
     public void UpdateRaceProgress()
     {
-        if (spawnManager.SpawnMode() == 1)
+        if (spawnManager.getSpawnMode() == 1)
         {
             // Ordina gli agenti: prima per checkpoint superati, poi per distanza residua dal prossimo
             var ordered = agents.OrderByDescending(agent =>

@@ -11,6 +11,7 @@ public class CarAgent : Agent
     private CarController controller;
     private CheckpointManager checkpointManager;
     private RaceManager raceManager;
+    private int lastCheckpointCount;
 
     [Header("Agent Settings")]
     public float maxSpeed = 20f;
@@ -25,7 +26,6 @@ public class CarAgent : Agent
     private const float speedRewardMultiplier = 0.1f;
 
     [Header("Normalization")]
-    private int maxStepsPerEpisode = 300;
     private float maxExpectedSpeed = 40f;
 
     [Header("Idle Timeout")]
@@ -78,7 +78,6 @@ public class CarAgent : Agent
         AddReward(-0.0005f);
 
         AddReward(timePenalty * Time.fixedDeltaTime);
-        AddReward(-1f / maxStepsPerEpisode);
 
         float currentDist = Vector3.Distance(transform.position, nextCheckpoint.position);
         smoothLastDist = smoothingAlpha * currentDist + (1f - smoothingAlpha) * smoothLastDist;
@@ -87,6 +86,8 @@ public class CarAgent : Agent
 
         float reward = (rb.linearVelocity.magnitude / maxExpectedSpeed)*speedRewardMultiplier * Time.fixedDeltaTime;
         checkpointManager.HandleCheckpoint(this, reward);
+
+        checkpointManager.WrongCheckpointReached(this, lastCheckpointCount);
 
         if (rb.linearVelocity.magnitude < 1f)
         {
@@ -117,7 +118,7 @@ public class CarAgent : Agent
     {
         if (collision.collider.CompareTag("bulkheads"))
         {
-            AddReward(-1f);
+            AddReward(collisionPenalty);
             raceManager.ResetAllAgents();
         }
         else if (collision.collider.CompareTag("agent"))

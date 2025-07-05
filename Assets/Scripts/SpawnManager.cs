@@ -56,4 +56,9 @@ public class SpawnManager : MonoBehaviour
             .Where(agent => agent != null)
             .ToList();
     }
+
+    public int SpawnMode()
+    {
+        return spawnMode;
+    }
 }

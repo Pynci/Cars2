@@ -14,6 +14,7 @@ TagManager:
   - CheckPoint
   - lines
   - AsphaltLines
+  - Car
   layers:
   - Default
   - TransparentFX

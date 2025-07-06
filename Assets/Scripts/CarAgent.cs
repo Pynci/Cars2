@@ -1,5 +1,4 @@
-// CarAgent.cs
-using System.ComponentModel;
+
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
@@ -11,22 +10,18 @@ public class CarAgent : Agent
     private CarController controller;
     private CheckpointManager checkpointManager;
     private RaceManager raceManager;
-    private int lastCheckpointCount;
 
     [Header("Agent Settings")]
     public float maxSpeed = 20f;
     public Transform nextCheckpoint;
+    public int nextCheckpointIndex;
 
     [Header("Rewards (hardcoded)")]
-    private const float checkpointReward = 10.0f;
     private const float timePenalty = -0.1f;
     private const float collisionPenalty = -20.0f;
     private const float opponentCollisionPenalty = -1.0f;
     private const float progressRewardMultiplier = 1.0f;
-    private const float speedRewardMultiplier = 0.1f;
 
-    [Header("Normalization")]
-    private float maxExpectedSpeed = 40f;
 
     [Header("Idle Timeout")]
     private float maxIdleTime = 5f;
@@ -56,7 +51,10 @@ public class CarAgent : Agent
     {
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
-        nextCheckpoint = checkpointManager.GetNextCheckpoint(this);
+
+        var (cp, idx) = checkpointManager.DetectNextCheckpointWithIndex(this);
+        nextCheckpoint = cp;
+        nextCheckpointIndex = idx;      // aggiorna anche il “contatore” interno
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -70,6 +68,9 @@ public class CarAgent : Agent
 
     public override void OnActionReceived(ActionBuffers actions)
     {
+        if (nextCheckpoint == null) Debug.LogError($"{name}: nextCheckpoint è null!");
+        if (checkpointManager == null) Debug.LogError($"{name}: checkpointManager è null!");
+        if (raceManager == null) Debug.LogError($"{name}: raceManager è null!");
         float motor = actions.ContinuousActions[0];
         float steer = actions.ContinuousActions[1];
         float brake = actions.ContinuousActions[2];
@@ -84,10 +85,7 @@ public class CarAgent : Agent
         AddReward((smoothLastDist - currentDist) * progressRewardMultiplier);
         lastDist = currentDist;
 
-        float reward = (rb.linearVelocity.magnitude / maxExpectedSpeed)*speedRewardMultiplier * Time.fixedDeltaTime;
-        checkpointManager.HandleCheckpoint(this, reward);
-
-        checkpointManager.WrongCheckpointReached(this, lastCheckpointCount);
+        checkpointManager.EvaluateCheckpointProgress(this, nextCheckpointIndex);
 
         if (rb.linearVelocity.magnitude < 1f)
         {
@@ -108,10 +106,10 @@ public class CarAgent : Agent
 
     public override void Heuristic(in ActionBuffers actionsOut)
     {
-        var cont = actionsOut.ContinuousActions;
-        cont[0] = Input.GetAxis("Vertical");
-        cont[1] = Input.GetAxis("Horizontal");
-        cont[2] = Input.GetKey(KeyCode.Space) ? 1f : 0f;
+        var continuousActions = actionsOut.ContinuousActions;
+        continuousActions[0] = Input.GetKey(KeyCode.W) ? 1f : Input.GetKey(KeyCode.S) ? -1f : 0f;
+        continuousActions[1] = Input.GetKey(KeyCode.A) ? -1f : Input.GetKey(KeyCode.D) ? 1f : 0f;
+        continuousActions[2] = Input.GetKey(KeyCode.Space) ? 1f : 0f;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -121,7 +119,7 @@ public class CarAgent : Agent
             AddReward(collisionPenalty);
             raceManager.ResetAllAgents();
         }
-        else if (collision.collider.CompareTag("agent"))
+        else if (collision.collider.CompareTag("Car"))
         {
             AddReward(opponentCollisionPenalty);
         }

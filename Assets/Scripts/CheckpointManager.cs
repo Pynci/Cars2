@@ -1,56 +1,96 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 
 public class CheckpointManager : MonoBehaviour
 {
     public Transform[] checkpoints;
-    public float progressReward = 1f;
-    private Dictionary<CarAgent, int> nextIndex = new Dictionary<CarAgent, int>();
+    public float progressReward = 0.5f;
+    public float checkpointReachedReward = 1f;
+    private Dictionary<CarAgent, int> currentIndex = new Dictionary<CarAgent, int>();
 
     public const float overtakeReward = 0.5f;
     public const float undercutPenalty = 0.5f;
 
-    public int GetCheckpointIndex(CarAgent agent)
+    public int GetCurrentCheckpointIndex(CarAgent agent)
     {
-        return nextIndex[agent];
+        if (!currentIndex.TryGetValue(agent, out var idx))
+            currentIndex[agent] = idx = 0;
+        return idx;
     }
 
-    public Transform GetNextCheckpoint(CarAgent agent)
+    public Transform GetCurrentCheckpoint(CarAgent agent)
     {
-        if (!nextIndex.ContainsKey(agent))
-            nextIndex[agent] = 0;
-        int idx = nextIndex[agent];
+        if (!currentIndex.ContainsKey(agent))
+            currentIndex[agent] = 0;
+        int idx = currentIndex[agent];
         return checkpoints[idx % checkpoints.Length];
     }
 
-    public void HandleCheckpoint(CarAgent agent, float reward)
+    public (Transform cp, int idx) DetectNextCheckpointWithIndex(CarAgent agent)
     {
-        int idx = nextIndex.ContainsKey(agent) ? nextIndex[agent] : 0;
-        Transform cp = checkpoints[idx];
+        Transform bestCp = null;
+        int bestIdx = -1;
+        float bestScore = float.MaxValue;
+        Vector3 forward = agent.transform.forward;
 
-        Vector3 toCP = (cp.position - agent.transform.position).normalized;
-        if (Vector3.Dot(agent.transform.forward, toCP) > 0.5f)
+        for (int i = 0; i < checkpoints.Length; i++)
         {
-            agent.AddReward(reward);
+            var cp = checkpoints[i];
+            Vector3 toCp = cp.position - agent.transform.position;
+            float dot = Vector3.Dot(forward, toCp.normalized);
+            if (dot < 0.3f) continue;
+
+            float score = toCp.sqrMagnitude / dot;
+            if (score < bestScore)
+            {
+                bestScore = score;
+                bestCp = cp;
+                bestIdx = i;
+            }
         }
-        if (Vector3.Distance(agent.transform.position, checkpoints[idx % checkpoints.Length].position) < 2f)
+
+        // Fallback: usa l’indice “storico” se non trova nulla di fronte
+        if (bestCp == null)
         {
-            agent.AddReward(progressReward);
-            nextIndex[agent] = (idx + 1) % checkpoints.Length;
+            int historical = currentIndex.ContainsKey(agent)
+                ? (currentIndex[agent] + 1) % checkpoints.Length
+                : 0;
+            bestCp = checkpoints[historical];
+            bestIdx = historical;
         }
+
+        return (bestCp, bestIdx);
     }
 
-    public void WrongCheckpointReached(CarAgent agent, int lastCheckpointCount)
+    public void EvaluateCheckpointProgress(CarAgent agent, int detectedIdx)
     {
-        int currentCount = nextIndex[agent];
-        if (currentCount > lastCheckpointCount)
+        int idx = GetCurrentCheckpointIndex(agent);
+        var cp = checkpoints[detectedIdx];
+        Vector3 toCp = (cp.position - agent.transform.position).normalized;
+        float facing = Vector3.Dot(agent.transform.forward, toCp);
+
+        // 1) reward/penalità base per direzione
+        if (facing > 0.5f)
+            agent.AddReward(progressReward);
+        else
+            agent.AddReward(-undercutPenalty);  // penalità se guarda lontano dal cp
+
+        // 2) se attraversa correttamente
+        if (detectedIdx == idx && Vector3.Distance(agent.transform.position, cp.position) < 2f)
+        {
+            agent.AddReward(checkpointReachedReward);
+            currentIndex[agent] = (idx + 1) % checkpoints.Length;
+        }
+        // 3) se “geometricamente” davanti, ma id diverso → overtake
+        else if (detectedIdx > idx)
         {
             agent.AddReward(overtakeReward);
         }
-        else if (currentCount < lastCheckpointCount)
+        // 4) se geometr. indietro → penalità
+        else if (detectedIdx < idx)
         {
             agent.AddReward(-undercutPenalty);
         }
-        lastCheckpointCount = currentCount;
     }
+
 }

@@ -9,7 +9,7 @@ public class SpawnManager : MonoBehaviour
     public Transform[] randomPositions;
 
     [Tooltip("Scegli '0' per Random, '1' per Grid")]
-    public int spawnMode = 1;
+    public int spawnMode = 0;
     [Tooltip("Numero di agenti da instanziare")]
     public int agentCount = 2;
     [Tooltip("Lista di materiali predefiniti per differenziare le auto")]

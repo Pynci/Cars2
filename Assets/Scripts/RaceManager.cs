@@ -37,8 +37,9 @@ public class RaceManager : MonoBehaviour
             // Ordina gli agenti: prima per checkpoint superati, poi per distanza residua dal prossimo
             var ordered = agents.OrderByDescending(agent =>
             {
-                int checkpointIndex = checkpointManager.GetCheckpointIndex(agent);
-                float distanceToNext = Vector3.Distance(agent.transform.position, checkpointManager.GetNextCheckpoint(agent).position);
+                var (checkpoint, checkpointIndex) = checkpointManager.DetectNextCheckpointWithIndex(agent);
+                int index = checkpointIndex;
+                float distanceToNext = Vector3.Distance(agent.transform.position, checkpoint.position);
                 return checkpointIndex * 1000f - distanceToNext;  // più checkpoint = meglio
             }).ToList();
 

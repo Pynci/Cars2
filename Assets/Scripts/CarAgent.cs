@@ -39,6 +39,7 @@ public class CarAgent : Agent
         controller = GetComponent<CarController>();
         rb = GetComponent<Rigidbody>();
         checkpointManager = FindFirstObjectByType<CheckpointManager>();
+        raceManager = FindFirstObjectByType<RaceManager>();
     }
 
     // Metodo chiamato da RaceManager per assegnare il riferimento

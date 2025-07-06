@@ -18,7 +18,7 @@ public class CarAgent : Agent
 
     [Header("Rewards (hardcoded)")]
     private const float timePenalty = -0.1f;
-    private const float collisionPenalty = -20.0f;
+    private const float collisionPenalty = -1.0f;
     private const float opponentCollisionPenalty = -1.0f;
     private const float progressRewardMultiplier = 1.0f;
 

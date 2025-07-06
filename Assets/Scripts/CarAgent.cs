@@ -34,6 +34,7 @@ public class CarAgent : Agent
     private float smoothLastDist;
     private float idleTimer = 0f;
 
+
     public override void Initialize()
     {
         controller = GetComponent<CarController>();
@@ -65,6 +66,7 @@ public class CarAgent : Agent
         sensor.AddObservation(transform.InverseTransformDirection(dir));
         sensor.AddObservation(dist / 100f);
         sensor.AddObservation(transform.InverseTransformDirection(rb.linearVelocity) / maxSpeed);
+        //checkRayCast();
     }
 
     public override void OnActionReceived(ActionBuffers actions)
@@ -123,6 +125,36 @@ public class CarAgent : Agent
         else if (collision.collider.CompareTag("Car"))
         {
             AddReward(opponentCollisionPenalty);
+        }
+    }
+
+    private void checkRayCast()
+    {
+        RayPerceptionSensorComponent3D m_rayPerceptionSensorComponent3D = FindFirstObjectByType<RayPerceptionSensorComponent3D>();
+
+        var rayOutputs = RayPerceptionSensor.Perceive(m_rayPerceptionSensorComponent3D.GetRayPerceptionInput(), false).RayOutputs;
+        int lengthOfRayOutputs = rayOutputs.Length;
+
+        // Alternating Ray Order: it gives an order of
+        // (0, -delta, delta, -2delta, 2delta, ..., -ndelta, ndelta)
+        // index 0 indicates the center of raycasts
+        for (int i = 0; i < lengthOfRayOutputs; i++)
+        {
+            GameObject goHit = rayOutputs[i].HitGameObject;
+            if (goHit != null)
+            {
+                var rayDirection = rayOutputs[i].EndPositionWorld - rayOutputs[i].StartPositionWorld;
+                var scaledRayLength = rayDirection.magnitude;
+                float rayHitDistance = rayOutputs[i].HitFraction * scaledRayLength;
+
+                // Print info:
+                string dispStr = "";
+                dispStr = dispStr + "__RayPerceptionSensor - HitInfo__:\r\n";
+                dispStr = dispStr + "GameObject name: " + goHit.name + "\r\n";
+                dispStr = dispStr + "Hit distance of Ray: " + rayHitDistance + "\r\n";
+                dispStr = dispStr + "GameObject tag: " + goHit.tag + "\r\n";
+                Debug.Log(dispStr);
+            }
         }
     }
 }

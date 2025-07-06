@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 4519747107312664504}
   - component: {fileID: 7226625221011806322}
   m_Layer: 3
-  m_Name: rayOriginRed
+  m_Name: rayOrigin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -130,17 +130,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bb6b867a41448888c1cd4f99643ad71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SensorName: RedCarRayPerceptionSensor
+  m_SensorName: CarRayPerceptionSensor
   m_DetectableTags:
   - bulkheads
-  - BlueCar
+  - Car
   m_RaysPerDirection: 4
   m_MaxRayDegrees: 70
   m_SphereCastRadius: 0.75
   m_RayLength: 30
   m_RayLayerMask:
     serializedVersion: 2
-    m_Bits: 4286710779
+    m_Bits: 4286579707
   m_ObservationStacks: 1
   m_AlternatingRayOrder: 1
   m_UseBatchedRaycasts: 0

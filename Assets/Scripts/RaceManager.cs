@@ -54,4 +54,9 @@ public class RaceManager : MonoBehaviour
             }
         }
     }
+
+    public void notifyCrash(CarAgent agent)
+    {
+        
+    }
 }

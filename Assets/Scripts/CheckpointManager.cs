@@ -9,7 +9,7 @@ public class CheckpointManager : MonoBehaviour
     private Dictionary<CarAgent, int> currentIndex = new Dictionary<CarAgent, int>();
 
     public const float overtakeReward = 0.5f;
-    public const float undercutPenalty = 0.5f;
+    public const float undercutPenalty = -0.5f;
 
     public int GetCurrentCheckpointIndex(CarAgent agent)
     {
@@ -73,7 +73,7 @@ public class CheckpointManager : MonoBehaviour
         if (facing > 0.5f)
             agent.AddReward(progressReward);
         else
-            agent.AddReward(-undercutPenalty);  // penalità se guarda lontano dal cp
+            agent.AddReward(undercutPenalty);  // penalità se guarda lontano dal cp
 
         // 2) se attraversa correttamente
         if (detectedIdx == idx && Vector3.Distance(agent.transform.position, cp.position) < 2f)

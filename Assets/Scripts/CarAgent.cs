@@ -17,7 +17,7 @@ public class CarAgent : Agent
     public int nextCheckpointIndex;
 
     [Header("Rewards (hardcoded)")]
-    private const float timePenalty = -0.1f;
+    private const float timePenalty = -0.01f;
     private const float collisionPenalty = -1.0f;
     private const float opponentCollisionPenalty = -1.0f;
     private const float progressRewardMultiplier = 1.0f;
@@ -76,7 +76,7 @@ public class CarAgent : Agent
         float brake = actions.ContinuousActions[2];
 
         controller.Move(motor, steer, brake);
-        AddReward(-0.0005f);
+        //AddReward(-0.0005f);
 
         AddReward(timePenalty * Time.fixedDeltaTime);
 
@@ -121,7 +121,7 @@ public class CarAgent : Agent
         if (collision.collider.CompareTag("bulkheads"))
         {
             AddReward(collisionPenalty);
-            raceManager.ResetAllAgents();
+            EndEpisode();
         }
         else if (collision.collider.CompareTag("Car"))
         {

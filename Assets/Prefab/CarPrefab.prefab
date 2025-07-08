@@ -314,7 +314,7 @@ WheelCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1989635917029163021}
   serializedVersion: 2
-  m_Center: {x: 0.15, y: 0.15, z: 0}
+  m_Center: {x: 0, y: 0.15, z: 0}
   m_Radius: 0.315
   m_SuspensionSpring:
     spring: 35000
@@ -557,7 +557,7 @@ WheelCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6330543258907350321}
   serializedVersion: 2
-  m_Center: {x: -0.15, y: 0.15, z: 0}
+  m_Center: {x: 0, y: 0.15, z: 0}
   m_Radius: 0.315
   m_SuspensionSpring:
     spring: 35000
@@ -714,7 +714,7 @@ WheelCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6854616776643942109}
   serializedVersion: 2
-  m_Center: {x: -0.15, y: 0.15, z: 0}
+  m_Center: {x: 0, y: 0.15, z: 0}
   m_Radius: 0.315
   m_SuspensionSpring:
     spring: 35000
@@ -868,7 +868,7 @@ WheelCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7513016099601179442}
   serializedVersion: 2
-  m_Center: {x: 0.15, y: 0.15, z: 0}
+  m_Center: {x: 0, y: 0.15, z: 0}
   m_Radius: 0.315
   m_SuspensionSpring:
     spring: 35000

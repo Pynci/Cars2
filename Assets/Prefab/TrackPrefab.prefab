@@ -3945,7 +3945,6 @@ MonoBehaviour:
   - {fileID: 3261243929805319204}
   - {fileID: 7182567285406292601}
   - {fileID: 1456777995860880179}
-  spawnMode: 0
   agentCount: 2
   availableMaterials:
   - {fileID: 2100000, guid: 40c80fd118dc3b44ba3c901bf619aef9, type: 2}
@@ -3954,6 +3953,14 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 5d36430ab849ae241bd4bd02ece45424, type: 2}
   - {fileID: 2100000, guid: 540fcb10ffbee3e439b0643f696f3b24, type: 2}
   - {fileID: 2100000, guid: 811c1c69e643f3648a623e42eda2d263, type: 2}
+  trainingPhase: 0
+  agentBehaviors:
+  - BlueCar
+  - RedCar
+  - GreenCar
+  - RoseCar
+  - YellowCar
+  - VioletCar
 --- !u!1 &5013856766184603197
 GameObject:
   m_ObjectHideFlags: 0
@@ -6526,7 +6533,7 @@ Transform:
   m_GameObject: {fileID: 7442007285396183907}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6563,7 +6570,7 @@ Transform:
   m_GameObject: {fileID: 7464765831244574899}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

@@ -9,12 +9,14 @@ public class SpawnManager : MonoBehaviour
     public Transform[] gridPositions;
     public Transform[] randomPositions;
 
-    [Tooltip("Scegli '0' per Random, '1' per Grid")]
-    public int spawnMode = 0;
     [Tooltip("Numero di agenti da instanziare")]
     public int agentCount = 2;
     [Tooltip("Lista di materiali predefiniti per differenziare le auto")]
     public Material[] availableMaterials;
+
+    // Nuova variabile per tracciare la fase di addestramento
+    public enum TrainingPhase { RandomSpawn, Race }
+    public TrainingPhase trainingPhase = TrainingPhase.RandomSpawn;
 
     private List<GameObject> spawnedAgents = new List<GameObject>();
     public string[] agentBehaviors = { "BlueCar", "RedCar", "GreenCar", "RoseCar", "YellowCar", "VioletCar" };
@@ -26,10 +28,10 @@ public class SpawnManager : MonoBehaviour
             Destroy(agent);
         spawnedAgents.Clear();
 
-        // Seleziona posizioni
-        var positions = (spawnMode == 0)
+        // Seleziona posizioni in base alla fase di addestramento
+        var positions = (trainingPhase == TrainingPhase.RandomSpawn)
             ? randomPositions.OrderBy(_ => Random.value).Take(agentCount)
-            : gridPositions.Take(agentCount);
+            : gridPositions.Take(agentCount);  // Grid spawn nella fase di gara
 
         // Instanzia agenti
         foreach (var spawnPoint in positions)
@@ -68,6 +70,6 @@ public class SpawnManager : MonoBehaviour
 
     public int getSpawnMode()
     {
-        return spawnMode;
+        return trainingPhase == TrainingPhase.RandomSpawn ? 0 : 1;  // 0 per spawn casuale, 1 per grid spawn
     }
 }

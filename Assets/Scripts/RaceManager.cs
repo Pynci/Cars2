@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using UnityEngine;
+
 public class RaceManager : MonoBehaviour
 {
     public SpawnManager spawnManager;
@@ -29,10 +30,10 @@ public class RaceManager : MonoBehaviour
             agent.EndEpisode();
     }
 
-
     public void UpdateRaceProgress()
     {
-        if (spawnManager.getSpawnMode() == 1)
+        // Solo se siamo nella fase di gara, applica la logica di posizione
+        if (spawnManager.trainingPhase == SpawnManager.TrainingPhase.Race)
         {
             // Ordina gli agenti: prima per checkpoint superati, poi per distanza residua dal prossimo
             var ordered = agents.OrderByDescending(agent =>
@@ -52,7 +53,5 @@ public class RaceManager : MonoBehaviour
                 agent.AddReward(reward * Time.fixedDeltaTime);
             }
         }
-
     }
-
 }

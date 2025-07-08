@@ -1,4 +1,4 @@
-
+using System.Xml.Linq;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
@@ -22,7 +22,6 @@ public class CarAgent : Agent
     private const float opponentCollisionPenalty = -1.0f;
     private const float progressRewardMultiplier = 1.0f;
 
-
     [Header("Idle Timeout")]
     private float maxIdleTime = 5f;
 
@@ -34,7 +33,6 @@ public class CarAgent : Agent
     private float smoothLastDist;
     private float idleTimer = 0f;
 
-
     public override void Initialize()
     {
         controller = GetComponent<CarController>();
@@ -43,7 +41,6 @@ public class CarAgent : Agent
         raceManager = FindFirstObjectByType<RaceManager>();
     }
 
-    // Metodo chiamato da RaceManager per assegnare il riferimento
     public void SetRaceManager(RaceManager rm)
     {
         raceManager = rm;
@@ -56,7 +53,7 @@ public class CarAgent : Agent
 
         var (cp, idx) = checkpointManager.DetectNextCheckpointWithIndex(this);
         nextCheckpoint = cp;
-        nextCheckpointIndex = idx;      // aggiorna anche il “contatore” interno
+        nextCheckpointIndex = idx;
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -73,6 +70,7 @@ public class CarAgent : Agent
         if (nextCheckpoint == null) Debug.LogError($"{name}: nextCheckpoint è null!");
         if (checkpointManager == null) Debug.LogError($"{name}: checkpointManager è null!");
         if (raceManager == null) Debug.LogError($"{name}: raceManager è null!");
+
         float motor = actions.ContinuousActions[0];
         float steer = actions.ContinuousActions[1];
         float brake = actions.ContinuousActions[2];
@@ -103,7 +101,11 @@ public class CarAgent : Agent
             idleTimer = 0f;
         }
 
-        raceManager.UpdateRaceProgress();
+        // Solo in fase di gara, applico il progresso della gara
+        if (raceManager != null && raceManager.spawnManager.trainingPhase == SpawnManager.TrainingPhase.Race)
+        {
+            raceManager.UpdateRaceProgress();
+        }
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
@@ -126,5 +128,4 @@ public class CarAgent : Agent
             AddReward(opponentCollisionPenalty);
         }
     }
-
 }

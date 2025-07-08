@@ -1,6 +1,7 @@
-using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.MLAgents.Policies;
+using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class SpawnManager : MonoBehaviour
     public Material[] availableMaterials;
 
     private List<GameObject> spawnedAgents = new List<GameObject>();
+    public string[] agentBehaviors = { "BlueCar", "RedCar", "GreenCar", "RoseCar", "YellowCar", "VioletCar" };
 
     public void SetupEpisode()
     {
@@ -37,6 +39,7 @@ public class SpawnManager : MonoBehaviour
     private void InstantiateAgentAt(Transform spawnPoint)
     {
         var agentObj = Instantiate(carPrefab, spawnPoint.position, spawnPoint.rotation);
+        var behaviorParameters = agentObj.GetComponent<BehaviorParameters>();
         spawnedAgents.Add(agentObj);
 
         // Applica materiale
@@ -45,6 +48,12 @@ public class SpawnManager : MonoBehaviour
             var body = agentObj.transform.Find("raceCar/body");
             if (body != null && body.TryGetComponent<Renderer>(out var rend))
                 rend.material = new Material(availableMaterials[spawnedAgents.Count - 1]);
+        }
+
+        // Assegna il comportamento
+        if (behaviorParameters != null && spawnedAgents.Count <= agentBehaviors.Length)
+        {
+            behaviorParameters.BehaviorName = agentBehaviors[spawnedAgents.Count - 1];
         }
     }
 

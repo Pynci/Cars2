@@ -75,11 +75,10 @@ public class CarAgent : Agent
 
     public override void OnActionReceived(ActionBuffers actions)
     {
-        Debug.Log($"{name} Decision at time {Time.time}");
         float motor = actions.ContinuousActions[0];
         float steer = actions.ContinuousActions[1];
         float brake = actions.ContinuousActions[2];
-
+        Debug.Log("accel, steer, brake: " + motor + " " + steer + " " + brake);
         controller.Move(motor, steer, brake);
         //AddReward(-0.0005f);
 

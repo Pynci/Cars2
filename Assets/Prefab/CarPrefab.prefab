@@ -1035,7 +1035,7 @@ MonoBehaviour:
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 0}
   m_InferenceDevice: 0
-  m_BehaviorType: 0
+  m_BehaviorType: 1
   m_BehaviorName: Car
   TeamId: 0
   m_UseChildSensors: 1
@@ -1057,7 +1057,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 50000000
+  MaxStep: 5000
   maxSpeed: 20
   nextCheckpoint: {fileID: 0}
   nextCheckpointIndex: 0

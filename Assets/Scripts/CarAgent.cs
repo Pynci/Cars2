@@ -20,10 +20,11 @@ public class CarAgent : Agent
     private const float timePenalty = -0.01f;
     private const float collisionPenalty = -1.0f;
     private const float opponentCollisionPenalty = -1.0f;
-    private const float progressRewardMultiplier = 1.0f;
+    private const float progressRewardMultiplier = 3.0f;
+    private const float lapCompletedReward = 5.0f;
 
     [Header("Idle Timeout")]
-    private float maxIdleTime = 5f;
+    private float maxIdleTime = 10f;
 
     [Header("Progress Smoothing")]
     [Range(0f, 1f)] public float smoothingAlpha = 0.2f;
@@ -56,10 +57,11 @@ public class CarAgent : Agent
 
         if(isRespawn)
         {
-            Transform respawn = raceManager.RespawnAgent(this);
+            Debug.Log("entrato in respawn");
+            isRespawn = false;
+            Transform respawn = raceManager.RespawnAgent();
             transform.position = respawn.position;
             transform.rotation = respawn.rotation;
-            isRespawn = false;
         }
 
         //da mettere respaw in fase gara
@@ -73,6 +75,10 @@ public class CarAgent : Agent
     {
         lap++;
         Debug.Log("lap: "+lap);
+        if(lap >= 1)
+        {
+            AddReward(lapCompletedReward);
+        }
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -105,9 +111,13 @@ public class CarAgent : Agent
         if (rb.linearVelocity.magnitude < 1f)
         {
             idleTimer += Time.fixedDeltaTime;
+            float idlePenalty = -0.001f * idleTimer;
+            AddReward(idlePenalty);
+            
             if (idleTimer > maxIdleTime)
             {
                 AddReward(collisionPenalty);
+                isRespawn = true;
                 EndEpisode();
             }
         }
@@ -116,15 +126,15 @@ public class CarAgent : Agent
             idleTimer = 0f;
         }
 
-        // Solo in fase di gara, applico il progresso della gara
+        // Solo in fase di gara
         if (raceManager != null && raceManager.spawnManager.trainingPhase == SpawnManager.TrainingPhase.Race)
         {
             raceManager.UpdateRaceProgress();
-        }
 
-        if(lap == maxLap)
-        {
-            raceManager.NotifyMaxLapReached(this);
+            if (lap == maxLap)
+            {
+                raceManager.NotifyMaxLapReached(this);
+            }
         }
     }
 
@@ -142,7 +152,8 @@ public class CarAgent : Agent
         {
             AddReward(collisionPenalty);
             isRespawn = true;
-            raceManager.notifyCrash(this);
+            EndEpisode();
+            //raceManager.notifyEnd(this);
         }
     }
 }

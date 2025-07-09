@@ -1008,9 +1008,9 @@ MonoBehaviour:
   frontRightMesh: {fileID: 9052618021428366011}
   rearLeftMesh: {fileID: 9216227226711440546}
   rearRightMesh: {fileID: 2985690905886659212}
-  maxMotorTorque: 80000
+  maxMotorTorque: 10000
   maxSteeringAngle: 30
-  brakeForce: 5000
+  brakeForce: 10000
   engineBrakeForce: 150
 --- !u!114 &7744467549448902004
 MonoBehaviour:

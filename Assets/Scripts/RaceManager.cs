@@ -9,9 +9,9 @@ public class RaceManager : MonoBehaviour
     public CheckpointManager checkpointManager;
     private CarAgent[] agents;
 
-    public float positionReward = 0.05f; // premio per chi è davanti
-    public float positionPenalty = -0.02f; // penalità per chi è indietro
-    public float maxLapCompletedReward = 5f; // premio completamento lap
+    public float positionReward = 0.5f; // premio per chi è davanti
+    public float positionPenalty = -0.2f; // penalità per chi è indietro
+    public float maxLapCompletedReward = 20f; // premio completamento lap
     public float racePenalty = -5f; //penalità per aver perso la gara
 
     void Start()
@@ -64,7 +64,7 @@ public class RaceManager : MonoBehaviour
         }
     }
 
-    public void notifyCrash(CarAgent agent)
+    public void notifyEnd(CarAgent agent)
     {
         if (spawnManager.trainingPhase == SpawnManager.TrainingPhase.Race)
         {
@@ -77,7 +77,7 @@ public class RaceManager : MonoBehaviour
         }
     }
 
-    public Transform RespawnAgent(CarAgent crashedAgent)
+    public Transform RespawnAgent()
     {
         // Trova posizione libera
         var usedPositions = spawnManager.GetSpawnedAgents()

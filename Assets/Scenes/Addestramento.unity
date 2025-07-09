@@ -261,8 +261,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   environmentPrefab: {fileID: 6102667258201555776, guid: 4e2a6e9afb02f5c4bb16f8a456cdb1f4, type: 3}
-  numEnvironments: 4
-  environmentsPerRow: 2
+  numEnvironments: 1
+  environmentsPerRow: 1
   columnSpacing: 350
   rowSpacing: 500
 --- !u!1 &1369619400

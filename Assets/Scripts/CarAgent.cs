@@ -121,11 +121,12 @@ public class CarAgent : Agent
         if (collision.collider.CompareTag("bulkheads"))
         {
             AddReward(collisionPenalty);
-            EndEpisode();
+            raceManager.notifyCrash(this);
         }
         else if (collision.collider.CompareTag("Car"))
         {
             AddReward(opponentCollisionPenalty);
+            
         }
     }
 }

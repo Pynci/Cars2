@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.MLAgents;
 using Unity.MLAgents.Policies;
 using UnityEngine;
 
@@ -20,6 +21,8 @@ public class SpawnManager : MonoBehaviour
 
     private List<GameObject> spawnedAgents = new List<GameObject>();
     public string[] agentBehaviors = { "BlueCar", "RedCar", "GreenCar", "RoseCar", "YellowCar", "VioletCar" };
+    private Dictionary<string, Material> agentMaterials = new(); //mappa behaviour a materiali
+
 
     public void SetupEpisode()
     {
@@ -35,32 +38,68 @@ public class SpawnManager : MonoBehaviour
 
         // Instanzia agenti
         foreach (var spawnPoint in positions)
-            InstantiateAgentAt(spawnPoint);
+            InstantiateAgentAt(spawnPoint, null);
     }
 
-    private void InstantiateAgentAt(Transform spawnPoint)
+    private void InstantiateAgentAt(Transform spawnPoint, string Oldbehavior)
     {
         var agentObj = Instantiate(carPrefab, spawnPoint.position, spawnPoint.rotation);
         var behaviorParameters = agentObj.GetComponent<BehaviorParameters>();
+        string Newbehavior = null;
+   
         spawnedAgents.Add(agentObj);
+
+        // Assegna il comportamento
+        if (behaviorParameters != null && spawnedAgents.Count <= agentBehaviors.Length)
+        {
+            Newbehavior = agentBehaviors[spawnedAgents.Count - 1];
+            behaviorParameters.BehaviorName = Newbehavior;
+        }
 
         // Applica materiale
         if (spawnedAgents.Count <= availableMaterials.Length)
         {
             var body = agentObj.transform.Find("raceCar/body");
-            if (body != null && body.TryGetComponent<Renderer>(out var rend))
-                rend.material = new Material(availableMaterials[spawnedAgents.Count - 1]);
+            if (Newbehavior != null && body != null && body.TryGetComponent<Renderer>(out var rend))
+            {
+                Material material = new Material(availableMaterials[spawnedAgents.Count - 1]);
+                rend.material = material;
+                agentMaterials[Newbehavior] = material;
+            }
         }
 
+        
+    }
+
+    public CarAgent RespawnAgent(Transform spawnPoint, string Oldbehavior)
+    {
+        GameObject agentObj = Instantiate(carPrefab, spawnPoint.position, spawnPoint.rotation);
+        var behaviorParameters = agentObj.GetComponent<BehaviorParameters>();
+
+        spawnedAgents.Add(agentObj);
         // Assegna il comportamento
-        if (behaviorParameters != null && spawnedAgents.Count <= agentBehaviors.Length)
+        if (behaviorParameters != null && Oldbehavior != null)
         {
-            behaviorParameters.BehaviorName = agentBehaviors[spawnedAgents.Count - 1];
+            behaviorParameters.BehaviorName = Oldbehavior;
         }
+
+        // Applica materiale
+        var body = agentObj.transform.Find("raceCar/body");
+        if (body != null && body.TryGetComponent<Renderer>(out var rend))
+        {
+            if (Oldbehavior != null && agentMaterials[Oldbehavior] != null)
+            {
+                rend.material = agentMaterials[Oldbehavior];
+
+            }
+        }
+        CarAgent agent = agentObj.GetComponent<CarAgent>();
+        return agent;
     }
 
     public void HandleEndEpisode()
     { 
+
     }
 
     // Espone la lista di CarAgent istanziati

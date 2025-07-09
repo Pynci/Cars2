@@ -23,6 +23,11 @@ public class RaceManager : MonoBehaviour
             agent.SetRaceManager(this);
     }
 
+    public void SetupRaceManager(CarAgent agent)
+    {
+        agent.SetRaceManager(this);
+    }
+
     public void ResetAllAgents()
     {
         SetupRace();
@@ -57,6 +62,48 @@ public class RaceManager : MonoBehaviour
 
     public void notifyCrash(CarAgent agent)
     {
-        
+        if (spawnManager.trainingPhase == SpawnManager.TrainingPhase.Race)
+        {
+            Destroy(agent);
+            Destroy(agent.gameObject);
+        }
+        else if (spawnManager.trainingPhase == SpawnManager.TrainingPhase.RandomSpawn)
+        {
+            agent.EndEpisode();
+            RespawnAgent(agent);
+        }
     }
+
+    public void RespawnAgent(CarAgent crashedAgent)
+    {
+        var behavior = crashedAgent.GetComponent<Unity.MLAgents.Policies.BehaviorParameters>()?.BehaviorName;
+        if (string.IsNullOrEmpty(behavior)) return;
+
+        // Trova posizione libera
+        var usedPositions = spawnManager.GetSpawnedAgents()
+            .Select(a => a.transform.position)
+            .ToHashSet();
+
+        var availablePositions = spawnManager.randomPositions
+            .Where(pos => !usedPositions.Contains(pos.position))
+            .ToList();
+
+        if (availablePositions.Count == 0) return; // Nessuna posizione disponibile
+
+        var newSpawn = availablePositions[Random.Range(0, availablePositions.Count)];
+
+        int i = agents.Length;
+        bool found = false;
+        while (!found)
+        {
+            if (agents[i].Equals(crashedAgent))
+                found = true;
+            else i--;
+        }
+
+        CarAgent newAgent = spawnManager.RespawnAgent(newSpawn, behavior);
+        newAgent.SetRaceManager(this);
+        agents[i] = newAgent;
+    }
+
 }

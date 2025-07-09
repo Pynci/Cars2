@@ -95,7 +95,7 @@ public class RaceManager : MonoBehaviour
         return newSpawn;
     }
 
-    public void MaxLapReached(CarAgent winnerAgent)
+    public void NotifyMaxLapReached(CarAgent winnerAgent)
     {
         if (winnerAgent == null) return;
 
@@ -108,6 +108,8 @@ public class RaceManager : MonoBehaviour
                 agent.AddReward(racePenalty);
             }
         }
+
+        ResetAllAgents();
     }
 
 }

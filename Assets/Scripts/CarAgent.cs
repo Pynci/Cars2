@@ -62,6 +62,8 @@ public class CarAgent : Agent
             isRespawn = false;
         }
 
+        //da mettere respaw in fase gara
+
         var (cp, idx) = checkpointManager.DetectNextCheckpointWithIndex(this);
         nextCheckpoint = cp;
         nextCheckpointIndex = idx;
@@ -122,7 +124,7 @@ public class CarAgent : Agent
 
         if(lap == maxLap)
         {
-            raceManager.MaxLapReached(this);
+            raceManager.NotifyMaxLapReached(this);
         }
     }
 
@@ -138,7 +140,6 @@ public class CarAgent : Agent
     {
         if (collision.gameObject.CompareTag("bulkheads") || collision.gameObject.CompareTag("Car"))
         {
-            Debug.Log("collisione");
             AddReward(collisionPenalty);
             isRespawn = true;
             raceManager.notifyCrash(this);

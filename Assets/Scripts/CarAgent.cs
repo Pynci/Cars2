@@ -32,6 +32,8 @@ public class CarAgent : Agent
     private float lastDist;
     private float smoothLastDist;
     private float idleTimer = 0f;
+    private int maxLap = 3;
+    private int lap = -1;
 
     public override void Initialize()
     {
@@ -56,6 +58,12 @@ public class CarAgent : Agent
         nextCheckpointIndex = idx;
     }
 
+    public void AddLap()
+    {
+        lap++;
+        Debug.Log("lap: "+lap);
+    }
+
     public override void CollectObservations(VectorSensor sensor)
     {
         var dir = (nextCheckpoint.position - transform.position).normalized;
@@ -67,10 +75,6 @@ public class CarAgent : Agent
 
     public override void OnActionReceived(ActionBuffers actions)
     {
-        if (nextCheckpoint == null) Debug.LogError($"{name}: nextCheckpoint è null!");
-        if (checkpointManager == null) Debug.LogError($"{name}: checkpointManager è null!");
-        if (raceManager == null) Debug.LogError($"{name}: raceManager è null!");
-
         float motor = actions.ContinuousActions[0];
         float steer = actions.ContinuousActions[1];
         float brake = actions.ContinuousActions[2];
@@ -85,7 +89,7 @@ public class CarAgent : Agent
         AddReward((smoothLastDist - currentDist) * progressRewardMultiplier);
         lastDist = currentDist;
 
-        checkpointManager.EvaluateCheckpointProgress(this, nextCheckpointIndex);
+        checkpointManager.EvaluateCheckpointProgress(this, nextCheckpointIndex, raceManager.spawnManager.trainingPhase);
 
         if (rb.linearVelocity.magnitude < 1f)
         {
@@ -105,6 +109,11 @@ public class CarAgent : Agent
         if (raceManager != null && raceManager.spawnManager.trainingPhase == SpawnManager.TrainingPhase.Race)
         {
             raceManager.UpdateRaceProgress();
+        }
+
+        if(lap == maxLap)
+        {
+            raceManager.MaxLapReached(this);
         }
     }
 
@@ -126,7 +135,6 @@ public class CarAgent : Agent
         else if (collision.collider.CompareTag("Car"))
         {
             AddReward(opponentCollisionPenalty);
-            
         }
     }
 }

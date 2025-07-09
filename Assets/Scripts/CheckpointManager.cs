@@ -1,5 +1,6 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using static SpawnManager;
 
 public class CheckpointManager : MonoBehaviour
 {
@@ -62,7 +63,7 @@ public class CheckpointManager : MonoBehaviour
         return (bestCp, bestIdx);
     }
 
-    public void EvaluateCheckpointProgress(CarAgent agent, int detectedIdx)
+    public void EvaluateCheckpointProgress(CarAgent agent, int detectedIdx, TrainingPhase raceMode)
     {
         int idx = GetCurrentCheckpointIndex(agent);
         var cp = checkpoints[detectedIdx];
@@ -80,6 +81,10 @@ public class CheckpointManager : MonoBehaviour
         {
             agent.AddReward(checkpointReachedReward);
             currentIndex[agent] = (idx + 1) % checkpoints.Length;
+            if(detectedIdx == 0 && raceMode == SpawnManager.TrainingPhase.Race)
+            {
+                agent.AddLap();
+            }
         }
         // 3) se “geometricamente” davanti, ma id diverso → overtake
         else if (detectedIdx > idx)

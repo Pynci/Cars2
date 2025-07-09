@@ -97,11 +97,6 @@ public class SpawnManager : MonoBehaviour
         return agent;
     }
 
-    public void HandleEndEpisode()
-    { 
-
-    }
-
     // Espone la lista di CarAgent istanziati
     public List<CarAgent> GetSpawnedAgents()
     {

@@ -9,6 +9,8 @@ public class RaceManager : MonoBehaviour
 
     public float positionReward = 0.05f; // premio per chi è davanti
     public float positionPenalty = -0.02f; // penalità per chi è indietro
+    public float maxLapCompleted = 5f; // premio completamento lap
+    public float racePenalty = -5f; //penalità per aver perso la gara
 
     void Start()
     {
@@ -96,7 +98,7 @@ public class RaceManager : MonoBehaviour
         bool found = false;
         while (!found)
         {
-            if (agents[i].Equals(crashedAgent))
+            if (agents[i] == crashedAgent)
                 found = true;
             else i--;
         }
@@ -104,6 +106,21 @@ public class RaceManager : MonoBehaviour
         CarAgent newAgent = spawnManager.RespawnAgent(newSpawn, behavior);
         newAgent.SetRaceManager(this);
         agents[i] = newAgent;
+    }
+
+    public void MaxLapReached(CarAgent winnerAgent)
+    {
+        if (winnerAgent == null) return;
+
+        winnerAgent.AddReward(maxLapCompleted);
+
+        foreach (var agent in agents)
+        {
+            if (agent != winnerAgent)
+            {
+                agent.AddReward(racePenalty);
+            }
+        }
     }
 
 }

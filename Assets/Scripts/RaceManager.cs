@@ -1,4 +1,6 @@
 ﻿using System.Linq;
+using Unity.MLAgents;
+using Unity.Services.Analytics;
 using UnityEngine;
 
 public class RaceManager : MonoBehaviour
@@ -9,7 +11,7 @@ public class RaceManager : MonoBehaviour
 
     public float positionReward = 0.05f; // premio per chi è davanti
     public float positionPenalty = -0.02f; // penalità per chi è indietro
-    public float maxLapCompleted = 5f; // premio completamento lap
+    public float maxLapCompletedReward = 5f; // premio completamento lap
     public float racePenalty = -5f; //penalità per aver perso la gara
 
     void Start()
@@ -72,15 +74,11 @@ public class RaceManager : MonoBehaviour
         else if (spawnManager.trainingPhase == SpawnManager.TrainingPhase.RandomSpawn)
         {
             agent.EndEpisode();
-            RespawnAgent(agent);
         }
     }
 
-    public void RespawnAgent(CarAgent crashedAgent)
+    public Transform RespawnAgent(CarAgent crashedAgent)
     {
-        var behavior = crashedAgent.GetComponent<Unity.MLAgents.Policies.BehaviorParameters>()?.BehaviorName;
-        if (string.IsNullOrEmpty(behavior)) return;
-
         // Trova posizione libera
         var usedPositions = spawnManager.GetSpawnedAgents()
             .Select(a => a.transform.position)
@@ -90,29 +88,18 @@ public class RaceManager : MonoBehaviour
             .Where(pos => !usedPositions.Contains(pos.position))
             .ToList();
 
-        if (availablePositions.Count == 0) return; // Nessuna posizione disponibile
+        if (availablePositions.Count == 0) Debug.Log("Non ci sono posizioni disponibili"); // Nessuna posizione disponibile
 
-        var newSpawn = availablePositions[Random.Range(0, availablePositions.Count)];
+        Transform newSpawn = availablePositions[Random.Range(0, availablePositions.Count)];
 
-        int i = agents.Length;
-        bool found = false;
-        while (!found)
-        {
-            if (agents[i] == crashedAgent)
-                found = true;
-            else i--;
-        }
-
-        CarAgent newAgent = spawnManager.RespawnAgent(newSpawn, behavior);
-        newAgent.SetRaceManager(this);
-        agents[i] = newAgent;
+        return newSpawn;
     }
 
     public void MaxLapReached(CarAgent winnerAgent)
     {
         if (winnerAgent == null) return;
 
-        winnerAgent.AddReward(maxLapCompleted);
+        winnerAgent.AddReward(maxLapCompletedReward);
 
         foreach (var agent in agents)
         {

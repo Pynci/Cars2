@@ -914,6 +914,7 @@ GameObject:
   - component: {fileID: 7744467549448902004}
   - component: {fileID: 4851407890458017658}
   - component: {fileID: 3367808048245073914}
+  - component: {fileID: 7555975363232854163}
   m_Layer: 3
   m_Name: CarPrefab
   m_TagString: Car
@@ -955,7 +956,7 @@ Rigidbody:
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1007,7 +1008,7 @@ MonoBehaviour:
   frontRightMesh: {fileID: 9052618021428366011}
   rearLeftMesh: {fileID: 9216227226711440546}
   rearRightMesh: {fileID: 2985690905886659212}
-  maxMotorTorque: 8000
+  maxMotorTorque: 80000
   maxSteeringAngle: 30
   brakeForce: 10000
   engineBrakeForce: 150
@@ -1024,18 +1025,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 7
+    VectorObservationSize: 6
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 3
-      BranchSizes: 01000000
-    VectorActionSize: 
+      BranchSizes: 
+    VectorActionSize: 03000000
     VectorActionDescriptions: []
-    VectorActionSpaceType: 0
+    VectorActionSpaceType: 1
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 0}
   m_InferenceDevice: 0
-  m_BehaviorType: 1
+  m_BehaviorType: 0
   m_BehaviorName: Car
   TeamId: 0
   m_UseChildSensors: 1
@@ -1077,3 +1078,19 @@ MonoBehaviour:
   DecisionPeriod: 5
   DecisionStep: 0
   TakeActionsBetweenDecisions: 1
+--- !u!114 &7555975363232854163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9205417933208847940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88b6042bc9a5d4aa58d931eae49442e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 0

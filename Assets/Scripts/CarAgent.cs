@@ -34,6 +34,7 @@ public class CarAgent : Agent
     private float idleTimer = 0f;
     private int maxLap = 3;
     private int lap = -1;
+    private bool isRespawn = false;
 
     public override void Initialize()
     {
@@ -52,6 +53,14 @@ public class CarAgent : Agent
     {
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
+
+        if(isRespawn)
+        {
+            Transform respawn = raceManager.RespawnAgent(this);
+            transform.position = respawn.position;
+            transform.rotation = respawn.rotation;
+            isRespawn = false;
+        }
 
         var (cp, idx) = checkpointManager.DetectNextCheckpointWithIndex(this);
         nextCheckpoint = cp;
@@ -78,7 +87,7 @@ public class CarAgent : Agent
         float motor = actions.ContinuousActions[0];
         float steer = actions.ContinuousActions[1];
         float brake = actions.ContinuousActions[2];
-        Debug.Log("accel, steer, brake: " + motor + " " + steer + " " + brake);
+        
         controller.Move(motor, steer, brake);
         //AddReward(-0.0005f);
 
@@ -127,14 +136,12 @@ public class CarAgent : Agent
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("bulkheads"))
+        if (collision.gameObject.CompareTag("bulkheads") || collision.gameObject.CompareTag("Car"))
         {
+            Debug.Log("collisione");
             AddReward(collisionPenalty);
+            isRespawn = true;
             raceManager.notifyCrash(this);
-        }
-        else if (collision.collider.CompareTag("Car"))
-        {
-            AddReward(opponentCollisionPenalty);
         }
     }
 }

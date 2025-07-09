@@ -21,7 +21,6 @@ public class SpawnManager : MonoBehaviour
 
     private List<GameObject> spawnedAgents = new List<GameObject>();
     public string[] agentBehaviors = { "BlueCar", "RedCar", "GreenCar", "RoseCar", "YellowCar", "VioletCar" };
-    private Dictionary<string, Material> agentMaterials = new(); //mappa behaviour a materiali
 
 
     public void SetupEpisode()
@@ -64,37 +63,10 @@ public class SpawnManager : MonoBehaviour
             {
                 Material material = new Material(availableMaterials[spawnedAgents.Count - 1]);
                 rend.material = material;
-                agentMaterials[Newbehavior] = material;
             }
         }
 
         
-    }
-
-    public CarAgent RespawnAgent(Transform spawnPoint, string Oldbehavior)
-    {
-        GameObject agentObj = Instantiate(carPrefab, spawnPoint.position, spawnPoint.rotation);
-        var behaviorParameters = agentObj.GetComponent<BehaviorParameters>();
-
-        spawnedAgents.Add(agentObj);
-        // Assegna il comportamento
-        if (behaviorParameters != null && Oldbehavior != null)
-        {
-            behaviorParameters.BehaviorName = Oldbehavior;
-        }
-
-        // Applica materiale
-        var body = agentObj.transform.Find("raceCar/body");
-        if (body != null && body.TryGetComponent<Renderer>(out var rend))
-        {
-            if (Oldbehavior != null && agentMaterials[Oldbehavior] != null)
-            {
-                rend.material = agentMaterials[Oldbehavior];
-
-            }
-        }
-        CarAgent agent = agentObj.GetComponent<CarAgent>();
-        return agent;
     }
 
     // Espone la lista di CarAgent istanziati

@@ -43,6 +43,7 @@ public class CarAgent : Agent
         rb = GetComponent<Rigidbody>();
         checkpointManager = FindFirstObjectByType<CheckpointManager>();
         raceManager = FindFirstObjectByType<RaceManager>();
+        isRespawn = false;
     }
 
     public void SetRaceManager(RaceManager rm)
@@ -118,6 +119,7 @@ public class CarAgent : Agent
             {
                 AddReward(collisionPenalty);
                 isRespawn = true;
+                idleTimer = 0f;
                 EndEpisode();
             }
         }

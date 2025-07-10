@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Unity.MLAgents;
 using Unity.Services.Analytics;
 using UnityEngine;
+using UnityEngine.Splines;
 
 public class RaceManager : MonoBehaviour
 {
@@ -66,6 +68,7 @@ public class RaceManager : MonoBehaviour
 
     public void notifyEnd(CarAgent agent)
     {
+        Transform agentPosition;
         if (spawnManager.trainingPhase == SpawnManager.TrainingPhase.Race)
         {
             Destroy(agent);
@@ -73,8 +76,9 @@ public class RaceManager : MonoBehaviour
         }
         else if (spawnManager.trainingPhase == SpawnManager.TrainingPhase.RandomSpawn)
         {
-            agent.EndEpisode();
+            agentPosition = RespawnAgent();
         }
+
     }
 
     public Transform RespawnAgent()
@@ -84,9 +88,20 @@ public class RaceManager : MonoBehaviour
             .Select(a => a.transform.position)
             .ToHashSet();
 
-        var availablePositions = spawnManager.randomPositions
-            .Where(pos => !usedPositions.Contains(pos.position))
-            .ToList();
+        List<Transform> availablePositions = null;
+
+        if (spawnManager.trainingPhase == SpawnManager.TrainingPhase.Race)
+        {
+            availablePositions = spawnManager.gridPositions
+                .Where(pos => !usedPositions.Contains(pos.position))
+                .ToList();
+        }
+        else if (spawnManager.trainingPhase == SpawnManager.TrainingPhase.RandomSpawn)
+        {
+             availablePositions = spawnManager.randomPositions
+                .Where(pos => !usedPositions.Contains(pos.position))
+                .ToList();
+        }
 
         if (availablePositions.Count == 0) Debug.Log("Non ci sono posizioni disponibili"); // Nessuna posizione disponibile
 
@@ -94,6 +109,8 @@ public class RaceManager : MonoBehaviour
 
         return newSpawn;
     }
+
+
 
     public void NotifyMaxLapReached(CarAgent winnerAgent)
     {

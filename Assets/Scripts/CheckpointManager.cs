@@ -8,6 +8,7 @@ public class CheckpointManager : MonoBehaviour
     public float progressReward = 1f;
     public float checkpointReachedReward = 10f;
     public const float undercutPenalty = -5f;
+    public int TotalCheckpoints => checkpoints.Length;
     private Dictionary<CarAgent, int> currentIndex = new Dictionary<CarAgent, int>();
 
     

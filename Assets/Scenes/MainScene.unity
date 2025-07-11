@@ -1307,8 +1307,11 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
-  opponent: {fileID: 526706997}
-  checkpointManager: {fileID: 230424443}
+  maxSpeed: 20
+  targetCheckpoint: {fileID: 0}
+  nextCheckpoint: {fileID: 0}
+  nextCheckpointIndex: 0
+  smoothingAlpha: 0.2
 --- !u!114 &86799805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1397,7 +1400,7 @@ Transform:
   m_GameObject: {fileID: 86799801}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -574.7, y: 0, z: -440}
+  m_LocalPosition: {x: -207.7, y: 0, z: -28}
   m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -2855,6 +2858,8 @@ MonoBehaviour:
   - {fileID: 556142162}
   - {fileID: 678873150}
   - {fileID: 505957352}
+  progressReward: 2
+  checkpointReachedReward: 3
 --- !u!4 &230424444
 Transform:
   m_ObjectHideFlags: 0
@@ -7385,10 +7390,11 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
-  opponent: {fileID: 1576479603}
-  checkpointManager: {fileID: 230424443}
   maxSpeed: 30
-  maxAngularSpeed: 180
+  targetCheckpoint: {fileID: 0}
+  nextCheckpoint: {fileID: 0}
+  nextCheckpointIndex: 0
+  smoothingAlpha: 0.2
 --- !u!114 &526707001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7413,7 +7419,7 @@ MonoBehaviour:
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 5022602860645237092, guid: 6e01568f4d900ae4ca3f0dcadbf265eb, type: 3}
   m_InferenceDevice: 0
-  m_BehaviorType: 2
+  m_BehaviorType: 0
   m_BehaviorName: RedCar
   TeamId: 0
   m_UseChildSensors: 1
@@ -12476,8 +12482,11 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
-  opponent: {fileID: 526706997}
-  checkpointManager: {fileID: 230424443}
+  maxSpeed: 20
+  targetCheckpoint: {fileID: 0}
+  nextCheckpoint: {fileID: 0}
+  nextCheckpointIndex: 0
+  smoothingAlpha: 0.2
 --- !u!114 &953881423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12566,7 +12575,7 @@ Transform:
   m_GameObject: {fileID: 953881419}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -574.7, y: 0, z: -440}
+  m_LocalPosition: {x: -207.7, y: 0, z: -28}
   m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -12791,10 +12800,11 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
-  opponent: {fileID: 1576479603}
-  checkpointManager: {fileID: 230424443}
   maxSpeed: 30
-  maxAngularSpeed: 180
+  targetCheckpoint: {fileID: 0}
+  nextCheckpoint: {fileID: 0}
+  nextCheckpointIndex: 0
+  smoothingAlpha: 0.2
 --- !u!65 &958423014
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12852,7 +12862,7 @@ Transform:
   m_GameObject: {fileID: 958423009}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -581, y: 0, z: -484}
+  m_LocalPosition: {x: -213.1, y: 0, z: -28}
   m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -15241,10 +15251,11 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
-  opponent: {fileID: 1576479603}
-  checkpointManager: {fileID: 230424443}
   maxSpeed: 30
-  maxAngularSpeed: 180
+  targetCheckpoint: {fileID: 0}
+  nextCheckpoint: {fileID: 0}
+  nextCheckpointIndex: 0
+  smoothingAlpha: 0.2
 --- !u!65 &1085562726
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15302,7 +15313,7 @@ Transform:
   m_GameObject: {fileID: 1085562721}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -207, y: 0, z: -487}
+  m_LocalPosition: {x: -213.1, y: 0, z: -28}
   m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -16951,10 +16962,11 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
-  opponent: {fileID: 1576479603}
-  checkpointManager: {fileID: 230424443}
   maxSpeed: 30
-  maxAngularSpeed: 180
+  targetCheckpoint: {fileID: 0}
+  nextCheckpoint: {fileID: 0}
+  nextCheckpointIndex: 0
+  smoothingAlpha: 0.2
 --- !u!65 &1228544507
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17012,7 +17024,7 @@ Transform:
   m_GameObject: {fileID: 1228544502}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -581, y: 0, z: 53}
+  m_LocalPosition: {x: -213.1, y: 0, z: -28}
   m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -19971,8 +19983,11 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
-  opponent: {fileID: 526706997}
-  checkpointManager: {fileID: 230424443}
+  maxSpeed: 20
+  targetCheckpoint: {fileID: 0}
+  nextCheckpoint: {fileID: 0}
+  nextCheckpointIndex: 0
+  smoothingAlpha: 0.2
 --- !u!114 &1495065733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20061,7 +20076,7 @@ Transform:
   m_GameObject: {fileID: 1495065729}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -208, y: 0, z: -440}
+  m_LocalPosition: {x: -207.7, y: 0, z: -28}
   m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -20291,10 +20306,11 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
-  opponent: {fileID: 1576479603}
-  checkpointManager: {fileID: 230424443}
   maxSpeed: 30
-  maxAngularSpeed: 180
+  targetCheckpoint: {fileID: 0}
+  nextCheckpoint: {fileID: 0}
+  nextCheckpointIndex: 0
+  smoothingAlpha: 0.2
 --- !u!65 &1533457161
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20352,7 +20368,7 @@ Transform:
   m_GameObject: {fileID: 1533457156}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -581, y: 0, z: -484}
+  m_LocalPosition: {x: -213.1, y: 0, z: -28}
   m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -20958,8 +20974,11 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
-  opponent: {fileID: 526706997}
-  checkpointManager: {fileID: 230424443}
+  maxSpeed: 20
+  targetCheckpoint: {fileID: 0}
+  nextCheckpoint: {fileID: 0}
+  nextCheckpointIndex: 0
+  smoothingAlpha: 0.2
 --- !u!114 &1576479606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20984,7 +21003,7 @@ MonoBehaviour:
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 5022602860645237092, guid: 19ac888e2e385784985124e593cffe50, type: 3}
   m_InferenceDevice: 0
-  m_BehaviorType: 2
+  m_BehaviorType: 0
   m_BehaviorName: BlueCar
   TeamId: 0
   m_UseChildSensors: 1
@@ -22124,8 +22143,11 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
-  opponent: {fileID: 526706997}
-  checkpointManager: {fileID: 230424443}
+  maxSpeed: 20
+  targetCheckpoint: {fileID: 0}
+  nextCheckpoint: {fileID: 0}
+  nextCheckpointIndex: 0
+  smoothingAlpha: 0.2
 --- !u!114 &1691215568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22214,7 +22236,7 @@ Transform:
   m_GameObject: {fileID: 1691215564}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -577.2, y: 0, z: 53}
+  m_LocalPosition: {x: -207.7, y: 0, z: -28}
   m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
   m_ConstrainProportionsScale: 1
   m_Children:

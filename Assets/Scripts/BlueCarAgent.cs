@@ -1,24 +1,60 @@
-using System.Drawing;
+using System.Xml.Linq;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
+using UnityEditor.ShaderGraph.Legacy;
 using UnityEngine;
 
 public class BlueCarAgent : Agent
 {
-    Rigidbody rb;
-    CarController car;
-    public Transform opponent;
-    public CheckpointManager checkpointManager;
+    private Rigidbody rb;
+    private CarController controller;
+    private CheckpointManager checkpointManager;
 
-    private int nextCheckpointIndex;
-    private Transform targetCheckpoint;
-    private float lastDistanceToCheckpoint;
+    [Header("Agent Settings")]
+    public float maxSpeed = 20f;
+    public Transform targetCheckpoint;
+    public Transform nextCheckpoint;
+    public int nextCheckpointIndex;
+
+    [Header("Rewards (hardcoded)")]
+    /*
+    private const float timePenaltyMultiplier = -0.01f;
+    private const float timePenalty = -8f;
+    private const float collisionPenalty = -10.0f;
+    private const float opponentCollisionPenalty = -1.0f;
+    private const float progressRewardMultiplier = 0.5f;
+    private const float lapCompletedReward = 5.0f;
+    */
+    private const float progressRewardMultiplier = 1.5f;
+    private const float collisionPenalty = -2.0f;
+    private const float idlePenaltyPerSecond = -0.2f;
+    private const float timePenaltyMultiplier = -0.002f; // meno penalizzante
+    private const float lapCompletedReward = 5.0f;
+    private const float timePenalty = -0.5f;
+
+    [Header("Idle Timeout")]
+    private float maxIdleTime = 10f;
+
+    [Header("Progress Smoothing")]
+    [Range(0f, 1f)] public float smoothingAlpha = 0.2f;
+
+     private float lastDistanceToCheckpoint;
+
+    private int completedCheckpoints;
+    private float lastDist;
+    private float smoothLastDist;
+    private float idleTimer = 0f;
+    private int maxLap = 3;
+    private int lap = -1;
+    private bool isRespawn = false;
 
     public override void Initialize()
     {
+        controller = GetComponent<CarController>();
         rb = GetComponent<Rigidbody>();
-        car = GetComponent<CarController>();
+        checkpointManager = FindFirstObjectByType<CheckpointManager>();
+        isRespawn = false;
     }
 
     public override void OnEpisodeBegin()
@@ -26,16 +62,9 @@ public class BlueCarAgent : Agent
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
-        // Spawn casuale come nel codice precedente o fisso come preferisci
-        // Versione fissa:
-        transform.position = new Vector3(-207.7f, 0f, -28f);
-        //transform.position = new Vector3(1553.6f, 0f, 53f);
-        transform.rotation = Quaternion.identity;
-
-        /*
         int startIndex = 0;
         Vector3 spawnPos;
-        
+
         // Oppure versione casuale:
         do
         {
@@ -47,126 +76,116 @@ public class BlueCarAgent : Agent
         } while (!Physics.CheckSphere(spawnPos, 10f));
 
         transform.position = spawnPos;
-        
+
         nextCheckpointIndex = (startIndex + 1) % checkpointManager.TotalCheckpoints;
         targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpointIndex);
         lastDistanceToCheckpoint = Vector3.Distance(transform.position, targetCheckpoint.position);
-        
+
         Vector3 dir = (targetCheckpoint.position - transform.position).normalized;
         float baseAng = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0f, baseAng + Random.Range(-20f, 20f), 0f);
-        */
 
-        // Inizializza il checkpoint system
-        nextCheckpointIndex = 0;
-        targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpointIndex);
-        lastDistanceToCheckpoint = Vector3.Distance(transform.position, targetCheckpoint.position);
+        var (cp, idx) = checkpointManager.DetectNextCheckpointWithIndex(this);
+        nextCheckpoint = cp;
+        nextCheckpointIndex = idx;
+    }
+
+    public void AddLap()
+    {
+        lap++;
+        Debug.Log("lap: " + lap);
+        if (lap >= 1)
+        {
+            AddReward(lapCompletedReward);
+        }
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        // Velocità forward dell'agente (normalizzata)
-        float forwardSpeed = transform.InverseTransformDirection(rb.linearVelocity).z;
-        forwardSpeed = float.IsFinite(forwardSpeed) ? Mathf.Clamp(forwardSpeed, -20f, 20f) : 0f;
-        sensor.AddObservation(forwardSpeed / 20f);
+        /*
+        var dir = (nextCheckpoint.position - transform.position).normalized;
+        float dist = Vector3.Distance(transform.position, nextCheckpoint.position);
+        sensor.AddObservation(transform.InverseTransformDirection(dir));
+        sensor.AddObservation(dist / 100f);
+        sensor.AddObservation(transform.InverseTransformDirection(rb.linearVelocity) / maxSpeed);
+        */
+        // Direzione verso il checkpoint
+        Vector3 dir = (nextCheckpoint.position - transform.position).normalized;
+        sensor.AddObservation(transform.InverseTransformDirection(dir));
 
-        // Velocità laterale dell'agente
-        float lateralSpeed = transform.InverseTransformDirection(rb.linearVelocity).x;
-        lateralSpeed = float.IsFinite(lateralSpeed) ? Mathf.Clamp(lateralSpeed, -20f, 20f) : 0f;
-        sensor.AddObservation(lateralSpeed / 20f);
+        // Velocità localizzata
+        Vector3 localVel = transform.InverseTransformDirection(rb.linearVelocity);
+        sensor.AddObservation(localVel.z / maxSpeed);
+        sensor.AddObservation(localVel.x / (maxSpeed * 0.5f));
 
-        // Distanza dall'opponent (normalizzata)
-        float opponentDistance = Vector3.Distance(transform.position, opponent.position);
-        opponentDistance = float.IsFinite(opponentDistance) ? Mathf.Clamp(opponentDistance, 0f, 100f) : 100f;
-        sensor.AddObservation(opponentDistance / 100f);
+        // Progresso sui checkpoint
+        float progress = checkpointManager.GetCurrentCheckpointIndex(this) / (float)checkpointManager.TotalCheckpoints;
+        sensor.AddObservation(progress);
 
-        // Rotazione Y normalizzata
-        float yaw = (transform.eulerAngles.y % 360f + 360f) % 360f;
-        sensor.AddObservation(yaw / 360f);
+        float distToCheckpoint = Vector3.Distance(transform.position, nextCheckpoint.position) / 100f;
+        sensor.AddObservation(distToCheckpoint);
+        sensor.AddObservation((float)nextCheckpointIndex / checkpointManager.TotalCheckpoints);
 
-        // Distanza dal checkpoint target (normalizzata)
-        targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpointIndex);
-        float checkpointDistance = Vector3.Distance(transform.position, targetCheckpoint.position);
-        checkpointDistance = float.IsFinite(checkpointDistance) ? Mathf.Clamp(checkpointDistance, 0f, 100f) : 100f;
-        sensor.AddObservation(checkpointDistance / 100f);
-
-        // Direzione verso il checkpoint target (in coordinate locali)
-        Vector3 toTarget = (targetCheckpoint.position - transform.position).normalized;
-        Vector3 localDirection = transform.InverseTransformDirection(toTarget);
-        sensor.AddObservation(localDirection.x);
-        sensor.AddObservation(localDirection.z);
-
-        // Rotazione dell'agente (quaternion)
-        sensor.AddObservation(transform.localRotation);
     }
 
     public override void OnActionReceived(ActionBuffers actions)
     {
-        // Estrai le azioni
-        float accel = actions.ContinuousActions[0];
+        float motor = actions.ContinuousActions[0];
         float steer = actions.ContinuousActions[1];
         float brake = actions.ContinuousActions[2];
 
-        // Controllo validità
-        if (!float.IsFinite(accel) || !float.IsFinite(steer) || !float.IsFinite(brake)) return;
+        controller.Move(motor, steer, brake);
+        //AddReward(-0.005f);
 
-        // Applica le azioni al controller
-        car.Move(accel, steer, brake);
+        AddReward(timePenaltyMultiplier * Time.fixedDeltaTime);
 
-        // Sistema di ricompense
+        var (cp, idx) = checkpointManager.DetectNextCheckpointWithIndex(this);
+        nextCheckpoint = cp;
+        nextCheckpointIndex = idx;
 
-        // Ricompensa base per rimanere attivo
-        AddReward(0.01f);
+        float currentDist = Vector3.Distance(transform.position, nextCheckpoint.position);
+        smoothLastDist = smoothingAlpha * currentDist + (1f - smoothingAlpha) * smoothLastDist;
+        AddReward((smoothLastDist - currentDist) * progressRewardMultiplier);
+        lastDist = currentDist;
 
-        // Ricompensa per avvicinamento al checkpoint
-        targetCheckpoint = checkpointManager.GetNextCheckpoint(nextCheckpointIndex);
-        float newDistance = Vector3.Distance(transform.position, targetCheckpoint.position);
-        float delta = lastDistanceToCheckpoint - newDistance;
-        AddReward(delta * 0.1f);
-        lastDistanceToCheckpoint = newDistance;
+        checkpointManager.EvaluateCheckpointProgress(this, nextCheckpointIndex);
 
-        // Ricompensa per raggiungimento checkpoint
-        if (newDistance < 5f)
+        if (rb.linearVelocity.magnitude < 1f)
         {
-            AddReward(5f);
-            nextCheckpointIndex = (nextCheckpointIndex + 1) % checkpointManager.TotalCheckpoints;
-            /*
-            if (nextCheckpointIndex == 0)
+            idleTimer += Time.fixedDeltaTime;
+            float idlePenalty = idlePenaltyPerSecond * idleTimer;
+            AddReward(idlePenalty);
+
+            if (idleTimer > maxIdleTime)
             {
-                // Completato un giro completo
-                AddReward(10f);
+                AddReward(timePenalty);
+                isRespawn = true;
+                idleTimer = 0f;
                 EndEpisode();
             }
-            */
         }
-
-        // Ricompensa per velocità (incoraggia movimento)
-        float speed = transform.InverseTransformDirection(rb.linearVelocity).z;
-        if (speed > 0.1f)
-            AddReward(speed * 0.02f);
         else
-            AddReward(-0.01f); // Piccola penalità per lentezza
+        {
+            idleTimer = 0f;
+        }
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
     {
         var continuousActions = actionsOut.ContinuousActions;
-        continuousActions[0] = Input.GetKey(KeyCode.UpArrow) ? 1f : Input.GetKey(KeyCode.DownArrow) ? -1f : 0f;
-        continuousActions[1] = Input.GetKey(KeyCode.LeftArrow) ? -1f : Input.GetKey(KeyCode.RightArrow) ? 1f : 0f;
+        continuousActions[0] = Input.GetKey(KeyCode.W) ? 1f : Input.GetKey(KeyCode.S) ? -1f : 0f;
+        continuousActions[1] = Input.GetKey(KeyCode.A) ? -1f : Input.GetKey(KeyCode.D) ? 1f : 0f;
         continuousActions[2] = Input.GetKey(KeyCode.Space) ? 1f : 0f;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("bulkheads"))
+        if (collision.gameObject.CompareTag("bulkheads") || collision.gameObject.CompareTag("Car"))
         {
-            AddReward(-10f);
+            AddReward(collisionPenalty);
+            isRespawn = true;
             EndEpisode();
-        }
-        else if (collision.gameObject.CompareTag("RedCar"))
-        {
-            AddReward(-10f);
-            EndEpisode();
+            //raceManager.notifyEnd(this);
         }
     }
 }

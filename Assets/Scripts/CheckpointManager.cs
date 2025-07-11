@@ -5,9 +5,9 @@ using static SpawnManager;
 public class CheckpointManager : MonoBehaviour
 {
     public Transform[] checkpoints;
-    public float progressReward = 1f;
-    public float checkpointReachedReward = 10f;
-    public const float undercutPenalty = -5f;
+    public float progressReward = 2f;
+    public float checkpointReachedReward = 3f;
+    public const float undercutPenalty = -2f;
     public int TotalCheckpoints => checkpoints.Length;
     private Dictionary<CarAgent, int> currentIndex = new Dictionary<CarAgent, int>();
 
@@ -95,7 +95,6 @@ public class CheckpointManager : MonoBehaviour
         // 4) se geometr. indietro → penalità
         else if (detectedIdx < idx)
         {
-            Debug.Log("questo log non dovrebbe esserci");
             agent.AddReward(undercutPenalty);
         }
     }

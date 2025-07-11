@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.MLAgents;
@@ -22,7 +23,7 @@ public class SpawnManager : MonoBehaviour
     private List<GameObject> spawnedAgents = new List<GameObject>();
     public string[] agentBehaviors = { "BlueCar", "RedCar", "GreenCar", "RoseCar", "YellowCar", "VioletCar" };
 
-
+    
     public void SetupEpisode()
     {
         // Distrugge gli agenti precedenti
@@ -37,10 +38,35 @@ public class SpawnManager : MonoBehaviour
 
         // Instanzia agenti
         foreach (var spawnPoint in positions)
-            InstantiateAgentAt(spawnPoint, null);
+            InstantiateAgentAt(spawnPoint);
+    }
+    
+
+    /*
+    public void SetupEpisode()
+    {
+        StartCoroutine(SpawnAfterDelay());
     }
 
-    private void InstantiateAgentAt(Transform spawnPoint, string Oldbehavior)
+    private IEnumerator SpawnAfterDelay()
+    {
+        // Distruggi agenti precedenti
+        foreach (var agent in spawnedAgents)
+            Destroy(agent);
+        spawnedAgents.Clear();
+
+        yield return null; // aspetta un frame
+
+        var positions = (trainingPhase == TrainingPhase.RandomSpawn)
+            ? randomPositions.OrderBy(_ => Random.value).Take(agentCount)
+            : gridPositions.Take(agentCount);
+
+        foreach (var spawnPoint in positions)
+            InstantiateAgentAt(spawnPoint);
+    }
+    */
+
+    private void InstantiateAgentAt(Transform spawnPoint)
     {
         var agentObj = Instantiate(carPrefab, spawnPoint.position, spawnPoint.rotation);
         var behaviorParameters = agentObj.GetComponent<BehaviorParameters>();

@@ -18,12 +18,20 @@ public class CarAgent : Agent
     public int nextCheckpointIndex;
 
     [Header("Rewards (hardcoded)")]
+    /*
     private const float timePenaltyMultiplier = -0.01f;
     private const float timePenalty = -8f;
     private const float collisionPenalty = -10.0f;
     private const float opponentCollisionPenalty = -1.0f;
     private const float progressRewardMultiplier = 0.5f;
     private const float lapCompletedReward = 5.0f;
+    */
+    private const float progressRewardMultiplier = 1.5f;
+    private const float collisionPenalty = -2.0f;
+    private const float idlePenaltyPerSecond = -0.2f;
+    private const float timePenaltyMultiplier = -0.002f; // meno penalizzante
+    private const float lapCompletedReward = 5.0f;
+    private const float timePenalty = -0.5f;
 
     [Header("Idle Timeout")]
     private float maxIdleTime = 10f;
@@ -102,6 +110,11 @@ public class CarAgent : Agent
         // Progresso sui checkpoint
         float progress = checkpointManager.GetCurrentCheckpointIndex(this) / (float)checkpointManager.TotalCheckpoints;
         sensor.AddObservation(progress);
+
+        float distToCheckpoint = Vector3.Distance(transform.position, nextCheckpoint.position) / 100f;
+        sensor.AddObservation(distToCheckpoint);
+        sensor.AddObservation((float)nextCheckpointIndex / checkpointManager.TotalCheckpoints);
+
     }
 
     public override void OnActionReceived(ActionBuffers actions)
@@ -125,7 +138,7 @@ public class CarAgent : Agent
         if (rb.linearVelocity.magnitude < 1f)
         {
             idleTimer += Time.fixedDeltaTime;
-            float idlePenalty = -0.1f * idleTimer;
+            float idlePenalty = idlePenaltyPerSecond * idleTimer;
             AddReward(idlePenalty);
             
             if (idleTimer > maxIdleTime)

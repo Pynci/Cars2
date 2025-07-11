@@ -43,7 +43,7 @@ public class CarAgent : Agent
     private float lastDist;
     private float smoothLastDist;
     private float idleTimer = 0f;
-    private int maxLap = 3;
+    private int maxLap = 1;
     private int lap = -1;
     private bool isRespawn = false;
 
@@ -66,7 +66,7 @@ public class CarAgent : Agent
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
-        if(isRespawn)
+        if (isRespawn)
         {
             isRespawn = false;
             Transform respawn = raceManager.RespawnAgent();
@@ -81,11 +81,22 @@ public class CarAgent : Agent
 
     public void AddLap()
     {
-        lap++;
+        lap = lap + 1;
         Debug.Log("lap: "+lap);
         if(lap >= 1)
         {
+            Debug.Log("LAP: " + lap);
             AddReward(lapCompletedReward);
+        }
+        if (raceManager != null && raceManager.spawnManager.trainingPhase == SpawnManager.TrainingPhase.Race)
+        {
+            if (lap == maxLap)
+            {
+                Debug.Log("max lap raggiunto" + lap);
+                isRespawn = true;
+                lap = -1;
+                raceManager.NotifyMaxLapReached(this);
+            }
         }
     }
 
@@ -128,6 +139,10 @@ public class CarAgent : Agent
 
         AddReward(timePenaltyMultiplier * Time.fixedDeltaTime);
 
+        var (cp, idx) = checkpointManager.DetectNextCheckpointWithIndex(this);
+        nextCheckpoint = cp;
+        nextCheckpointIndex = idx;
+
         float currentDist = Vector3.Distance(transform.position, nextCheckpoint.position);
         smoothLastDist = smoothingAlpha * currentDist + (1f - smoothingAlpha) * smoothLastDist;
         AddReward((smoothLastDist - currentDist) * progressRewardMultiplier);
@@ -158,11 +173,6 @@ public class CarAgent : Agent
         if (raceManager != null && raceManager.spawnManager.trainingPhase == SpawnManager.TrainingPhase.Race)
         {
             raceManager.UpdateRaceProgress();
-
-            if (lap == maxLap)
-            {
-                raceManager.NotifyMaxLapReached(this);
-            }
         }
     }
 

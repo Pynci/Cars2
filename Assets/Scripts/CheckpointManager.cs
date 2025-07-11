@@ -11,10 +11,9 @@ public class CheckpointManager : MonoBehaviour
     public int TotalCheckpoints => checkpoints.Length;
     private Dictionary<CarAgent, int> currentIndex = new Dictionary<CarAgent, int>();
 
-    
-
     public int GetCurrentCheckpointIndex(CarAgent agent)
     {
+        //questo serve perchè prima dello spawn darebbe errore
         if (!currentIndex.TryGetValue(agent, out var idx))
             currentIndex[agent] = idx = 0;
         return idx;
@@ -78,12 +77,13 @@ public class CheckpointManager : MonoBehaviour
             agent.AddReward(-progressReward);  // penalità se guarda lontano dal cp
 
         // 2) se attraversa correttamente
-        if (detectedIdx == idx && Vector3.Distance(agent.transform.position, cp.position) < 2f)
+        if (detectedIdx == idx && Vector3.Distance(agent.transform.position, cp.position) < 5f)
         {
             agent.AddReward(checkpointReachedReward);
             currentIndex[agent] = (idx + 1) % checkpoints.Length;
-            if(detectedIdx == 0 && raceMode == SpawnManager.TrainingPhase.Race)
+            if(detectedIdx == 1 && raceMode == SpawnManager.TrainingPhase.Race)
             {
+                Debug.Log("add lap checkpoint");
                 agent.AddLap();
             }
         }

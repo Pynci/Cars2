@@ -44,42 +44,27 @@ public class RaceManager : MonoBehaviour
     public void UpdateRaceProgress()
     {
         // Solo se siamo nella fase di gara, applica la logica di posizione
-        if (spawnManager.trainingPhase == SpawnManager.TrainingPhase.Race)
+        
+        // Ordina gli agenti: prima per checkpoint superati, poi per distanza residua dal prossimo
+        var ordered = agents.OrderByDescending(agent =>
         {
-            // Ordina gli agenti: prima per checkpoint superati, poi per distanza residua dal prossimo
-            var ordered = agents.OrderByDescending(agent =>
-            {
-                var (checkpoint, checkpointIndex) = checkpointManager.DetectNextCheckpointWithIndex(agent);
-                int index = checkpointIndex;
-                float distanceToNext = Vector3.Distance(agent.transform.position, checkpoint.position);
-                return checkpointIndex * 1000f - distanceToNext;  // più checkpoint = meglio
-            }).ToList();
+            var (checkpoint, checkpointIndex) = checkpointManager.DetectNextCheckpointWithIndex(agent);
+            int index = checkpointIndex;
+            float distanceToNext = Vector3.Distance(agent.transform.position, checkpoint.position);
+            return checkpointIndex * 1000f - distanceToNext;  // più checkpoint = meglio
+        }).ToList();
 
-            for (int i = 0; i < ordered.Count; i++)
-            {
-                CarAgent agent = ordered[i];
+        for (int i = 0; i < ordered.Count; i++)
+        {
+            CarAgent agent = ordered[i];
 
-                // Primo classificato → reward, ultimi → penalità proporzionale alla posizione
-                float reward = Mathf.Lerp(positionReward, positionPenalty, (float)i / (ordered.Count - 1));
-                agent.AddReward(reward * Time.fixedDeltaTime);
-            }
+            // Primo classificato → reward, ultimi → penalità proporzionale alla posizione
+            float reward = Mathf.Lerp(positionReward, positionPenalty, (float)i / (ordered.Count - 1));
+            agent.AddReward(reward * Time.fixedDeltaTime);
         }
+        
     }
 
-    public void notifyEnd(CarAgent agent)
-    {
-        Transform agentPosition;
-        if (spawnManager.trainingPhase == SpawnManager.TrainingPhase.Race)
-        {
-            Destroy(agent);
-            Destroy(agent.gameObject);
-        }
-        else if (spawnManager.trainingPhase == SpawnManager.TrainingPhase.RandomSpawn)
-        {
-            agentPosition = RespawnAgent();
-        }
-
-    }
 
     public Transform RespawnAgent()
     {
@@ -114,6 +99,7 @@ public class RaceManager : MonoBehaviour
 
     public void NotifyMaxLapReached(CarAgent winnerAgent)
     {
+        Debug.Log("in race manager max lap");
         if (winnerAgent == null) return;
 
         winnerAgent.AddReward(maxLapCompletedReward);
@@ -122,11 +108,11 @@ public class RaceManager : MonoBehaviour
         {
             if (agent != winnerAgent)
             {
+                Debug.Log("end episode ");
                 agent.AddReward(racePenalty);
             }
+            agent.EndEpisode();
         }
-
-        ResetAllAgents();
     }
 
 }

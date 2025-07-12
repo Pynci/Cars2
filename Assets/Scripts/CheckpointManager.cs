@@ -5,8 +5,8 @@ using static SpawnManager;
 public class CheckpointManager : MonoBehaviour
 {
     public Transform[] checkpoints;
-    public float progressReward = 2f;
-    public float checkpointReachedReward = 3f;
+    public float progressReward = 0.1f;
+    public float checkpointReachedReward = 2f;
     public const float undercutPenalty = -2f;
     public int TotalCheckpoints => checkpoints.Length;
     private Dictionary<CarAgent, int> currentIndex = new Dictionary<CarAgent, int>();
@@ -63,11 +63,15 @@ public class CheckpointManager : MonoBehaviour
         return (bestCp, bestIdx);
     }
 
-    public void EvaluateCheckpointProgress(CarAgent agent, int detectedIdx, TrainingPhase raceMode)
+    public void EvaluateCheckpointProgress(CarAgent agent, TrainingPhase raceMode)
     {
         int idx = GetCurrentCheckpointIndex(agent);
-        var cp = checkpoints[detectedIdx];
-        Vector3 toCp = (cp.position - agent.transform.position).normalized;
+        //Debug.Log(" idx: " + idx);
+        var (detectedCP, detectedIdx) = DetectNextCheckpointWithIndex(agent);
+        //Debug.Log("detected idx: " + detectedIdx);
+        //var cp = checkpoints[detectedIdx];
+        
+        Vector3 toCp = (detectedCP.position - agent.transform.position).normalized;
         float facing = Vector3.Dot(agent.transform.forward, toCp);
 
         // 1) reward/penalità base per direzione
@@ -76,12 +80,14 @@ public class CheckpointManager : MonoBehaviour
         else
             agent.AddReward(-progressReward);  // penalità se guarda lontano dal cp
 
+        int nextIdx = (idx + 1) % checkpoints.Length;
         // 2) se attraversa correttamente
-        if (detectedIdx == idx && Vector3.Distance(agent.transform.position, cp.position) < 5f)
+        if (detectedIdx == nextIdx && Vector3.Distance(agent.transform.position, detectedCP.position) < 8f)
         {
             agent.AddReward(checkpointReachedReward);
-            currentIndex[agent] = (idx + 1) % checkpoints.Length;
-            if(detectedIdx == 1 && raceMode == SpawnManager.TrainingPhase.Race)
+            currentIndex[agent] = nextIdx;
+            //Debug.Log("detected checkpoint: "+detectedIdx+" current idx: " + currentIndex[agent]);
+            if (detectedIdx == 0 && raceMode == SpawnManager.TrainingPhase.Race)
             {
                 Debug.Log("add lap checkpoint");
                 agent.AddLap();

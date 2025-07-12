@@ -1057,7 +1057,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 5000
+  MaxStep: 0
   maxSpeed: 1000
   nextCheckpoint: {fileID: 0}
   nextCheckpointIndex: 0

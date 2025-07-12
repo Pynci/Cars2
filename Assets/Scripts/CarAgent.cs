@@ -43,8 +43,8 @@ public class CarAgent : Agent
     private float lastDist;
     private float smoothLastDist;
     private float idleTimer = 0f;
-    private int maxLap = 1;
-    private int lap = -1;
+    private const int maxLap = 3;
+    private int lap = 0;
     private bool isRespawn = false;
 
     public override void Initialize()
@@ -53,7 +53,7 @@ public class CarAgent : Agent
         rb = GetComponent<Rigidbody>();
         checkpointManager = FindFirstObjectByType<CheckpointManager>();
         raceManager = FindFirstObjectByType<RaceManager>();
-        isRespawn = false;
+        setIsRespawn(false);
     }
 
     public void SetRaceManager(RaceManager rm)
@@ -65,10 +65,12 @@ public class CarAgent : Agent
     {
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
-
+        lap = 0;
+        Debug.Log("lap on episode begin : " + lap);
         if (isRespawn)
         {
-            isRespawn = false;
+            setIsRespawn(false);
+            Debug.Log("dentro respawn");
             Transform respawn = raceManager.RespawnAgent();
             transform.position = respawn.position;
             transform.rotation = respawn.rotation;
@@ -82,22 +84,25 @@ public class CarAgent : Agent
     public void AddLap()
     {
         lap = lap + 1;
-        Debug.Log("lap: "+lap);
+        Debug.Log("lap incrementato: "+lap);
         if(lap >= 1)
         {
-            Debug.Log("LAP: " + lap);
             AddReward(lapCompletedReward);
         }
         if (raceManager != null && raceManager.spawnManager.trainingPhase == SpawnManager.TrainingPhase.Race)
         {
             if (lap == maxLap)
             {
-                Debug.Log("max lap raggiunto" + lap);
-                isRespawn = true;
-                lap = -1;
+                Debug.Log("max lap raggiunto " + lap);
+                setIsRespawn(true);
                 raceManager.NotifyMaxLapReached(this);
             }
         }
+    }
+
+    public void setIsRespawn(bool value)
+    {
+        isRespawn=value;
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -125,7 +130,6 @@ public class CarAgent : Agent
         float distToCheckpoint = Vector3.Distance(transform.position, nextCheckpoint.position) / 100f;
         sensor.AddObservation(distToCheckpoint);
         sensor.AddObservation((float)nextCheckpointIndex / checkpointManager.TotalCheckpoints);
-
     }
 
     public override void OnActionReceived(ActionBuffers actions)
@@ -138,7 +142,6 @@ public class CarAgent : Agent
         //AddReward(-0.005f);
 
         AddReward(timePenaltyMultiplier * Time.fixedDeltaTime);
-
         var (cp, idx) = checkpointManager.DetectNextCheckpointWithIndex(this);
         nextCheckpoint = cp;
         nextCheckpointIndex = idx;
@@ -148,18 +151,17 @@ public class CarAgent : Agent
         AddReward((smoothLastDist - currentDist) * progressRewardMultiplier);
         lastDist = currentDist;
 
-        checkpointManager.EvaluateCheckpointProgress(this, nextCheckpointIndex, raceManager.spawnManager.trainingPhase);
+        checkpointManager.EvaluateCheckpointProgress(this, raceManager.spawnManager.trainingPhase);
 
         if (rb.linearVelocity.magnitude < 1f)
         {
             idleTimer += Time.fixedDeltaTime;
             float idlePenalty = idlePenaltyPerSecond * idleTimer;
             AddReward(idlePenalty);
-            
             if (idleTimer > maxIdleTime)
             {
                 AddReward(timePenalty);
-                isRespawn = true;
+                setIsRespawn(true);
                 idleTimer = 0f;
                 EndEpisode();
             }
@@ -188,10 +190,10 @@ public class CarAgent : Agent
     {
         if (collision.gameObject.CompareTag("bulkheads") || collision.gameObject.CompareTag("Car"))
         {
+            Debug.Log("in collision");
             AddReward(collisionPenalty);
-            isRespawn = true;
+            setIsRespawn(true);
             EndEpisode();
-            //raceManager.notifyEnd(this);
         }
     }
 }

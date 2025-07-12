@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using NUnit.Framework;
+using System.Collections.Generic;
 using System.Linq;
 using Unity.MLAgents;
 using Unity.Services.Analytics;
@@ -14,7 +15,7 @@ public class RaceManager : MonoBehaviour
     public float positionReward = 0.5f; // premio per chi è davanti
     public float positionPenalty = -0.2f; // penalità per chi è indietro
     public float maxLapCompletedReward = 20f; // premio completamento lap
-    public float racePenalty = -5f; //penalità per aver perso la gara
+    public float racePenalty = -10f; //penalità per aver perso la gara
 
     void Start()
     {
@@ -53,7 +54,7 @@ public class RaceManager : MonoBehaviour
             float distanceToNext = Vector3.Distance(agent.transform.position, checkpoint.position);
             return checkpointIndex * 1000f - distanceToNext;  // più checkpoint = meglio
         }).ToList();
-
+        
         for (int i = 0; i < ordered.Count; i++)
         {
             CarAgent agent = ordered[i];
@@ -77,6 +78,7 @@ public class RaceManager : MonoBehaviour
 
         if (spawnManager.trainingPhase == SpawnManager.TrainingPhase.Race)
         {
+            Debug.Log("dentro respawn in race manager fase gara");
             availablePositions = spawnManager.gridPositions
                 .Where(pos => !usedPositions.Contains(pos.position))
                 .ToList();
@@ -104,13 +106,17 @@ public class RaceManager : MonoBehaviour
 
         winnerAgent.AddReward(maxLapCompletedReward);
 
+        //agents.Where(agent => agent != winnerAgent)
+
         foreach (var agent in agents)
         {
             if (agent != winnerAgent)
             {
-                Debug.Log("end episode ");
+                Debug.Log("race penalty");
                 agent.AddReward(racePenalty);
             }
+            Debug.Log("end episode");
+            agent.setIsRespawn(true);
             agent.EndEpisode();
         }
     }

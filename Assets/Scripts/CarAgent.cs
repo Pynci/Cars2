@@ -66,11 +66,11 @@ public class CarAgent : Agent
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         lap = 0;
-        Debug.Log("lap on episode begin : " + lap);
+        //Debug.Log("lap on episode begin : " + lap);
         if (isRespawn)
         {
             setIsRespawn(false);
-            Debug.Log("dentro respawn");
+            //Debug.Log("dentro respawn");
             Transform respawn = raceManager.RespawnAgent();
             transform.position = respawn.position;
             transform.rotation = respawn.rotation;
@@ -84,7 +84,7 @@ public class CarAgent : Agent
     public void AddLap()
     {
         lap = lap + 1;
-        Debug.Log("lap incrementato: "+lap);
+        //Debug.Log("lap incrementato: "+lap);
         if(lap >= 1)
         {
             AddReward(lapCompletedReward);
@@ -93,7 +93,7 @@ public class CarAgent : Agent
         {
             if (lap == maxLap)
             {
-                Debug.Log("max lap raggiunto " + lap);
+                //Debug.Log("max lap raggiunto " + lap);
                 setIsRespawn(true);
                 raceManager.NotifyMaxLapReached(this);
             }
@@ -190,7 +190,7 @@ public class CarAgent : Agent
     {
         if (collision.gameObject.CompareTag("bulkheads") || collision.gameObject.CompareTag("Car"))
         {
-            Debug.Log("in collision");
+            //Debug.Log("in collision");
             AddReward(collisionPenalty);
             setIsRespawn(true);
             EndEpisode();

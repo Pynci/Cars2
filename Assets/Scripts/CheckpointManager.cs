@@ -89,7 +89,7 @@ public class CheckpointManager : MonoBehaviour
             //Debug.Log("detected checkpoint: "+detectedIdx+" current idx: " + currentIndex[agent]);
             if (detectedIdx == 0 && raceMode == SpawnManager.TrainingPhase.Race)
             {
-                Debug.Log("add lap checkpoint");
+                //Debug.Log("add lap checkpoint");
                 agent.AddLap();
             }
         }

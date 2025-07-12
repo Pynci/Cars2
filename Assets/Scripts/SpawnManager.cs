@@ -40,7 +40,7 @@ public class SpawnManager : MonoBehaviour
             : gridPositions.Take(agentCount);  // Grid spawn nella fase di gara
         
         Transform [] pos = positions.ToArray();
-        int i = 0;
+        //int i = 0;
 
         InitializeAgentAt(RedspawnPrefab, pos[0]);
         InitializeAgentAt(BluespawnPrefab, pos[1]);

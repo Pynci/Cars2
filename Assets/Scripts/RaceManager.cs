@@ -72,7 +72,7 @@ public class RaceManager : MonoBehaviour
 
         if (spawnManager.trainingPhase == SpawnManager.TrainingPhase.Race)
         {
-            Debug.Log("dentro respawn in race manager fase gara");
+            //Debug.Log("dentro respawn in race manager fase gara");
             availablePositions = spawnManager.gridPositions
                 .Where(pos => !usedPositions.Contains(pos.position))
                 .ToList();
@@ -95,7 +95,7 @@ public class RaceManager : MonoBehaviour
 
     public void NotifyMaxLapReached(CarAgent winnerAgent)
     {
-        Debug.Log("in race manager max lap");
+        //Debug.Log("in race manager max lap");
         if (winnerAgent == null) return;
 
         winnerAgent.AddReward(maxLapCompletedReward);
@@ -104,10 +104,10 @@ public class RaceManager : MonoBehaviour
         {
             if (agent != winnerAgent)
             {
-                Debug.Log("race penalty");
+                //Debug.Log("race penalty");
                 agent.AddReward(racePenalty);
             }
-            Debug.Log("end episode");
+            //Debug.Log("end episode");
             agent.setIsRespawn(true);
             agent.EndEpisode();
         }

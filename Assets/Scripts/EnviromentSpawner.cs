@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class EnvironmentSpawner : MonoBehaviour
 {
+    /*
     public GameObject environmentPrefab;
     public int numEnvironments = 4;
     public int environmentsPerRow = 2;
@@ -31,4 +32,5 @@ public class EnvironmentSpawner : MonoBehaviour
             env.name = "Environment_" + i;
         }
     }
+    */
 }

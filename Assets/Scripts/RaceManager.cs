@@ -35,12 +35,6 @@ public class RaceManager : MonoBehaviour
         agent.SetRaceManager(this);
     }
 
-    public void ResetAllAgents()
-    {
-        SetupRace();
-        foreach (var agent in agents)
-            agent.EndEpisode();
-    }
 
     public void UpdateRaceProgress()
     {
@@ -105,8 +99,6 @@ public class RaceManager : MonoBehaviour
         if (winnerAgent == null) return;
 
         winnerAgent.AddReward(maxLapCompletedReward);
-
-        //agents.Where(agent => agent != winnerAgent)
 
         foreach (var agent in agents)
         {

@@ -10,6 +10,8 @@ public class SpawnManager : MonoBehaviour
     public GameObject carPrefab;
     public Transform[] gridPositions;
     public Transform[] randomPositions;
+    public GameObject RedspawnPrefab;
+    public GameObject BluespawnPrefab;
 
     [Tooltip("Numero di agenti da instanziare")]
     public int agentCount = 2;
@@ -26,51 +28,40 @@ public class SpawnManager : MonoBehaviour
     
     public void SetupEpisode()
     {
+        /*
         // Distrugge gli agenti precedenti
         foreach (var agent in spawnedAgents)
             Destroy(agent);
         spawnedAgents.Clear();
-
+        */
         // Seleziona posizioni in base alla fase di addestramento
         var positions = (trainingPhase == TrainingPhase.RandomSpawn)
             ? randomPositions.OrderBy(_ => Random.value).Take(agentCount)
             : gridPositions.Take(agentCount);  // Grid spawn nella fase di gara
+        
+        Transform [] pos = positions.ToArray();
+        int i = 0;
 
-        // Instanzia agenti
-        foreach (var spawnPoint in positions)
-            InstantiateAgentAt(spawnPoint);
+        InitializeAgentAt(RedspawnPrefab, pos[0]);
+        InitializeAgentAt(BluespawnPrefab, pos[1]);
     }
-    
 
-    /*
-    public void SetupEpisode()
+    private void InitializeAgentAt(GameObject agent, Transform spawnpoint)
     {
-        StartCoroutine(SpawnAfterDelay());
+        spawnedAgents.Add(agent);
+        agent.transform.position = spawnpoint.position;
+        agent.transform.rotation = spawnpoint.rotation;
     }
 
-    private IEnumerator SpawnAfterDelay()
-    {
-        // Distruggi agenti precedenti
-        foreach (var agent in spawnedAgents)
-            Destroy(agent);
-        spawnedAgents.Clear();
 
-        yield return null; // aspetta un frame
-
-        var positions = (trainingPhase == TrainingPhase.RandomSpawn)
-            ? randomPositions.OrderBy(_ => Random.value).Take(agentCount)
-            : gridPositions.Take(agentCount);
-
-        foreach (var spawnPoint in positions)
-            InstantiateAgentAt(spawnPoint);
-    }
-    */
 
     private void InstantiateAgentAt(Transform spawnPoint)
     {
+        
         var agentObj = Instantiate(carPrefab, spawnPoint.position, spawnPoint.rotation);
         var behaviorParameters = agentObj.GetComponent<BehaviorParameters>();
         string Newbehavior = null;
+
    
         spawnedAgents.Add(agentObj);
 
@@ -91,6 +82,7 @@ public class SpawnManager : MonoBehaviour
                 rend.material = material;
             }
         }
+        
 
         
     }

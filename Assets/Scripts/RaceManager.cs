@@ -14,8 +14,8 @@ public class RaceManager : MonoBehaviour
 
     public float positionReward = 0.5f; // premio per chi è davanti
     public float positionPenalty = -0.2f; // penalità per chi è indietro
-    public float maxLapCompletedReward = 20f; // premio completamento lap
-    public float racePenalty = -10f; //penalità per aver perso la gara
+    public float maxLapCompletedReward = 5f; // premio completamento lap
+    public float racePenalty = -3f; //penalità per aver perso la gara
 
     void Start()
     {
@@ -30,22 +30,8 @@ public class RaceManager : MonoBehaviour
             agent.SetRaceManager(this);
     }
 
-    public void SetupRaceManager(CarAgent agent)
-    {
-        agent.SetRaceManager(this);
-    }
-
-    public void ResetAllAgents()
-    {
-        SetupRace();
-        foreach (var agent in agents)
-            agent.EndEpisode();
-    }
-
     public void UpdateRaceProgress()
     {
-        // Solo se siamo nella fase di gara, applica la logica di posizione
-        
         // Ordina gli agenti: prima per checkpoint superati, poi per distanza residua dal prossimo
         var ordered = agents.OrderByDescending(agent =>
         {
@@ -78,7 +64,6 @@ public class RaceManager : MonoBehaviour
 
         if (spawnManager.trainingPhase == SpawnManager.TrainingPhase.Race)
         {
-            Debug.Log("dentro respawn in race manager fase gara");
             availablePositions = spawnManager.gridPositions
                 .Where(pos => !usedPositions.Contains(pos.position))
                 .ToList();
@@ -101,7 +86,6 @@ public class RaceManager : MonoBehaviour
 
     public void NotifyMaxLapReached(CarAgent winnerAgent)
     {
-        Debug.Log("in race manager max lap");
         if (winnerAgent == null) return;
 
         winnerAgent.AddReward(maxLapCompletedReward);
@@ -112,10 +96,9 @@ public class RaceManager : MonoBehaviour
         {
             if (agent != winnerAgent)
             {
-                Debug.Log("race penalty");
                 agent.AddReward(racePenalty);
             }
-            Debug.Log("end episode");
+
             agent.setIsRespawn(true);
             agent.EndEpisode();
         }

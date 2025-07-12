@@ -66,10 +66,7 @@ public class CheckpointManager : MonoBehaviour
     public void EvaluateCheckpointProgress(CarAgent agent, TrainingPhase raceMode)
     {
         int idx = GetCurrentCheckpointIndex(agent);
-        //Debug.Log(" idx: " + idx);
         var (detectedCP, detectedIdx) = DetectNextCheckpointWithIndex(agent);
-        //Debug.Log("detected idx: " + detectedIdx);
-        //var cp = checkpoints[detectedIdx];
         
         Vector3 toCp = (detectedCP.position - agent.transform.position).normalized;
         float facing = Vector3.Dot(agent.transform.forward, toCp);
@@ -86,10 +83,9 @@ public class CheckpointManager : MonoBehaviour
         {
             agent.AddReward(checkpointReachedReward);
             currentIndex[agent] = nextIdx;
-            //Debug.Log("detected checkpoint: "+detectedIdx+" current idx: " + currentIndex[agent]);
+            
             if (detectedIdx == 0 && raceMode == SpawnManager.TrainingPhase.Race)
             {
-                Debug.Log("add lap checkpoint");
                 agent.AddLap();
             }
         }

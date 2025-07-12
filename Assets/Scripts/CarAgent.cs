@@ -18,15 +18,8 @@ public class CarAgent : Agent
     public int nextCheckpointIndex;
 
     [Header("Rewards (hardcoded)")]
-    /*
-    private const float timePenaltyMultiplier = -0.01f;
-    private const float timePenalty = -8f;
-    private const float collisionPenalty = -10.0f;
-    private const float opponentCollisionPenalty = -1.0f;
+    
     private const float progressRewardMultiplier = 0.5f;
-    private const float lapCompletedReward = 5.0f;
-    */
-    private const float progressRewardMultiplier = 1.5f;
     private const float collisionPenalty = -2.0f;
     private const float idlePenaltyPerSecond = -0.2f;
     private const float timePenaltyMultiplier = -0.002f; // meno penalizzante
@@ -39,8 +32,6 @@ public class CarAgent : Agent
     [Header("Progress Smoothing")]
     [Range(0f, 1f)] public float smoothingAlpha = 0.2f;
 
-    private int completedCheckpoints;
-    private float lastDist;
     private float smoothLastDist;
     private float idleTimer = 0f;
     private const int maxLap = 3;
@@ -66,11 +57,9 @@ public class CarAgent : Agent
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         lap = 0;
-        Debug.Log("lap on episode begin : " + lap);
         if (isRespawn)
         {
             setIsRespawn(false);
-            Debug.Log("dentro respawn");
             Transform respawn = raceManager.RespawnAgent();
             transform.position = respawn.position;
             transform.rotation = respawn.rotation;
@@ -84,7 +73,6 @@ public class CarAgent : Agent
     public void AddLap()
     {
         lap = lap + 1;
-        Debug.Log("lap incrementato: "+lap);
         if(lap >= 1)
         {
             AddReward(lapCompletedReward);
@@ -93,7 +81,6 @@ public class CarAgent : Agent
         {
             if (lap == maxLap)
             {
-                Debug.Log("max lap raggiunto " + lap);
                 setIsRespawn(true);
                 raceManager.NotifyMaxLapReached(this);
             }
@@ -139,7 +126,6 @@ public class CarAgent : Agent
         float brake = actions.ContinuousActions[2];
         
         controller.Move(motor, steer, brake);
-        //AddReward(-0.005f);
 
         AddReward(timePenaltyMultiplier * Time.fixedDeltaTime);
         var (cp, idx) = checkpointManager.DetectNextCheckpointWithIndex(this);
@@ -149,7 +135,6 @@ public class CarAgent : Agent
         float currentDist = Vector3.Distance(transform.position, nextCheckpoint.position);
         smoothLastDist = smoothingAlpha * currentDist + (1f - smoothingAlpha) * smoothLastDist;
         AddReward((smoothLastDist - currentDist) * progressRewardMultiplier);
-        lastDist = currentDist;
 
         checkpointManager.EvaluateCheckpointProgress(this, raceManager.spawnManager.trainingPhase);
 
@@ -190,7 +175,6 @@ public class CarAgent : Agent
     {
         if (collision.gameObject.CompareTag("bulkheads") || collision.gameObject.CompareTag("Car"))
         {
-            Debug.Log("in collision");
             AddReward(collisionPenalty);
             setIsRespawn(true);
             EndEpisode();

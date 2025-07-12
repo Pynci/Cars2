@@ -41,31 +41,6 @@ public class SpawnManager : MonoBehaviour
             InstantiateAgentAt(spawnPoint);
     }
     
-
-    /*
-    public void SetupEpisode()
-    {
-        StartCoroutine(SpawnAfterDelay());
-    }
-
-    private IEnumerator SpawnAfterDelay()
-    {
-        // Distruggi agenti precedenti
-        foreach (var agent in spawnedAgents)
-            Destroy(agent);
-        spawnedAgents.Clear();
-
-        yield return null; // aspetta un frame
-
-        var positions = (trainingPhase == TrainingPhase.RandomSpawn)
-            ? randomPositions.OrderBy(_ => Random.value).Take(agentCount)
-            : gridPositions.Take(agentCount);
-
-        foreach (var spawnPoint in positions)
-            InstantiateAgentAt(spawnPoint);
-    }
-    */
-
     private void InstantiateAgentAt(Transform spawnPoint)
     {
         var agentObj = Instantiate(carPrefab, spawnPoint.position, spawnPoint.rotation);

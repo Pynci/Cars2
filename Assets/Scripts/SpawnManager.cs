@@ -11,6 +11,10 @@ public class SpawnManager : MonoBehaviour
     public Transform[] gridPositions;
     public Transform[] randomPositions;
 
+    public GameObject RedspawnPrefab;
+    public GameObject BluespawnPrefab;
+    public bool isInference;
+
     [Tooltip("Numero di agenti da instanziare")]
     public int agentCount = 2;
     [Tooltip("Lista di materiali predefiniti per differenziare le auto")]
@@ -26,21 +30,43 @@ public class SpawnManager : MonoBehaviour
     
     public void SetupEpisode()
     {
-        // Distrugge gli agenti precedenti
-        foreach (var agent in spawnedAgents)
-            Destroy(agent);
-        spawnedAgents.Clear();
+        if(!isInference)
+        {
+            // Distrugge gli agenti precedenti
+            foreach (var agent in spawnedAgents)
+                Destroy(agent);
+            spawnedAgents.Clear();
 
-        // Seleziona posizioni in base alla fase di addestramento
-        var positions = (trainingPhase == TrainingPhase.RandomSpawn)
+            // Seleziona posizioni in base alla fase di addestramento
+            var positions = (trainingPhase == TrainingPhase.RandomSpawn)
+                ? randomPositions.OrderBy(_ => Random.value).Take(agentCount)
+                : gridPositions.Take(agentCount);  // Grid spawn nella fase di gara
+
+            // Instanzia agenti
+            foreach (var spawnPoint in positions)
+                InstantiateAgentAt(spawnPoint);
+        } else
+        {
+            var positions = (trainingPhase == TrainingPhase.RandomSpawn)
             ? randomPositions.OrderBy(_ => Random.value).Take(agentCount)
             : gridPositions.Take(agentCount);  // Grid spawn nella fase di gara
 
-        // Instanzia agenti
-        foreach (var spawnPoint in positions)
-            InstantiateAgentAt(spawnPoint);
+            Transform[] pos = positions.ToArray();
+
+            InitializeAgentAt(RedspawnPrefab, pos[0]);
+            InitializeAgentAt(BluespawnPrefab, pos[1]);
+        }
+        
     }
-    
+
+    private void InitializeAgentAt(GameObject agent, Transform spawnpoint)
+    {
+        spawnedAgents.Add(agent);
+        agent.transform.position = spawnpoint.position;
+        agent.transform.rotation = spawnpoint.rotation;
+    }
+
+
     private void InstantiateAgentAt(Transform spawnPoint)
     {
         var agentObj = Instantiate(carPrefab, spawnPoint.position, spawnPoint.rotation);

@@ -11,7 +11,6 @@ public class RaceManager : MonoBehaviour
     public SpawnManager spawnManager;
     public CheckpointManager checkpointManager;
     private CarAgent[] agents;
-    public bool isInference;
 
     public float positionReward = 0.05f; // premio per chi è davanti
     public float positionPenalty = -0.01f; // penalità per chi è indietro
@@ -22,8 +21,7 @@ public class RaceManager : MonoBehaviour
 
     void Start()
     {
-        if(!isInference)
-            SetupRace();
+       SetupRace();
     }
 
     public void SetupRace()
@@ -102,6 +100,22 @@ public class RaceManager : MonoBehaviour
         Transform newSpawn = availablePositions[Random.Range(0, availablePositions.Count)];
 
         return newSpawn;
+    }
+
+    public Transform GetRespawnPointForAgent(CarAgent agent)
+    {
+        var agents = spawnManager.GetSpawnedAgents();
+
+        if (spawnManager.trainingPhase == SpawnManager.TrainingPhase.Race)
+        {
+            int index = agents.IndexOf(agent);
+            if (index == 0)
+                return spawnManager.gridPositions[0];  // o Redspawn
+            else if (index == 1)
+                return spawnManager.gridPositions[1];  // o Bluespawn
+        }
+
+        return spawnManager.gridPositions[0]; // fallback
     }
 
 

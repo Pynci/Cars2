@@ -48,6 +48,7 @@ public class CarAgent : Agent
         checkpointManager = FindFirstObjectByType<CheckpointManager>();
         raceManager = FindFirstObjectByType<RaceManager>();
         setIsRespawn(false);
+
         if(raceManager.spawnManager.trainingPhase == SpawnManager.TrainingPhase.Race)
         {
             speedReward = 0.002f;
@@ -69,7 +70,7 @@ public class CarAgent : Agent
         lap = 0;
         lastRank = -1;
 
-        if (isRespawn && !isInference)
+        if (isRespawn)
         {
             setIsRespawn(false);
             Transform respawn = raceManager.RespawnAgent();
@@ -77,14 +78,14 @@ public class CarAgent : Agent
             transform.rotation = respawn.rotation;
         }
 
-        var (cp, idx) = checkpointManager.DetectNextCheckpointWithIndex(this);
+            var (cp, idx) = checkpointManager.DetectNextCheckpointWithIndex(this);
         nextCheckpoint = cp;
         nextCheckpointIndex = idx;
     }
 
     public void AddLap()
     {
-        lap = lap + 1;
+        lap++;
         if(lap >= 1)
         {
             AddReward(lapCompletedReward);
@@ -101,7 +102,7 @@ public class CarAgent : Agent
 
     public void setIsRespawn(bool value)
     {
-        isRespawn=value;
+        isRespawn = value;
     }
 
     public override void CollectObservations(VectorSensor sensor)

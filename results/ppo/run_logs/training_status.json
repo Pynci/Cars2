@@ -18,15 +18,24 @@
                 "auxillary_file_paths": [
                     "results\\ppo\\RedCar\\RedCar-877639.pt"
                 ]
+            },
+            {
+                "steps": 880914,
+                "file_path": "results\\ppo\\RedCar\\RedCar-880914.onnx",
+                "reward": -0.6509869836625599,
+                "creation_time": 1752436311.870019,
+                "auxillary_file_paths": [
+                    "results\\ppo\\RedCar\\RedCar-880914.pt"
+                ]
             }
         ],
         "final_checkpoint": {
-            "steps": 877639,
+            "steps": 880914,
             "file_path": "results\\ppo\\RedCar.onnx",
-            "reward": -37.16669909159342,
-            "creation_time": 1752435964.031716,
+            "reward": -0.6509869836625599,
+            "creation_time": 1752436311.870019,
             "auxillary_file_paths": [
-                "results\\ppo\\RedCar\\RedCar-877639.pt"
+                "results\\ppo\\RedCar\\RedCar-880914.pt"
             ]
         }
     },
@@ -49,15 +58,24 @@
                 "auxillary_file_paths": [
                     "results\\ppo\\BlueCar\\BlueCar-877545.pt"
                 ]
+            },
+            {
+                "steps": 880722,
+                "file_path": "results\\ppo\\BlueCar\\BlueCar-880722.onnx",
+                "reward": null,
+                "creation_time": 1752436311.6261234,
+                "auxillary_file_paths": [
+                    "results\\ppo\\BlueCar\\BlueCar-880722.pt"
+                ]
             }
         ],
         "final_checkpoint": {
-            "steps": 877545,
+            "steps": 880722,
             "file_path": "results\\ppo\\BlueCar.onnx",
             "reward": null,
-            "creation_time": 1752435963.7391245,
+            "creation_time": 1752436311.6261234,
             "auxillary_file_paths": [
-                "results\\ppo\\BlueCar\\BlueCar-877545.pt"
+                "results\\ppo\\BlueCar\\BlueCar-880722.pt"
             ]
         }
     },

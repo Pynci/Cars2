@@ -72,7 +72,7 @@ public class RaceManager : MonoBehaviour
 
         if (spawnManager.trainingPhase == SpawnManager.TrainingPhase.Race)
         {
-            if (spawnManager.GetSpawnedAgents().Count == 2)
+            /*if (spawnManager.GetSpawnedAgents().Count == 2)
             {
                 // Usa solo i primi due slot della griglia
                 availablePositions = spawnManager.gridPositions
@@ -81,12 +81,12 @@ public class RaceManager : MonoBehaviour
                     .ToList();
             }
             else
-            {
+            {*/
                 // Usa tutta la griglia come fallback
                 availablePositions = spawnManager.gridPositions
                     .Where(pos => !usedPositions.Contains(pos.position))
                     .ToList();
-            }
+            //}
         }
         else if (spawnManager.trainingPhase == SpawnManager.TrainingPhase.RandomSpawn)
         {
@@ -102,23 +102,6 @@ public class RaceManager : MonoBehaviour
         return newSpawn;
     }
 
-    public Transform GetRespawnPointForAgent(CarAgent agent)
-    {
-        var agents = spawnManager.GetSpawnedAgents();
-
-        if (spawnManager.trainingPhase == SpawnManager.TrainingPhase.Race)
-        {
-            int index = agents.IndexOf(agent);
-            if (index == 0)
-                return spawnManager.gridPositions[0];  // o Redspawn
-            else if (index == 1)
-                return spawnManager.gridPositions[1];  // o Bluespawn
-        }
-
-        return spawnManager.gridPositions[0]; // fallback
-    }
-
-
 
     public void NotifyMaxLapReached(CarAgent winnerAgent)
     {
@@ -126,7 +109,6 @@ public class RaceManager : MonoBehaviour
 
         winnerAgent.AddReward(maxLapCompletedReward);
 
-        //agents.Where(agent => agent != winnerAgent)
 
         foreach (var agent in agents)
         {

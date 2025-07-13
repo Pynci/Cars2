@@ -3945,6 +3945,9 @@ MonoBehaviour:
   - {fileID: 3261243929805319204}
   - {fileID: 7182567285406292601}
   - {fileID: 1456777995860880179}
+  RedspawnPrefab: {fileID: 0}
+  BluespawnPrefab: {fileID: 0}
+  isInference: 0
   agentCount: 2
   availableMaterials:
   - {fileID: 2100000, guid: 40c80fd118dc3b44ba3c901bf619aef9, type: 2}
@@ -8070,6 +8073,7 @@ MonoBehaviour:
   positionPenalty: -0.02
   maxLapCompletedReward: 5
   racePenalty: -5
+  betterRankReward: 0.2
 --- !u!1 &8704290240520405105
 GameObject:
   m_ObjectHideFlags: 0

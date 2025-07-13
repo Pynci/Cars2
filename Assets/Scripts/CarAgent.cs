@@ -11,7 +11,6 @@ public class CarAgent : Agent
     private CarController controller;
     private CheckpointManager checkpointManager;
     private RaceManager raceManager;
-    public bool isInference;
 
     [Header("Agent Settings")]
     public float maxSpeed = 20f;

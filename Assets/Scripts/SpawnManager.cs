@@ -13,7 +13,7 @@ public class SpawnManager : MonoBehaviour
 
     public GameObject RedspawnPrefab;
     public GameObject BluespawnPrefab;
-    public bool isInference;
+    public bool isInference = false;
 
     [Tooltip("Numero di agenti da instanziare")]
     public int agentCount = 2;
@@ -45,8 +45,8 @@ public class SpawnManager : MonoBehaviour
             // Instanzia agenti
             foreach (var spawnPoint in positions)
                 InstantiateAgentAt(spawnPoint);
-        } else
-        {
+
+        } else {
             var positions = (trainingPhase == TrainingPhase.RandomSpawn)
             ? randomPositions.OrderBy(_ => Random.value).Take(agentCount)
             : gridPositions.Take(agentCount);  // Grid spawn nella fase di gara

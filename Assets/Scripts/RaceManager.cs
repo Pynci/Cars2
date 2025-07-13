@@ -11,15 +11,19 @@ public class RaceManager : MonoBehaviour
     public SpawnManager spawnManager;
     public CheckpointManager checkpointManager;
     private CarAgent[] agents;
+    public bool isInference;
 
     public float positionReward = 0.05f; // premio per chi è davanti
     public float positionPenalty = -0.01f; // penalità per chi è indietro
     public float maxLapCompletedReward = 2f; // premio completamento lap
     public float racePenalty = -1.0f; //penalità per aver perso la gara
+    public float betterRankReward = 0.2f;
+    
 
     void Start()
     {
-        SetupRace();
+        if(!isInference)
+            SetupRace();
     }
 
     public void SetupRace()
@@ -32,25 +36,31 @@ public class RaceManager : MonoBehaviour
 
     public void UpdateRaceProgress()
     {
-        // Ordina gli agenti: prima per checkpoint superati, poi per distanza residua dal prossimo
+        // Ordina gli agenti per progresso
         var ordered = agents.OrderByDescending(agent =>
         {
             var (checkpoint, checkpointIndex) = checkpointManager.DetectNextCheckpointWithIndex(agent);
-            int index = checkpointIndex;
             float distanceToNext = Vector3.Distance(agent.transform.position, checkpoint.position);
-            return checkpointIndex * 1000f - distanceToNext;  // più checkpoint = meglio
+            return checkpointIndex * 1000f - distanceToNext;
         }).ToList();
-        
+
         for (int i = 0; i < ordered.Count; i++)
         {
             CarAgent agent = ordered[i];
 
-            // Primo classificato → reward, ultimi → penalità proporzionale alla posizione
+            // sorpasso
+            if (agent.lastRank != -1 && i < agent.lastRank)
+            {
+                agent.AddReward(betterRankReward); 
+            }
+
             float reward = Mathf.Lerp(positionReward, positionPenalty, (float)i / (ordered.Count - 1));
             agent.AddReward(reward * Time.fixedDeltaTime);
+
+            agent.lastRank = i; // aggiornamento classifica attuale
         }
-        
     }
+
 
 
     public Transform RespawnAgent()
@@ -64,9 +74,21 @@ public class RaceManager : MonoBehaviour
 
         if (spawnManager.trainingPhase == SpawnManager.TrainingPhase.Race)
         {
-            availablePositions = spawnManager.gridPositions
-                .Where(pos => !usedPositions.Contains(pos.position))
-                .ToList();
+            if (spawnManager.GetSpawnedAgents().Count == 2)
+            {
+                // Usa solo i primi due slot della griglia
+                availablePositions = spawnManager.gridPositions
+                    .Take(2)
+                    .Where(pos => !usedPositions.Contains(pos.position))
+                    .ToList();
+            }
+            else
+            {
+                // Usa tutta la griglia come fallback
+                availablePositions = spawnManager.gridPositions
+                    .Where(pos => !usedPositions.Contains(pos.position))
+                    .ToList();
+            }
         }
         else if (spawnManager.trainingPhase == SpawnManager.TrainingPhase.RandomSpawn)
         {

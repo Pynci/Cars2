@@ -11,6 +11,7 @@ public class CarAgent : Agent
     private CarController controller;
     private CheckpointManager checkpointManager;
     private RaceManager raceManager;
+    public bool isInference;
 
     [Header("Agent Settings")]
     public float maxSpeed = 20f;
@@ -25,7 +26,7 @@ public class CarAgent : Agent
     private const float timePenaltyMultiplier = -0.001f; // meno penalizzante
     private const float lapCompletedReward = 1.0f;
     private const float timePenalty = -0.2f;
-    private const float speedReward = 0.2f;
+    private float speedReward;
 
     [Header("Idle Timeout")]
     private float maxIdleTime = 10f;
@@ -38,6 +39,7 @@ public class CarAgent : Agent
     private const int maxLap = 3;
     private int lap = 0;
     private bool isRespawn = false;
+    public int lastRank = -1; // -1 iniziale: mai classificato
 
     public override void Initialize()
     {
@@ -46,6 +48,13 @@ public class CarAgent : Agent
         checkpointManager = FindFirstObjectByType<CheckpointManager>();
         raceManager = FindFirstObjectByType<RaceManager>();
         setIsRespawn(false);
+        if(raceManager.spawnManager.trainingPhase == SpawnManager.TrainingPhase.Race)
+        {
+            speedReward = 0.002f;
+        } else
+        {
+            speedReward = 0.2f;
+        }
     }
 
     public void SetRaceManager(RaceManager rm)
@@ -58,7 +67,9 @@ public class CarAgent : Agent
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         lap = 0;
-        if (isRespawn)
+        lastRank = -1;
+
+        if (isRespawn && !isInference)
         {
             setIsRespawn(false);
             Transform respawn = raceManager.RespawnAgent();

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7886470344665793569}
   - component: {fileID: 5924834088604581007}
   m_Layer: 3
-  m_Name: red-wheel-back-right
+  m_Name: wheel-back-right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -160,7 +160,7 @@ GameObject:
   - component: {fileID: 5998104840573113602}
   - component: {fileID: 8118441603061564164}
   m_Layer: 3
-  m_Name: red-wheel-back-left
+  m_Name: wheel-back-left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -285,7 +285,7 @@ GameObject:
   - component: {fileID: 2966354735931185284}
   - component: {fileID: 522578960498674566}
   m_Layer: 3
-  m_Name: red-wheel-back-right-collider
+  m_Name: wheel-back-right-collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -357,7 +357,7 @@ GameObject:
   - component: {fileID: 3421456098025283941}
   - component: {fileID: 9102667878467747094}
   m_Layer: 3
-  m_Name: red-wheel-front-right
+  m_Name: wheel-front-right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -443,7 +443,7 @@ GameObject:
   - component: {fileID: 5707569400887988162}
   - component: {fileID: 7267415127040846467}
   m_Layer: 3
-  m_Name: red-wheel-front-left
+  m_Name: wheel-front-left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -528,7 +528,7 @@ GameObject:
   - component: {fileID: 405131431865849776}
   - component: {fileID: 590081195157597330}
   m_Layer: 3
-  m_Name: red-wheel-back-left-collider
+  m_Name: wheel-back-left-collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -685,7 +685,7 @@ GameObject:
   - component: {fileID: 2877924793552749269}
   - component: {fileID: 5625506574147209741}
   m_Layer: 3
-  m_Name: red-wheel-front-left-collider
+  m_Name: wheel-front-left-collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -839,7 +839,7 @@ GameObject:
   - component: {fileID: 2869177324998611314}
   - component: {fileID: 2472602402061715651}
   m_Layer: 3
-  m_Name: red-wheel-front-right-collider
+  m_Name: wheel-front-right-collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1007,7 +1007,7 @@ MonoBehaviour:
   frontRightMesh: {fileID: 9052618021428366011}
   rearLeftMesh: {fileID: 9216227226711440546}
   rearRightMesh: {fileID: 2985690905886659212}
-  maxMotorTorque: 10000
+  maxMotorTorque: 5000
   maxSteeringAngle: 30
   brakeForce: 10000
   engineBrakeForce: 150

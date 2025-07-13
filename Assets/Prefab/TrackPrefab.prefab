@@ -3953,7 +3953,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 5d36430ab849ae241bd4bd02ece45424, type: 2}
   - {fileID: 2100000, guid: 540fcb10ffbee3e439b0643f696f3b24, type: 2}
   - {fileID: 2100000, guid: 811c1c69e643f3648a623e42eda2d263, type: 2}
-  trainingPhase: 0
+  trainingPhase: 1
   agentBehaviors:
   - BlueCar
   - RedCar
@@ -4403,6 +4403,7 @@ MonoBehaviour:
   - {fileID: 3465267526773011192}
   - {fileID: 626760910220503398}
   progressReward: 1
+  progressPenalty: -0.00001
   checkpointReachedReward: 1
 --- !u!1 &5785808976974443345
 GameObject:

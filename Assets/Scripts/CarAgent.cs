@@ -1,4 +1,4 @@
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
@@ -19,12 +19,13 @@ public class CarAgent : Agent
 
     [Header("Rewards (hardcoded)")]
     
-    private const float progressRewardMultiplier = 0.5f;
-    private const float collisionPenalty = -2.0f;
-    private const float idlePenaltyPerSecond = -0.2f;
-    private const float timePenaltyMultiplier = -0.002f; // meno penalizzante
-    private const float lapCompletedReward = 5.0f;
-    private const float timePenalty = -0.5f;
+    private const float progressRewardMultiplier = 0.00001f;
+    private const float collisionPenalty = -1.5f;
+    private const float idlePenaltyPerSecond = -0.005f;
+    private const float timePenaltyMultiplier = -0.001f; // meno penalizzante
+    private const float lapCompletedReward = 1.0f;
+    private const float timePenalty = -0.2f;
+    private const float speedReward = 0.2f;
 
     [Header("Idle Timeout")]
     private float maxIdleTime = 10f;
@@ -94,18 +95,11 @@ public class CarAgent : Agent
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        /*
-        var dir = (nextCheckpoint.position - transform.position).normalized;
-        float dist = Vector3.Distance(transform.position, nextCheckpoint.position);
-        sensor.AddObservation(transform.InverseTransformDirection(dir));
-        sensor.AddObservation(dist / 100f);
-        sensor.AddObservation(transform.InverseTransformDirection(rb.linearVelocity) / maxSpeed);
-        */
         // Direzione verso il checkpoint
         Vector3 dir = (nextCheckpoint.position - transform.position).normalized;
         sensor.AddObservation(transform.InverseTransformDirection(dir));
 
-        // Velocit� localizzata
+        // Velocità localizzata
         Vector3 localVel = transform.InverseTransformDirection(rb.linearVelocity);
         sensor.AddObservation(localVel.z / maxSpeed);
         sensor.AddObservation(localVel.x / (maxSpeed * 0.5f));
@@ -116,7 +110,11 @@ public class CarAgent : Agent
 
         float distToCheckpoint = Vector3.Distance(transform.position, nextCheckpoint.position) / 100f;
         sensor.AddObservation(distToCheckpoint);
-        sensor.AddObservation((float)nextCheckpointIndex / checkpointManager.TotalCheckpoints);
+        //sensor.AddObservation((float)nextCheckpointIndex / checkpointManager.TotalCheckpoints);
+
+        // direzione dell’auto rispetto al checkpoint
+        float facing = Vector3.Dot(transform.forward, dir);
+        sensor.AddObservation(facing); 
     }
 
     public override void OnActionReceived(ActionBuffers actions)
@@ -127,14 +125,14 @@ public class CarAgent : Agent
         
         controller.Move(motor, steer, brake);
 
-        AddReward(timePenaltyMultiplier * Time.fixedDeltaTime);
+        //AddReward(timePenaltyMultiplier * Time.fixedDeltaTime);
         var (cp, idx) = checkpointManager.DetectNextCheckpointWithIndex(this);
         nextCheckpoint = cp;
         nextCheckpointIndex = idx;
 
         float currentDist = Vector3.Distance(transform.position, nextCheckpoint.position);
         smoothLastDist = smoothingAlpha * currentDist + (1f - smoothingAlpha) * smoothLastDist;
-        AddReward((smoothLastDist - currentDist) * progressRewardMultiplier);
+        //AddReward((smoothLastDist - currentDist) * progressRewardMultiplier);
 
         checkpointManager.EvaluateCheckpointProgress(this, raceManager.spawnManager.trainingPhase);
 
@@ -155,6 +153,10 @@ public class CarAgent : Agent
         {
             idleTimer = 0f;
         }
+
+        float speed = transform.InverseTransformDirection(rb.linearVelocity).z;
+        if (speed > 0.1f)
+            AddReward(speed * speedReward);
 
         // Solo in fase di gara
         if (raceManager != null && raceManager.spawnManager.trainingPhase == SpawnManager.TrainingPhase.Race)

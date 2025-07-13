@@ -14,7 +14,7 @@ public class CarController : MonoBehaviour
 
     public void Move(float motorInput, float steeringInput, float brakeInput)
     {
-        float motor = Mathf.Clamp(motorInput, -1f, 1f) * maxMotorTorque;
+        float motor = Mathf.Clamp(motorInput, 0f, 1f) * maxMotorTorque;
         float steer = Mathf.Clamp(steeringInput, -1f, 1f) * maxSteeringAngle;
         float brake = Mathf.Clamp01(brakeInput) * brakeForce;
         float engineBrake = motorInput < 0.01f ? engineBrakeForce : 0f;

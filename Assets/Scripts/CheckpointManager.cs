@@ -5,9 +5,10 @@ using static SpawnManager;
 public class CheckpointManager : MonoBehaviour
 {
     public Transform[] checkpoints;
-    public float progressReward = 0.1f;
-    public float checkpointReachedReward = 2f;
-    public const float undercutPenalty = -2f;
+    public float progressReward = 0.0000000001f;
+    public float progressPenalty = -0.00001f;
+    public float checkpointReachedReward = 1.5f;
+    public const float wrongCheckpointReached = -0.5f;
     public int TotalCheckpoints => checkpoints.Length;
     private Dictionary<CarAgent, int> currentIndex = new Dictionary<CarAgent, int>();
 
@@ -72,10 +73,10 @@ public class CheckpointManager : MonoBehaviour
         float facing = Vector3.Dot(agent.transform.forward, toCp);
 
         // 1) reward/penalità base per direzione
-        if (facing > 0.5f)
-            agent.AddReward(progressReward);
-        else
-            agent.AddReward(-progressReward);  // penalità se guarda lontano dal cp
+        if (facing < 0.6f)
+            agent.AddReward(progressPenalty);// penalità se guarda lontano dal cp
+        //else
+          //  agent.AddReward(progressReward);
 
         int nextIdx = (idx + 1) % checkpoints.Length;
         // 2) se attraversa correttamente
@@ -90,14 +91,14 @@ public class CheckpointManager : MonoBehaviour
             }
         }
         // 3) se “geometricamente” davanti, ma id diverso → overtake
-        else if (detectedIdx > idx)
+        /*else if (detectedIdx > idx)
         {
             agent.AddReward(progressReward);
-        }
+        }*/
         // 4) se geometr. indietro → penalità
         else if (detectedIdx < idx)
         {
-            agent.AddReward(undercutPenalty);
+            agent.AddReward(wrongCheckpointReached);
         }
     }
 

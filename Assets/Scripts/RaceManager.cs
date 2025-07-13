@@ -12,10 +12,10 @@ public class RaceManager : MonoBehaviour
     public CheckpointManager checkpointManager;
     private CarAgent[] agents;
 
-    public float positionReward = 0.5f; // premio per chi è davanti
-    public float positionPenalty = -0.2f; // penalità per chi è indietro
-    public float maxLapCompletedReward = 5f; // premio completamento lap
-    public float racePenalty = -3f; //penalità per aver perso la gara
+    public float positionReward = 0.05f; // premio per chi è davanti
+    public float positionPenalty = -0.01f; // penalità per chi è indietro
+    public float maxLapCompletedReward = 2f; // premio completamento lap
+    public float racePenalty = -1.0f; //penalità per aver perso la gara
 
     void Start()
     {

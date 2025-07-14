@@ -12,12 +12,16 @@ public class RaceManager : MonoBehaviour
     public CheckpointManager checkpointManager;
     private CarAgent[] agents;
 
-    public float positionReward = 0.05f; // premio per chi è davanti
-    public float positionPenalty = -0.01f; // penalità per chi è indietro
-    public float maxLapCompletedReward = 2f; // premio completamento lap
-    public float racePenalty = -1.0f; //penalità per aver perso la gara
-    public float betterRankReward = 0.2f;
-    
+    public float positionReward = 0.005f; // premio per chi è davanti
+    public float positionPenalty = -0.001f; // penalità per chi è indietro
+    public float maxLapCompletedReward = 1f; // premio completamento lap
+    public float racePenalty = -0.5f; //penalità per aver perso la gara
+    public float betterRankReward = 0.01f;
+
+    private int neutralPhaseSteps = 300; // ad esempio: primi 100 step neutri
+    private int stepCounter = 0;
+
+
 
     void Start()
     {
@@ -34,6 +38,9 @@ public class RaceManager : MonoBehaviour
 
     public void UpdateRaceProgress()
     {
+        stepCounter++;
+        if (stepCounter < neutralPhaseSteps) return;
+
         // Ordina gli agenti per progresso
         var ordered = agents.OrderByDescending(agent =>
         {
@@ -72,7 +79,7 @@ public class RaceManager : MonoBehaviour
 
         if (spawnManager.trainingPhase == SpawnManager.TrainingPhase.Race)
         {
-            /*if (spawnManager.GetSpawnedAgents().Count == 2)
+            if (spawnManager.GetSpawnedAgents().Count == 2)
             {
                 // Usa solo i primi due slot della griglia
                 availablePositions = spawnManager.gridPositions
@@ -81,12 +88,12 @@ public class RaceManager : MonoBehaviour
                     .ToList();
             }
             else
-            {*/
+            {
                 // Usa tutta la griglia come fallback
                 availablePositions = spawnManager.gridPositions
                     .Where(pos => !usedPositions.Contains(pos.position))
                     .ToList();
-            //}
+            }
         }
         else if (spawnManager.trainingPhase == SpawnManager.TrainingPhase.RandomSpawn)
         {

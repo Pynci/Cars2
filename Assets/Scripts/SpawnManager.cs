@@ -13,7 +13,7 @@ public class SpawnManager : MonoBehaviour
 
     public GameObject RedspawnPrefab;
     public GameObject BluespawnPrefab;
-    public bool isInference = false;
+    public bool isInference = true;
 
     [Tooltip("Numero di agenti da instanziare")]
     public int agentCount = 2;

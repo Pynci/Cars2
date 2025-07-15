@@ -167,6 +167,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7744467549448902004, guid: c5f19c7c1a6bac14bbe8802cb5f19fec, type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 5022602860645237092, guid: 1196937c2003a3849afac3364f64cc2a, type: 3}
+    - target: {fileID: 7744467549448902004, guid: c5f19c7c1a6bac14bbe8802cb5f19fec, type: 3}
+      propertyPath: m_BehaviorType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 9205417933208847940, guid: c5f19c7c1a6bac14bbe8802cb5f19fec, type: 3}
       propertyPath: m_Name
       value: RedCarPrefab
@@ -354,6 +362,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 439a539918dfa444c80b8d6a1b2c7dbc, type: 2}
+    - target: {fileID: 7744467549448902004, guid: c5f19c7c1a6bac14bbe8802cb5f19fec, type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 5022602860645237092, guid: 018fa556368f14a42ba4476f1279f33b, type: 3}
     - target: {fileID: 7744467549448902004, guid: c5f19c7c1a6bac14bbe8802cb5f19fec, type: 3}
       propertyPath: m_BehaviorType
       value: 2

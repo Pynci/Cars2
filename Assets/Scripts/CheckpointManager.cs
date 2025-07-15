@@ -72,14 +72,14 @@ public class CheckpointManager : MonoBehaviour
         Vector3 toCp = (detectedCP.position - agent.transform.position).normalized;
         float facing = Vector3.Dot(agent.transform.forward, toCp);
 
-        // 1) reward/penalità base per direzione
+        // reward/penalità base per direzione
         if (facing < 0.6f)
             agent.AddReward(progressPenalty);// penalità se guarda lontano dal cp
         //else
           //  agent.AddReward(progressReward);
 
         int nextIdx = (idx + 1) % checkpoints.Length;
-        // 2) se attraversa correttamente
+        // se attraversa correttamente
         if (detectedIdx == nextIdx && Vector3.Distance(agent.transform.position, detectedCP.position) < 8f)
         {
             agent.AddReward(checkpointReachedReward);
@@ -90,12 +90,7 @@ public class CheckpointManager : MonoBehaviour
                 agent.AddLap();
             }
         }
-        // 3) se “geometricamente” davanti, ma id diverso → overtake
-        /*else if (detectedIdx > idx)
-        {
-            agent.AddReward(progressReward);
-        }*/
-        // 4) se geometr. indietro → penalità
+        // se geometr. indietro → penalità
         else if (detectedIdx < idx)
         {
             agent.AddReward(wrongCheckpointReached);

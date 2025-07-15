@@ -5,6 +5,7 @@ using Unity.MLAgents;
 using Unity.Services.Analytics;
 using UnityEngine;
 using UnityEngine.Splines;
+using static SpawnManager;
 
 public class RaceManager : MonoBehaviour
 {
@@ -17,9 +18,6 @@ public class RaceManager : MonoBehaviour
     public float maxLapCompletedReward = 1f; // premio completamento lap
     public float racePenalty = -0.5f; //penalità per aver perso la gara
     public float betterRankReward = 0.01f;
-
-    private int neutralPhaseSteps = 100; // ad esempio: primi 100 step neutri
-    private int stepCounter = 0;
 
 
 
@@ -38,9 +36,6 @@ public class RaceManager : MonoBehaviour
 
     public void UpdateRaceProgress()
     {
-        stepCounter++;
-        if (stepCounter < neutralPhaseSteps) return;
-
         // Ordina gli agenti per progresso
         var ordered = agents.OrderByDescending(agent =>
         {
@@ -60,7 +55,7 @@ public class RaceManager : MonoBehaviour
             }
 
             float reward = Mathf.Lerp(positionReward, positionPenalty, (float)i / (ordered.Count - 1));
-            agent.AddReward(reward * Time.fixedDeltaTime);
+            agent.AddReward(reward);
 
             agent.lastRank = i; // aggiornamento classifica attuale
         }
@@ -72,39 +67,41 @@ public class RaceManager : MonoBehaviour
     {
         // Trova posizione libera
         var usedPositions = spawnManager.GetSpawnedAgents()
-            .Select(a => a.transform.position)
+            .Select(agent => agent.transform.position)
             .ToHashSet();
 
         List<Transform> availablePositions = null;
 
+        availablePositions = (spawnManager.trainingPhase == SpawnManager.TrainingPhase.RandomSpawn)
+                ? spawnManager.randomPositions
+                .OrderBy(_ => Random.value)
+                .Take(spawnManager.GetSpawnedAgents().Count)
+                .Where(pos => !usedPositions.Contains(pos.position) && pos.position.y == 0.5 && Physics.CheckSphere(pos.position, 10f))
+                .ToList()
+                : spawnManager.gridPositions
+                .Take(spawnManager.GetSpawnedAgents().Count)
+                .Where(pos => !usedPositions.Contains(pos.position) && pos.position.y == 0.5 && Physics.CheckSphere(pos.position, 10f))
+                .ToList();
+        /*
         if (spawnManager.trainingPhase == SpawnManager.TrainingPhase.Race)
         {
-            if (spawnManager.GetSpawnedAgents().Count == 2)
-            {
-                // Usa solo i primi due slot della griglia
-                availablePositions = spawnManager.gridPositions
-                    .Take(2)
-                    .Where(pos => !usedPositions.Contains(pos.position))
-                    .ToList();
-            }
-            else
-            {
-                // Usa tutta la griglia come fallback
-                availablePositions = spawnManager.gridPositions
-                    .Where(pos => !usedPositions.Contains(pos.position))
-                    .ToList();
-            }
+            availablePositions = spawnManager.gridPositions
+                .Take(spawnManager.GetSpawnedAgents().Count)
+                .Where(pos => !usedPositions.Contains(pos.position))
+                .ToList();
         }
         else if (spawnManager.trainingPhase == SpawnManager.TrainingPhase.RandomSpawn)
         {
              availablePositions = spawnManager.randomPositions
                 .Where(pos => !usedPositions.Contains(pos.position))
                 .ToList();
-        }
+        }*/
+        Transform newSpawn = null;
 
-        if (availablePositions.Count == 0) Debug.Log("Non ci sono posizioni disponibili"); // Nessuna posizione disponibile
-
-        Transform newSpawn = availablePositions[Random.Range(0, availablePositions.Count)];
+        if (availablePositions.Count == 0) 
+            Debug.Log("Non ci sono posizioni disponibili"); // Nessuna posizione disponibile
+        else 
+            newSpawn = availablePositions[Random.Range(0, availablePositions.Count)];
 
         return newSpawn;
     }

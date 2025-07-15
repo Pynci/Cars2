@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.MLAgents;
 using Unity.MLAgents.Policies;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
@@ -10,10 +11,11 @@ public class SpawnManager : MonoBehaviour
     public GameObject carPrefab;
     public Transform[] gridPositions;
     public Transform[] randomPositions;
+    public Transform[] usedPositions;
 
     public GameObject RedspawnPrefab;
     public GameObject BluespawnPrefab;
-    public bool isInference = true;
+    public bool isInference;
 
     [Tooltip("Numero di agenti da instanziare")]
     public int agentCount = 2;
@@ -46,6 +48,8 @@ public class SpawnManager : MonoBehaviour
             foreach (var spawnPoint in positions)
                 InstantiateAgentAt(spawnPoint);
 
+            usedPositions = positions.ToArray();
+
         } else {
             var positions = (trainingPhase == TrainingPhase.RandomSpawn)
             ? randomPositions.OrderBy(_ => Random.value).Take(agentCount)
@@ -55,6 +59,8 @@ public class SpawnManager : MonoBehaviour
 
             InitializeAgentAt(RedspawnPrefab, pos[0]);
             InitializeAgentAt(BluespawnPrefab, pos[1]);
+
+            usedPositions = positions.ToArray();
         }
         
     }
@@ -72,6 +78,7 @@ public class SpawnManager : MonoBehaviour
         var agentObj = Instantiate(carPrefab, spawnPoint.position, spawnPoint.rotation);
         var behaviorParameters = agentObj.GetComponent<BehaviorParameters>();
         string Newbehavior = null;
+
    
         spawnedAgents.Add(agentObj);
 

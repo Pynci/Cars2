@@ -3945,6 +3945,7 @@ MonoBehaviour:
   - {fileID: 3261243929805319204}
   - {fileID: 7182567285406292601}
   - {fileID: 1456777995860880179}
+  usedPositions: []
   RedspawnPrefab: {fileID: 0}
   BluespawnPrefab: {fileID: 0}
   isInference: 0

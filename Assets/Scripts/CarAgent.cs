@@ -50,7 +50,7 @@ public class CarAgent : Agent
 
         if(raceManager.spawnManager.trainingPhase == SpawnManager.TrainingPhase.Race)
         {
-            speedReward = 0.002f;
+            speedReward = 0.02f;
         } else
         {
             speedReward = 0.2f;
@@ -72,7 +72,12 @@ public class CarAgent : Agent
         if (isRespawn)
         {
             setIsRespawn(false);
-            Transform respawn = raceManager.RespawnAgent();
+            Transform respawn;
+            do
+            {
+                respawn = raceManager.RespawnAgent();
+            } while (respawn == null);
+
             transform.position = respawn.position;
             transform.rotation = respawn.rotation;
         }
@@ -136,7 +141,6 @@ public class CarAgent : Agent
         
         controller.Move(motor, steer, brake);
 
-        //AddReward(timePenaltyMultiplier * Time.fixedDeltaTime);
         var (cp, idx) = checkpointManager.DetectNextCheckpointWithIndex(this);
         nextCheckpoint = cp;
         nextCheckpointIndex = idx;
@@ -193,13 +197,23 @@ public class CarAgent : Agent
             EndEpisode();
         }
 
-        if (collision.gameObject.CompareTag("Car"))
+        else if (collision.gameObject.CompareTag("Car"))
         {
-            if (collision.transform != this.transform)
+            AddReward(collisionPenalty);
+
+            Rigidbody otherRb = collision.rigidbody;
+            if (otherRb != null)
             {
-                AddReward(collisionPenalty);
-                setIsRespawn(true);
-                EndEpisode();
+                Vector3 relativeVelocity = rb.linearVelocity - otherRb.linearVelocity;
+                float impactForce = Vector3.Dot(relativeVelocity.normalized, transform.forward);
+
+                // Se l'agente stava "andando addosso all'altro" con sufficiente velocità
+                if (impactForce > 0.3f) // soglia regolabile
+                {
+                    AddReward(collisionPenalty);
+                    setIsRespawn(true);
+                    EndEpisode();
+                }
             }
         }
     }

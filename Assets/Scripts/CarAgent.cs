@@ -46,7 +46,7 @@ public class CarAgent : Agent
         rb = GetComponent<Rigidbody>();
         checkpointManager = FindFirstObjectByType<CheckpointManager>();
         raceManager = FindFirstObjectByType<RaceManager>();
-        setIsRespawn(false);
+        SetIsRespawn(false);
 
         if(raceManager.spawnManager.trainingPhase == SpawnManager.TrainingPhase.Race)
         {
@@ -71,12 +71,10 @@ public class CarAgent : Agent
 
         if (isRespawn)
         {
-            setIsRespawn(false);
+            SetIsRespawn(false);
             Transform respawn;
-            do
-            {
-                respawn = raceManager.RespawnAgent();
-            } while (respawn == null);
+            respawn = raceManager.RespawnAgent();
+            
 
             transform.position = respawn.position;
             transform.rotation = respawn.rotation;
@@ -98,13 +96,13 @@ public class CarAgent : Agent
         {
             if (lap == maxLap)
             {
-                setIsRespawn(true);
+                SetIsRespawn(true);
                 raceManager.NotifyMaxLapReached(this);
             }
         }
     }
 
-    public void setIsRespawn(bool value)
+    public void SetIsRespawn(bool value)
     {
         isRespawn = value;
     }
@@ -159,7 +157,7 @@ public class CarAgent : Agent
             if (idleTimer > maxIdleTime)
             {
                 AddReward(timePenalty);
-                setIsRespawn(true);
+                SetIsRespawn(true);
                 idleTimer = 0f;
                 EndEpisode();
             }
@@ -193,7 +191,7 @@ public class CarAgent : Agent
         if (collision.gameObject.CompareTag("bulkheads"))
         {
             AddReward(collisionPenalty);
-            setIsRespawn(true);
+            SetIsRespawn(true);
             EndEpisode();
         }
 
@@ -211,7 +209,7 @@ public class CarAgent : Agent
                 if (impactForce > 0.3f) // soglia regolabile
                 {
                     AddReward(collisionPenalty);
-                    setIsRespawn(true);
+                    SetIsRespawn(true);
                     EndEpisode();
                 }
             }

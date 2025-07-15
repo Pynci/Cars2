@@ -72,22 +72,12 @@ public class RaceManager : MonoBehaviour
 
         List<Transform> availablePositions = null;
 
-        availablePositions = (spawnManager.trainingPhase == SpawnManager.TrainingPhase.RandomSpawn)
-                ? spawnManager.randomPositions
-                .OrderBy(_ => Random.value)
-                .Take(spawnManager.GetSpawnedAgents().Count)
-                .Where(pos => !usedPositions.Contains(pos.position) && pos.position.y == 0.5 && Physics.CheckSphere(pos.position, 10f))
-                .ToList()
-                : spawnManager.gridPositions
-                .Take(spawnManager.GetSpawnedAgents().Count)
-                .Where(pos => !usedPositions.Contains(pos.position) && pos.position.y == 0.5 && Physics.CheckSphere(pos.position, 10f))
-                .ToList();
-        /*
         if (spawnManager.trainingPhase == SpawnManager.TrainingPhase.Race)
         {
+            Debug.Log(spawnManager.GetSpawnedAgents().Count);
             availablePositions = spawnManager.gridPositions
-                .Take(spawnManager.GetSpawnedAgents().Count)
                 .Where(pos => !usedPositions.Contains(pos.position))
+                .Take(spawnManager.GetSpawnedAgents().Count)
                 .ToList();
         }
         else if (spawnManager.trainingPhase == SpawnManager.TrainingPhase.RandomSpawn)
@@ -95,7 +85,8 @@ public class RaceManager : MonoBehaviour
              availablePositions = spawnManager.randomPositions
                 .Where(pos => !usedPositions.Contains(pos.position))
                 .ToList();
-        }*/
+        }
+
         Transform newSpawn = null;
 
         if (availablePositions.Count == 0) 
@@ -121,7 +112,7 @@ public class RaceManager : MonoBehaviour
                 agent.AddReward(racePenalty);
             }
 
-            agent.setIsRespawn(true);
+            agent.SetIsRespawn(true);
             agent.EndEpisode();
         }
     }

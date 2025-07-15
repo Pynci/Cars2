@@ -18,7 +18,7 @@ public class RaceManager : MonoBehaviour
     public float racePenalty = -0.5f; //penalità per aver perso la gara
     public float betterRankReward = 0.01f;
 
-    private int neutralPhaseSteps = 300; // ad esempio: primi 100 step neutri
+    private int neutralPhaseSteps = 100; // ad esempio: primi 100 step neutri
     private int stepCounter = 0;
 
 

@@ -6,7 +6,7 @@ behaviors:
       batch_size: 512
       buffer_size: 2048
       learning_rate: 0.0003
-      beta: 0.01
+      beta: 0.001
       epsilon: 0.2
       lambd: 0.95
       num_epoch: 3
@@ -62,7 +62,7 @@ behaviors:
       batch_size: 512
       buffer_size: 2048
       learning_rate: 0.0003
-      beta: 0.01
+      beta: 0.001
       epsilon: 0.2
       lambd: 0.95
       num_epoch: 3
@@ -118,7 +118,7 @@ behaviors:
       batch_size: 512
       buffer_size: 2048
       learning_rate: 0.0003
-      beta: 0.01
+      beta: 0.001
       epsilon: 0.2
       lambd: 0.95
       num_epoch: 3
@@ -174,7 +174,7 @@ behaviors:
       batch_size: 512
       buffer_size: 2048
       learning_rate: 0.0003
-      beta: 0.01
+      beta: 0.001
       epsilon: 0.2
       lambd: 0.95
       num_epoch: 3
@@ -230,7 +230,7 @@ behaviors:
       batch_size: 512
       buffer_size: 2048
       learning_rate: 0.0003
-      beta: 0.01
+      beta: 0.001
       epsilon: 0.2
       lambd: 0.95
       num_epoch: 3
@@ -286,7 +286,7 @@ behaviors:
       batch_size: 512
       buffer_size: 2048
       learning_rate: 0.0003
-      beta: 0.01
+      beta: 0.001
       epsilon: 0.2
       lambd: 0.95
       num_epoch: 3

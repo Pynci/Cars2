@@ -186,11 +186,21 @@ public class CarAgent : Agent
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("bulkheads") || collision.gameObject.CompareTag("Car"))
+        if (collision.gameObject.CompareTag("bulkheads"))
         {
             AddReward(collisionPenalty);
             setIsRespawn(true);
             EndEpisode();
+        }
+
+        if (collision.gameObject.CompareTag("Car"))
+        {
+            if (collision.transform != this.transform)
+            {
+                AddReward(collisionPenalty);
+                setIsRespawn(true);
+                EndEpisode();
+            }
         }
     }
 }

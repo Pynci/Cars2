@@ -35,7 +35,7 @@ public class CarAgent : Agent
 
     private float smoothLastDist;
     private float idleTimer = 0f;
-    private const int maxLap = 3;
+    private const int maxLap = 1;
     private int lap = 0;
     private bool isRespawn = false;
     public int lastRank = -1; // -1 iniziale: mai classificato

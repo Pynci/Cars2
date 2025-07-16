@@ -3949,7 +3949,7 @@ MonoBehaviour:
   RedspawnPrefab: {fileID: 0}
   BluespawnPrefab: {fileID: 0}
   isInference: 0
-  agentCount: 2
+  agentCount: 6
   availableMaterials:
   - {fileID: 2100000, guid: 40c80fd118dc3b44ba3c901bf619aef9, type: 2}
   - {fileID: 2100000, guid: 8f9d23f9643f3a44dacb77177065fe31, type: 2}
@@ -3957,7 +3957,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 5d36430ab849ae241bd4bd02ece45424, type: 2}
   - {fileID: 2100000, guid: 540fcb10ffbee3e439b0643f696f3b24, type: 2}
   - {fileID: 2100000, guid: 811c1c69e643f3648a623e42eda2d263, type: 2}
-  trainingPhase: 1
+  trainingPhase: 0
   agentBehaviors:
   - BlueCar
   - RedCar

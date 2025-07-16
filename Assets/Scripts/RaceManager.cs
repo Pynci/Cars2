@@ -74,16 +74,16 @@ public class RaceManager : MonoBehaviour
 
         if (spawnManager.trainingPhase == SpawnManager.TrainingPhase.Race)
         {
-            Debug.Log(spawnManager.GetSpawnedAgents().Count);
             availablePositions = spawnManager.gridPositions
-                .Where(pos => !usedPositions.Contains(pos.position))
                 .Take(spawnManager.GetSpawnedAgents().Count)
+                .Where(pos => !usedPositions.Contains(pos.position))
                 .ToList();
         }
         else if (spawnManager.trainingPhase == SpawnManager.TrainingPhase.RandomSpawn)
         {
              availablePositions = spawnManager.randomPositions
                 .Where(pos => !usedPositions.Contains(pos.position))
+                .Take(spawnManager.GetSpawnedAgents().Count)
                 .ToList();
         }
 

@@ -4,6 +4,7 @@ using System.Linq;
 using Unity.MLAgents;
 using Unity.MLAgents.Policies;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
@@ -13,8 +14,8 @@ public class SpawnManager : MonoBehaviour
     public Transform[] randomPositions;
     public Transform[] usedPositions;
 
-    public GameObject RedspawnPrefab;
-    public GameObject BluespawnPrefab;
+    public GameObject[] spawnPrefabs;
+
     public bool isInference;
 
     [Tooltip("Numero di agenti da instanziare")]
@@ -56,9 +57,13 @@ public class SpawnManager : MonoBehaviour
             : gridPositions.Take(agentCount);  // Grid spawn nella fase di gara
 
             Transform[] pos = positions.ToArray();
+            int i = 0;
 
-            InitializeAgentAt(RedspawnPrefab, pos[0]);
-            InitializeAgentAt(BluespawnPrefab, pos[1]);
+            foreach(GameObject prefab in spawnPrefabs)
+            {
+                InitializeAgentAt(prefab, pos[i]);
+                i++;
+            }
 
             usedPositions = positions.ToArray();
         }

@@ -19,13 +19,11 @@ public class CarAgent : Agent
 
     [Header("Rewards (hardcoded)")]
     
-    private const float progressRewardMultiplier = 0.00001f;
     private const float collisionPenalty = -1.5f;
     private const float idlePenaltyPerSecond = -0.005f;
-    private const float timePenaltyMultiplier = -0.001f; // meno penalizzante
     private const float lapCompletedReward = 1.0f;
     private const float timePenalty = -0.2f;
-    private float speedReward;
+    private float speedReward = 0.2f;
 
     [Header("Idle Timeout")]
     private float maxIdleTime = 10f;
@@ -33,7 +31,6 @@ public class CarAgent : Agent
     [Header("Progress Smoothing")]
     [Range(0f, 1f)] public float smoothingAlpha = 0.2f;
 
-    private float smoothLastDist;
     private float idleTimer = 0f;
     private const int maxLap = 1;
     private int lap = 0;
@@ -48,6 +45,7 @@ public class CarAgent : Agent
         raceManager = FindFirstObjectByType<RaceManager>();
         SetIsRespawn(false);
 
+        /*
         if(raceManager.spawnManager.trainingPhase == SpawnManager.TrainingPhase.Race)
         {
             speedReward = 0.02f;
@@ -55,6 +53,7 @@ public class CarAgent : Agent
         {
             speedReward = 0.2f;
         }
+        */
     }
 
     public void SetRaceManager(RaceManager rm)
@@ -142,10 +141,6 @@ public class CarAgent : Agent
         var (cp, idx) = checkpointManager.DetectNextCheckpointWithIndex(this);
         nextCheckpoint = cp;
         nextCheckpointIndex = idx;
-
-        float currentDist = Vector3.Distance(transform.position, nextCheckpoint.position);
-        smoothLastDist = smoothingAlpha * currentDist + (1f - smoothingAlpha) * smoothLastDist;
-        //AddReward((smoothLastDist - currentDist) * progressRewardMultiplier);
 
         checkpointManager.EvaluateCheckpointProgress(this, raceManager.spawnManager.trainingPhase);
 

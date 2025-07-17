@@ -5,7 +5,6 @@ using static SpawnManager;
 public class CheckpointManager : MonoBehaviour
 {
     public Transform[] checkpoints;
-    public float progressReward = 0.0000000001f;
     public float progressPenalty = -0.00001f;
     public float checkpointReachedReward = 1.5f;
     public const float wrongCheckpointReached = -0.5f;
@@ -75,8 +74,6 @@ public class CheckpointManager : MonoBehaviour
         // reward/penalità base per direzione
         if (facing < 0.6f)
             agent.AddReward(progressPenalty);// penalità se guarda lontano dal cp
-        //else
-          //  agent.AddReward(progressReward);
 
         int nextIdx = (idx + 1) % checkpoints.Length;
         // se attraversa correttamente

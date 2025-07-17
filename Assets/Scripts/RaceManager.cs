@@ -65,37 +65,41 @@ public class RaceManager : MonoBehaviour
 
     public Transform RespawnAgent()
     {
-        // Trova posizione libera
-        var usedPositions = spawnManager.GetSpawnedAgents()
-            .Select(agent => agent.transform.position)
-            .ToHashSet();
+        float distanceThreshold = 5.0f;
+        var agents = spawnManager.GetSpawnedAgents();
 
         List<Transform> availablePositions = null;
 
         if (spawnManager.trainingPhase == SpawnManager.TrainingPhase.Race)
         {
-            availablePositions = spawnManager.gridPositions
-                .Take(spawnManager.GetSpawnedAgents().Count)
-                .Where(pos => !usedPositions.Contains(pos.position))
+            // Prende solo le prime N posizioni definite
+            var candidatePositions = spawnManager.gridPositions
+                .Take(agents.Count);
+
+            availablePositions = candidatePositions
+                .Where(pos =>
+                    !agents.Any(agent =>
+                        Vector3.Distance(agent.transform.position, pos.position) < distanceThreshold))
                 .ToList();
         }
         else if (spawnManager.trainingPhase == SpawnManager.TrainingPhase.RandomSpawn)
         {
-             availablePositions = spawnManager.randomPositions
-                .Where(pos => !usedPositions.Contains(pos.position))
-                .Take(spawnManager.GetSpawnedAgents().Count)
+            availablePositions = spawnManager.randomPositions
+                .Where(pos =>
+                    !agents.Any(agent =>
+                        Vector3.Distance(agent.transform.position, pos.position) < distanceThreshold))
                 .ToList();
         }
 
-        Transform newSpawn = null;
+        if (availablePositions == null || availablePositions.Count == 0)
+        {
+            Debug.LogWarning("Non ci sono posizioni disponibili per il respawn.");
+            return null;
+        }
 
-        if (availablePositions.Count == 0) 
-            Debug.Log("Non ci sono posizioni disponibili"); // Nessuna posizione disponibile
-        else 
-            newSpawn = availablePositions[Random.Range(0, availablePositions.Count)];
-
-        return newSpawn;
+        return availablePositions[Random.Range(0, availablePositions.Count)];
     }
+
 
 
     public void NotifyMaxLapReached(CarAgent winnerAgent)

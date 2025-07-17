@@ -3210,7 +3210,7 @@ Transform:
   m_GameObject: {fileID: 3750547022008825726}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.27, y: 0, z: -33.01}
+  m_LocalPosition: {x: 2.67, y: 0, z: -33.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3957,7 +3957,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 5d36430ab849ae241bd4bd02ece45424, type: 2}
   - {fileID: 2100000, guid: 540fcb10ffbee3e439b0643f696f3b24, type: 2}
   - {fileID: 2100000, guid: 811c1c69e643f3648a623e42eda2d263, type: 2}
-  trainingPhase: 0
+  trainingPhase: 1
   agentBehaviors:
   - BlueCar
   - RedCar

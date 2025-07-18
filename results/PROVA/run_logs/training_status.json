@@ -1,0 +1,69 @@
+{
+    "BlueCar": {
+        "checkpoints": [
+            {
+                "steps": 206341,
+                "file_path": "results\\PROVA\\BlueCar\\BlueCar-206341.onnx",
+                "reward": null,
+                "creation_time": 1752857874.638024,
+                "auxillary_file_paths": [
+                    "results\\PROVA\\BlueCar\\BlueCar-206341.pt"
+                ]
+            },
+            {
+                "steps": 212694,
+                "file_path": "results\\PROVA\\BlueCar\\BlueCar-212694.onnx",
+                "reward": null,
+                "creation_time": 1752857930.1826813,
+                "auxillary_file_paths": [
+                    "results\\PROVA\\BlueCar\\BlueCar-212694.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 212694,
+            "file_path": "results\\PROVA\\BlueCar.onnx",
+            "reward": null,
+            "creation_time": 1752857930.1826813,
+            "auxillary_file_paths": [
+                "results\\PROVA\\BlueCar\\BlueCar-212694.pt"
+            ]
+        }
+    },
+    "RedCar": {
+        "checkpoints": [
+            {
+                "steps": 206354,
+                "file_path": "results\\PROVA\\RedCar\\RedCar-206354.onnx",
+                "reward": 11665.982177734375,
+                "creation_time": 1752857874.7419064,
+                "auxillary_file_paths": [
+                    "results\\PROVA\\RedCar\\RedCar-206354.pt"
+                ]
+            },
+            {
+                "steps": 212667,
+                "file_path": "results\\PROVA\\RedCar\\RedCar-212667.onnx",
+                "reward": 10661.186569213867,
+                "creation_time": 1752857930.279159,
+                "auxillary_file_paths": [
+                    "results\\PROVA\\RedCar\\RedCar-212667.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 212667,
+            "file_path": "results\\PROVA\\RedCar.onnx",
+            "reward": 10661.186569213867,
+            "creation_time": 1752857930.279159,
+            "auxillary_file_paths": [
+                "results\\PROVA\\RedCar\\RedCar-212667.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "1.13.1+cu117"
+    }
+}

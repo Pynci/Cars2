@@ -1,0 +1,193 @@
+{
+    "GreenCar": {
+        "checkpoints": [
+            {
+                "steps": 499881,
+                "file_path": "results\\AddFinale6agenti\\GreenCar\\GreenCar-499881.onnx",
+                "reward": 1247.9141754150392,
+                "creation_time": 1752860298.0203393,
+                "auxillary_file_paths": [
+                    "results\\AddFinale6agenti\\GreenCar\\GreenCar-499881.pt"
+                ]
+            },
+            {
+                "steps": 704543,
+                "file_path": "results\\AddFinale6agenti\\GreenCar\\GreenCar-704543.onnx",
+                "reward": null,
+                "creation_time": 1752861201.3329034,
+                "auxillary_file_paths": [
+                    "results\\AddFinale6agenti\\GreenCar\\GreenCar-704543.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 704543,
+            "file_path": "results\\AddFinale6agenti\\GreenCar.onnx",
+            "reward": null,
+            "creation_time": 1752861201.3329034,
+            "auxillary_file_paths": [
+                "results\\AddFinale6agenti\\GreenCar\\GreenCar-704543.pt"
+            ]
+        }
+    },
+    "VioletCar": {
+        "checkpoints": [
+            {
+                "steps": 499894,
+                "file_path": "results\\AddFinale6agenti\\VioletCar\\VioletCar-499894.onnx",
+                "reward": null,
+                "creation_time": 1752860298.6309826,
+                "auxillary_file_paths": [
+                    "results\\AddFinale6agenti\\VioletCar\\VioletCar-499894.pt"
+                ]
+            },
+            {
+                "steps": 704337,
+                "file_path": "results\\AddFinale6agenti\\VioletCar\\VioletCar-704337.onnx",
+                "reward": null,
+                "creation_time": 1752861200.8994193,
+                "auxillary_file_paths": [
+                    "results\\AddFinale6agenti\\VioletCar\\VioletCar-704337.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 704337,
+            "file_path": "results\\AddFinale6agenti\\VioletCar.onnx",
+            "reward": null,
+            "creation_time": 1752861200.8994193,
+            "auxillary_file_paths": [
+                "results\\AddFinale6agenti\\VioletCar\\VioletCar-704337.pt"
+            ]
+        }
+    },
+    "RedCar": {
+        "checkpoints": [
+            {
+                "steps": 499945,
+                "file_path": "results\\AddFinale6agenti\\RedCar\\RedCar-499945.onnx",
+                "reward": 8685.99673461914,
+                "creation_time": 1752860298.779874,
+                "auxillary_file_paths": [
+                    "results\\AddFinale6agenti\\RedCar\\RedCar-499945.pt"
+                ]
+            },
+            {
+                "steps": 704515,
+                "file_path": "results\\AddFinale6agenti\\RedCar\\RedCar-704515.onnx",
+                "reward": 41305.474965413414,
+                "creation_time": 1752861200.8018315,
+                "auxillary_file_paths": [
+                    "results\\AddFinale6agenti\\RedCar\\RedCar-704515.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 704515,
+            "file_path": "results\\AddFinale6agenti\\RedCar.onnx",
+            "reward": 41305.474965413414,
+            "creation_time": 1752861200.8018315,
+            "auxillary_file_paths": [
+                "results\\AddFinale6agenti\\RedCar\\RedCar-704515.pt"
+            ]
+        }
+    },
+    "YellowCar": {
+        "checkpoints": [
+            {
+                "steps": 499911,
+                "file_path": "results\\AddFinale6agenti\\YellowCar\\YellowCar-499911.onnx",
+                "reward": null,
+                "creation_time": 1752860298.8961453,
+                "auxillary_file_paths": [
+                    "results\\AddFinale6agenti\\YellowCar\\YellowCar-499911.pt"
+                ]
+            },
+            {
+                "steps": 704448,
+                "file_path": "results\\AddFinale6agenti\\YellowCar\\YellowCar-704448.onnx",
+                "reward": null,
+                "creation_time": 1752861201.2312782,
+                "auxillary_file_paths": [
+                    "results\\AddFinale6agenti\\YellowCar\\YellowCar-704448.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 704448,
+            "file_path": "results\\AddFinale6agenti\\YellowCar.onnx",
+            "reward": null,
+            "creation_time": 1752861201.2312782,
+            "auxillary_file_paths": [
+                "results\\AddFinale6agenti\\YellowCar\\YellowCar-704448.pt"
+            ]
+        }
+    },
+    "BlueCar": {
+        "checkpoints": [
+            {
+                "steps": 499988,
+                "file_path": "results\\AddFinale6agenti\\BlueCar\\BlueCar-499988.onnx",
+                "reward": 75794.38018798828,
+                "creation_time": 1752860299.301402,
+                "auxillary_file_paths": [
+                    "results\\AddFinale6agenti\\BlueCar\\BlueCar-499988.pt"
+                ]
+            },
+            {
+                "steps": 704425,
+                "file_path": "results\\AddFinale6agenti\\BlueCar\\BlueCar-704425.onnx",
+                "reward": null,
+                "creation_time": 1752861201.0065649,
+                "auxillary_file_paths": [
+                    "results\\AddFinale6agenti\\BlueCar\\BlueCar-704425.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 704425,
+            "file_path": "results\\AddFinale6agenti\\BlueCar.onnx",
+            "reward": null,
+            "creation_time": 1752861201.0065649,
+            "auxillary_file_paths": [
+                "results\\AddFinale6agenti\\BlueCar\\BlueCar-704425.pt"
+            ]
+        }
+    },
+    "RoseCar": {
+        "checkpoints": [
+            {
+                "steps": 499976,
+                "file_path": "results\\AddFinale6agenti\\RoseCar\\RoseCar-499976.onnx",
+                "reward": 24031.324600219727,
+                "creation_time": 1752860299.4599957,
+                "auxillary_file_paths": [
+                    "results\\AddFinale6agenti\\RoseCar\\RoseCar-499976.pt"
+                ]
+            },
+            {
+                "steps": 704612,
+                "file_path": "results\\AddFinale6agenti\\RoseCar\\RoseCar-704612.onnx",
+                "reward": null,
+                "creation_time": 1752861201.1287758,
+                "auxillary_file_paths": [
+                    "results\\AddFinale6agenti\\RoseCar\\RoseCar-704612.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 704612,
+            "file_path": "results\\AddFinale6agenti\\RoseCar.onnx",
+            "reward": null,
+            "creation_time": 1752861201.1287758,
+            "auxillary_file_paths": [
+                "results\\AddFinale6agenti\\RoseCar\\RoseCar-704612.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "1.13.1+cu117"
+    }
+}

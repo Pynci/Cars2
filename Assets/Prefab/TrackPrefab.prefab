@@ -3946,10 +3946,9 @@ MonoBehaviour:
   - {fileID: 7182567285406292601}
   - {fileID: 1456777995860880179}
   usedPositions: []
-  RedspawnPrefab: {fileID: 0}
-  BluespawnPrefab: {fileID: 0}
+  spawnPrefabs: []
   isInference: 0
-  agentCount: 6
+  agentCount: 2
   availableMaterials:
   - {fileID: 2100000, guid: 40c80fd118dc3b44ba3c901bf619aef9, type: 2}
   - {fileID: 2100000, guid: 8f9d23f9643f3a44dacb77177065fe31, type: 2}
@@ -4406,7 +4405,6 @@ MonoBehaviour:
   - {fileID: 8516091023391700487}
   - {fileID: 3465267526773011192}
   - {fileID: 626760910220503398}
-  progressReward: 1
   progressPenalty: -0.00001
   checkpointReachedReward: 1
 --- !u!1 &5785808976974443345

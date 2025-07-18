@@ -149,15 +149,6 @@
     "BlueCar": {
         "checkpoints": [
             {
-                "steps": 499989,
-                "file_path": "results\\ppo\\BlueCar\\BlueCar-499989.onnx",
-                "reward": 17763.958821614582,
-                "creation_time": 1752686910.320238,
-                "auxillary_file_paths": [
-                    "results\\ppo\\BlueCar\\BlueCar-499989.pt"
-                ]
-            },
-            {
                 "steps": 808587,
                 "file_path": "results\\ppo\\BlueCar\\BlueCar-808587.onnx",
                 "reward": null,
@@ -183,29 +174,38 @@
                 "auxillary_file_paths": [
                     "results\\ppo\\BlueCar\\BlueCar-1377499.pt"
                 ]
+            },
+            {
+                "steps": 1379144,
+                "file_path": "results\\ppo\\BlueCar\\BlueCar-1379144.onnx",
+                "reward": 5868.0369059244795,
+                "creation_time": 1752854519.8069646,
+                "auxillary_file_paths": [
+                    "results\\ppo\\BlueCar\\BlueCar-1379144.pt"
+                ]
+            },
+            {
+                "steps": 1386226,
+                "file_path": "results\\ppo\\BlueCar\\BlueCar-1386226.onnx",
+                "reward": 8432.39404296875,
+                "creation_time": 1752854744.6176434,
+                "auxillary_file_paths": [
+                    "results\\ppo\\BlueCar\\BlueCar-1386226.pt"
+                ]
             }
         ],
         "final_checkpoint": {
-            "steps": 1377499,
+            "steps": 1386226,
             "file_path": "results\\ppo\\BlueCar.onnx",
-            "reward": 593.1886132558187,
-            "creation_time": 1752702418.5739992,
+            "reward": 8432.39404296875,
+            "creation_time": 1752854744.6176434,
             "auxillary_file_paths": [
-                "results\\ppo\\BlueCar\\BlueCar-1377499.pt"
+                "results\\ppo\\BlueCar\\BlueCar-1386226.pt"
             ]
         }
     },
     "RedCar": {
         "checkpoints": [
-            {
-                "steps": 499975,
-                "file_path": "results\\ppo\\RedCar\\RedCar-499975.onnx",
-                "reward": 17939.148376464844,
-                "creation_time": 1752686910.7442245,
-                "auxillary_file_paths": [
-                    "results\\ppo\\RedCar\\RedCar-499975.pt"
-                ]
-            },
             {
                 "steps": 808634,
                 "file_path": "results\\ppo\\RedCar\\RedCar-808634.onnx",
@@ -232,15 +232,33 @@
                 "auxillary_file_paths": [
                     "results\\ppo\\RedCar\\RedCar-1377507.pt"
                 ]
+            },
+            {
+                "steps": 1379123,
+                "file_path": "results\\ppo\\RedCar\\RedCar-1379123.onnx",
+                "reward": 10132.177978515625,
+                "creation_time": 1752854519.6130815,
+                "auxillary_file_paths": [
+                    "results\\ppo\\RedCar\\RedCar-1379123.pt"
+                ]
+            },
+            {
+                "steps": 1386256,
+                "file_path": "results\\ppo\\RedCar\\RedCar-1386256.onnx",
+                "reward": 10140.845703125,
+                "creation_time": 1752854744.434457,
+                "auxillary_file_paths": [
+                    "results\\ppo\\RedCar\\RedCar-1386256.pt"
+                ]
             }
         ],
         "final_checkpoint": {
-            "steps": 1377507,
+            "steps": 1386256,
             "file_path": "results\\ppo\\RedCar.onnx",
-            "reward": -4.529105981190999,
-            "creation_time": 1752702417.6402113,
+            "reward": 10140.845703125,
+            "creation_time": 1752854744.434457,
             "auxillary_file_paths": [
-                "results\\ppo\\RedCar\\RedCar-1377507.pt"
+                "results\\ppo\\RedCar\\RedCar-1386256.pt"
             ]
         }
     },

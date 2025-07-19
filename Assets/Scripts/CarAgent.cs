@@ -32,7 +32,7 @@ public class CarAgent : Agent
     [Range(0f, 1f)] public float smoothingAlpha = 0.2f;
 
     private float idleTimer = 0f;
-    private const int maxLap = 1;
+    private const int maxLap = 2;
     private int lap = 0;
     private bool isRespawn = false;
     public int lastRank = -1; // -1 iniziale: mai classificato

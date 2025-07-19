@@ -17,7 +17,7 @@ public class RaceManager : MonoBehaviour
     public float positionPenalty = -0.001f; // penalità per chi è indietro
     public float maxLapCompletedReward = 3f; // premio completamento lap
     public float racePenalty = -0.5f; //penalità per aver perso la gara
-    public float betterRankReward = 0.01f;
+    public float betterRankReward = 0.1f;
 
 
 

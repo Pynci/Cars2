@@ -1,0 +1,49 @@
+{
+    "name": "root",
+    "metadata": {
+        "timer_format_version": "0.1.0",
+        "start_time_seconds": "1752917572",
+        "python_version": "3.10.0 (tags/v3.10.0:b494f59, Oct  4 2021, 19:00:18) [MSC v.1929 64 bit (AMD64)]",
+        "command_line_arguments": "C:\\Users\\giuli\\Desktop\\Giulia\\SistemiComplessiProgettoRL\\Cars2\\venv\\Scripts\\mlagents-learn lamine.yaml --run-id=AddFinale6agenti --resume",
+        "mlagents_version": "0.30.0",
+        "mlagents_envs_version": "0.30.0",
+        "communication_protocol_version": "1.5.0",
+        "pytorch_version": "2.2.2+cu121",
+        "numpy_version": "1.21.2",
+        "end_time_seconds": "1752917585"
+    },
+    "total": 13.059128599939868,
+    "count": 1,
+    "self": 0.03851589991245419,
+    "children": {
+        "run_training.setup": {
+            "total": 0.10460429999511689,
+            "count": 1,
+            "self": 0.10460429999511689
+        },
+        "TrainerController.start_learning": {
+            "total": 12.916008400032297,
+            "count": 1,
+            "self": 0.00011090014595538378,
+            "children": {
+                "TrainerController._reset_env": {
+                    "total": 12.47641909995582,
+                    "count": 1,
+                    "self": 12.47641909995582
+                },
+                "TrainerController._save_models": {
+                    "total": 0.43947839993052185,
+                    "count": 1,
+                    "self": 0.0708074999274686,
+                    "children": {
+                        "RLTrainer._checkpoint": {
+                            "total": 0.36867090000305325,
+                            "count": 2,
+                            "self": 0.36867090000305325
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
